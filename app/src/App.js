@@ -1,24 +1,34 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux';
+import { updateText } from './actions/example';
+
+// Maps the state to App component properties
+function mapStateToProps ({example}) {
+  return example;
+}
+
+// Maps functions to update state to properties
+function mapDispatchToProps (dispatch) {
+  return {
+    updateText: (text) => dispatch(updateText(text))
+  };
+}
 
 class App extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {someText: ''}
-  }
-
   render() {
-    const { someText } = this.state
-    const text = !someText ? 'This will change when you write.' : someText
+    // Received from react-redux connect
+    const { text, updateText, counter } = this.props
+
     return (
       <div>
-        <p>{text}</p>
-        <input type='text' placeholder='Some text here' onChange={e => this.setState({someText: e.target.value})} />
+        <p>{!text ? 'This will change when you write.' : text}</p>
+        <input type='text' placeholder='Some text there' onChange={e => updateText(e.target.value)} />
+        <p>Number of edits: {counter}</p>
       </div>
     )
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
