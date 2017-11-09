@@ -14,7 +14,7 @@ const Circle = styled.div`
   background: ${props => props.white ? 'white' : 'rgb(60, 60, 60)'};
   border-radius: ${props => props.size / 2}rem;
   animation: ${hideShow};
-  animation-duration: 1.2s;
+  animation-duration: 1s;
   animation-delay: ${props => props.delay}s;
   animation-direction: alternate;
   animation-iteration-count: infinite;
@@ -31,8 +31,8 @@ export default (props) => {
   return (
     <div>
       <Circle {...circleProps} delay={0} />
-      <Circle {...circleProps} delay={0.4} />
-      <Circle {...circleProps} delay={0.8} />
+      <Circle {...circleProps} delay={0.33} />
+      <Circle {...circleProps} delay={0.66} />
     </div>
   )
 };
