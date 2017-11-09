@@ -9,5 +9,5 @@ const Section = styled.section`
 `
 
 export default (props) => {
-  return (<Section primary={props.primary} onClick={(e) => props.onClick(e)}>{props.children}</Section>)
+  return (<Section>{props.children}</Section>)
 };
