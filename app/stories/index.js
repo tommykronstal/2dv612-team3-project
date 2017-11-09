@@ -11,10 +11,7 @@ import Loading from '../src/components/Loading';
 import Header from '../src/components/Header';
 import CenteredForm from '../src/components/CenteredForm';
 import Title from '../src/components/Title';
-import Text from '../src/components/Text';
 import Input from '../src/components/Input';
-
-
 
 injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Nunito');
@@ -22,6 +19,7 @@ injectGlobal`
 
 const background = backgrounds([{name: 'standard', value: 'rgb(240, 240, 240)', default: true}])
 
+// BUTTON STORY
 storiesOf('Button', module)
   .addDecorator(centered)
   .add('Primary', () => (
@@ -37,6 +35,7 @@ storiesOf('Button', module)
     <Button loading onClick={action('clicked')}>Hello Button</Button>
   ));
 
+// SECTION STORY
 storiesOf('Section', module)
   .addDecorator(centered)
   .addDecorator(background)
@@ -49,6 +48,7 @@ storiesOf('Section', module)
     </div>
   ));
 
+// LOADING STORY
 storiesOf('Loading', module)
   .addDecorator(centered)
   .add('black', () => (
@@ -63,7 +63,7 @@ storiesOf('Loading', module)
     </div>
   ));
 
-
+// INPUT STORY
 storiesOf('Input', module)
   .addDecorator(centered)
   .add('Default', () => (
@@ -76,12 +76,14 @@ storiesOf('Input', module)
     <Input warning='Not found' value='testuser' name='username' label='Username' onChange={action('changed')}/>
   ));
 
+// HEADER STORY
 storiesOf('Header', module)
   .addDecorator(background)
   .add('Default', () => (
     <Header />
   ));
 
+// LOGIN FORM STORY
 storiesOf('Login form', module)
   .addDecorator(background)
   .add('Default', () => (
