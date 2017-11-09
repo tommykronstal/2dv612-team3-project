@@ -1,11 +1,13 @@
 version: '3'
 services:
+
   app:
     build: ./app
     ports:
      - "3000:3000"
     volumes:
      - ./app/src:/usr/src/app/src
+
   storybook:
     build: ./app
     ports:
@@ -13,11 +15,21 @@ services:
     volumes:
      - ./app/src:/usr/src/app/src
     command: npm run storybook
-  db:
-    image: mongo
-    ports:
-     - "27017:27017"
+
   backend:
     build: ./backend
+    volumes:
+      - ./backend/src:/usr/src/app/src
     ports:
       - "4000:4000"
+    links:
+      - mongo
+    environment:
+      - MONGO_DB_URI=mongodb://mongo:27017/backend
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
