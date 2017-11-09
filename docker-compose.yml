@@ -6,6 +6,13 @@ services:
      - "3000:3000"
     volumes:
      - ./app/src:/usr/src/app/src
+  storybook:
+    build: ./app
+    ports:
+     - "9001:9001"
+    volumes:
+     - ./app/src:/usr/src/app/src
+    command: npm run storybook
   db:
     image: mongo
     ports:
