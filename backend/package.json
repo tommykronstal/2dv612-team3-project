@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "* ```git clone https://github.com/tommykronstal/2dv612-team3-project.git``` * ```cd 2dv612-team3-project && docker-compose up --build``` * [http://localhost:3000](http://localhost:3000)",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/App.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommykronstal/2dv612-team3-project.git"
+  },
+  "author": "tommykronstal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tommykronstal/2dv612-team3-project/issues"
+  },
+  "homepage": "https://github.com/tommykronstal/2dv612-team3-project#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
