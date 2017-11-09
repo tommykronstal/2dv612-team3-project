@@ -8,6 +8,11 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import * as reducers from './reducers';
 import effects from './effects';
+import { injectGlobal } from 'styled-components';
+
+injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Nunito');
+`
 
 const sagaMiddleware = createSagaMiddleware();
 

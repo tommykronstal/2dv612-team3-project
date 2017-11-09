@@ -2,10 +2,17 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import centered from '@storybook/addon-centered';
+import backgrounds from "@storybook/addon-backgrounds";
 
 import Button from '../src/components/Button';
 import Section from '../src/components/Section';
 import Loading from '../src/components/Loading';
+import Header from '../src/components/Header';
+import CenteredForm from '../src/components/CenteredForm';
+import Title from '../src/components/Title';
+import Text from '../src/components/Text';
+
+const background = backgrounds([{name: 'standard', value: 'rgb(240, 240, 240)', default: true}])
 
 storiesOf('Button', module)
   .addDecorator(centered)
@@ -24,6 +31,7 @@ storiesOf('Button', module)
 
 storiesOf('Section', module)
   .addDecorator(centered)
+  .addDecorator(background)
   .add('Default', () => (
     <div style={{width: 320}}>
       <Section>
@@ -46,3 +54,22 @@ storiesOf('Loading', module)
       <Loading white />
     </div>
   ));
+
+storiesOf('Header', module)
+  .addDecorator(background)
+  .add('Default', () => (
+    <Header />
+  ));
+
+  storiesOf('Login form', module)
+    .addDecorator(background)
+    .add('Default', () => (
+      <div>
+        <Header />
+        <CenteredForm>
+          <Title>Login</Title>
+          <Text>bla bla</Text>
+          <Button primary>Login</Button>
+        </CenteredForm>
+      </div>
+    ));

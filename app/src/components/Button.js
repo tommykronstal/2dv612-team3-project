@@ -4,10 +4,10 @@ import styled, { css } from 'styled-components';
 import Loading from './Loading';
 
 const Button = styled.button`
-  font-family: Helvetica, arial, sans-serif;
+  font-family: 'nunito', Helvetica, arial, sans-serif;
   box-sizing: border-box;
-  font-weight: bold;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.2rem;
   border: none;
   display: block;
 	border-radius: 4px;
