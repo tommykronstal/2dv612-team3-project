@@ -5,6 +5,8 @@ services:
     build: ./app
     ports:
      - "3000:3000"
+    links:
+     - backend
     volumes:
      - ./app/src:/usr/src/app/src
 

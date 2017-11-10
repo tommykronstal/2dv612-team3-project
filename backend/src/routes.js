@@ -3,10 +3,10 @@ const router = new Router();
 
 const user = require('./model/user/router');
 
-router.route('/').get((req, res) => {
+router.route('/api').get((req, res) => {
   res.json({ message: 'Welcome to backend API!' });
 });
 
-router.use('/user', user);
+router.use('/api/user', user);
 
 module.exports = router;
