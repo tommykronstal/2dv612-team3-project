@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { updateText } from './actions/example';
+import { setStatus } from './actions/status';
+
+import StatusModalContainer from './containers/StatusModalContainer';
 
 // Maps the state to App component properties
 function mapStateToProps ({example}) {
@@ -11,6 +14,7 @@ function mapStateToProps ({example}) {
 // Maps functions to update state to properties
 function mapDispatchToProps (dispatch) {
   return {
+    setStatus: (message) => dispatch(setStatus(message)),
     updateText: (text) => dispatch(updateText(text))
   };
 }
@@ -34,7 +38,7 @@ class App extends Component {
 
   render() {
     // Received from react-redux connect
-    const { text, updateText, counter } = this.props
+    const { text, updateText, counter, setStatus } = this.props
 
     return (
       <div>
@@ -42,6 +46,8 @@ class App extends Component {
         <p>{!text ? 'This will change when you write.' : text}</p>
         <input type='text' placeholder='Some text there' onChange={e => updateText(e.target.value)} />
         <p>Number of edits: {counter}</p>
+        <button onClick={() => setStatus('Success')}>Set a status</button>
+        <StatusModalContainer />
       </div>
     )
   }

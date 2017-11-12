@@ -12,6 +12,7 @@ import Header from '../src/components/Header';
 import CenteredForm from '../src/components/CenteredForm';
 import Title from '../src/components/Title';
 import Input from '../src/components/Input';
+import StatusModal from '../src/components/StatusModal';
 
 injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Nunito');
@@ -81,6 +82,13 @@ storiesOf('Header', module)
   .addDecorator(background)
   .add('Default', () => (
     <Header />
+  ));
+
+// STATUS MODAL STORY
+storiesOf('Status Modal', module)
+  //.addDecorator(background)
+  .add('Positive', () => (
+    <StatusModal message='Success' active />
   ));
 
 // LOGIN FORM STORY
