@@ -1,19 +1,15 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Route} from 'react-router-dom'
 import {Login} from '../pages/Login'
 
 /**
- * Placeholder for routes and where the content should be rendered
- * I just made this since I did not know about layout.
- * But this can easily be moved and changed if wanted in the future :)
+ * Main Content routes
+ * if we want any more endpoints such as /manuals or w/e
+ * we can just add another route
  */
-export class MainContentRoutes extends Component {
-  render() {
-    return (
-      <div>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/" render={() => <h1>Start Page</h1>} />
-      </div>
-    )
-  }
-}
+export const ContentRoutes = props => (
+  <div>
+    <Route exact path="/login" component={Login} />
+    <Route exact path="/" render={() => <h1>Start Page</h1>} />
+  </div>
+)
