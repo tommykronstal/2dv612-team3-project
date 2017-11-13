@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 
 const Input = styled.input`
@@ -45,8 +45,8 @@ const Label = styled.label`
 
 const Div = styled.div`
   box-sizing: border-box;
-  margin: 0.5rem 0;
-  max-width: 32rem;
+  margin: 0.5rem auto;
+  max-width: 28rem;
   min-width: 8rem;
   width: 100%;
   position: relative;

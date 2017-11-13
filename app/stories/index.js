@@ -10,6 +10,7 @@ import Section from '../src/components/Section';
 import Loading from '../src/components/Loading';
 import Header from '../src/components/Header';
 import CenteredForm from '../src/components/CenteredForm';
+import Content from '../src/components/Content';
 import Title from '../src/components/Title';
 import Input from '../src/components/Input';
 import StatusModal from '../src/components/StatusModal';
@@ -99,9 +100,9 @@ storiesOf('Login form', module)
       <Header />
       <CenteredForm>
         <Title>Login</Title>
-        <Input name='username' label='Username' onChange={action('changed')} />
+        <Input type='email' name='email' label='E-Mail' onChange={action('changed')} />
         <Input type='password' name='password' label='Password' onChange={action('changed')} />
-        <Button primary>Login</Button>
+        <Button primary onClick={action('clicked')}>Login</Button>
       </CenteredForm>
     </div>
   ))
@@ -110,9 +111,9 @@ storiesOf('Login form', module)
       <Header />
       <CenteredForm>
         <Title>Login</Title>
-        <Input name='username' value='test' label='Username' onChange={action('changed')} />
+        <Input type='email' value='test@testsson.com' name='email' label='E-Mail' onChange={action('changed')} />
         <Input type='password' value='secret' name='password' label='Password' onChange={action('changed')} />
-        <Button primary>Login</Button>
+        <Button primary onClick={action('clicked')}>Login</Button>
       </CenteredForm>
     </div>
   ))
@@ -121,9 +122,9 @@ storiesOf('Login form', module)
       <Header />
       <CenteredForm>
         <Title>Login</Title>
-        <Input name='username' value='test' label='Username' onChange={action('changed')} />
+        <Input type='email' value='test@testsson.com' name='email' label='E-Mail' onChange={action('changed')} />
         <Input type='password' value='secret' name='password' label='Password' onChange={action('changed')} />
-        <Button primary loading>Login</Button>
+        <Button primary loading onClick={action('clicked')}>Login</Button>
       </CenteredForm>
     </div>
   ))
@@ -132,9 +133,75 @@ storiesOf('Login form', module)
       <Header />
       <CenteredForm>
         <Title>Login</Title>
-        <Input name='username' value='test' label='Username' onChange={action('changed')} />
+        <Input type='email' value='test@testsson.com' name='email' label='E-Mail' onChange={action('changed')} />
         <Input warning='Not correct' type='password' value='secret' name='password' label='Password' onChange={action('changed')} />
-        <Button primary>Login</Button>
+        <Button primary onClick={action('clicked')}>Login</Button>
       </CenteredForm>
     </div>
   ));
+
+  // COMPANY FORM STORY
+  storiesOf('Company form', module)
+    .addDecorator(background)
+    .add('Default', () => (
+      <div>
+        <Header />
+        <Content>
+          <Title>Add a New Company</Title>
+          <Input name='company' label='Company name' onChange={action('changed')} />
+          <Input type='email' name='email' label='Administrators E-Mail' onChange={action('changed')} />
+          <Input type='password' name='password' label='Password' onChange={action('changed')} />
+          <Button primary onClick={action('clicked')}>Add</Button>
+        </Content>
+      </div>
+    ))
+    .add('Filled', () => (
+      <div>
+        <Header />
+        <Content>
+          <Title>Add a New Company</Title>
+          <Input name='company' value="My Company" label='Company name' onChange={action('changed')} />
+          <Input type='email' value='test@testsson.com' name='email' label='Administrators E-Mail' onChange={action('changed')} />
+          <Input type='password' value='secret' name='password' label='Password' onChange={action('changed')} />
+          <Button primary onClick={action('clicked')}>Add</Button>
+        </Content>
+      </div>
+    ))
+    .add('Creating', () => (
+      <div>
+        <Header />
+        <Content>
+          <Title>Add a New Company</Title>
+          <Input name='company' value="My Company" label='Company name' onChange={action('changed')} />
+          <Input type='email' value='test@testsson.com' name='email' label='Administrators E-Mail' onChange={action('changed')} />
+          <Input type='password' value='secret' name='password' label='Password' onChange={action('changed')} />
+          <Button primary loading onClick={action('clicked')}>Add</Button>
+        </Content>
+      </div>
+    ))
+    .add('Failed', () => (
+      <div>
+        <Header />
+        <Content>
+          <Title>Add a New Company</Title>
+          <Input warning="Already exists" name='company' value="My Company" label='Company name' onChange={action('changed')} />
+          <Input type='email' value='test@testsson.com' name='email' label='Administrators E-Mail' onChange={action('changed')} />
+          <Input type='password' value='secret' name='password' label='Password' onChange={action('changed')} />
+          <Button primary onClick={action('clicked')}>Add</Button>
+        </Content>
+      </div>
+    ))
+    .add('Success', () => (
+      <div>
+        <Header />
+        <Content>
+          <Title>Add a New Company</Title>
+          <Input name='company' label='Company name' onChange={action('changed')} />
+          <Input type='email' name='email' label='Administrators E-Mail' onChange={action('changed')} />
+          <Input name='username' label='Username' onChange={action('changed')} />
+          <Input type='password' name='password' label='Password' onChange={action('changed')} />
+          <Button primary onClick={action('clicked')}>Add</Button>
+        </Content>
+        <StatusModal active message='My Company created' />
+      </div>
+    ));
