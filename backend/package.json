@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "* ```git clone https://github.com/tommykronstal/2dv612-team3-project.git``` * ```cd 2dv612-team3-project && docker-compose up --build``` * [http://localhost:3000](http://localhost:3000)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommykronstal/2dv612-team3-project.git"
+  },
+  "author": "tommykronstal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tommykronstal/2dv612-team3-project/issues"
+  },
+  "homepage": "https://github.com/tommykronstal/2dv612-team3-project#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "helmet": "^3.1.0",
+    "mongoose": "^4.7.0",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.11.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.1",
+    "nodemon": "^1.12.1"
+  }
+}

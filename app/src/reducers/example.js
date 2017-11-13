@@ -1,8 +1,8 @@
-import { UPDATE_TEXT, INCREMENT } from '../actions/types';
+import { UPDATE_TEXT, UPDATE_WELCOME_MESSAGE } from '../actions/types';
 
 const initialState = {
   text: '',
-  counter: 0
+  message: ''
 };
 
 // Function that updates the state
@@ -14,11 +14,10 @@ export default function example (state = initialState, action = {}) {
         ...state,
         text: action.text
       };
-    case INCREMENT:
-      // Always create a copy of the state
+    case UPDATE_WELCOME_MESSAGE:
       return {
         ...state,
-        counter: state.counter + 1
+        message: action.message
       };
     default:
       return state;

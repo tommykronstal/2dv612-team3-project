@@ -1,6 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import registerServiceWorker from './registerServiceWorker'
+import {createStore, combineReducers, applyMiddleware} from 'redux'
+import {Provider} from 'react-redux'
+import createSagaMiddleware from 'redux-saga'
+import * as reducers from './reducers'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {Route} from 'react-router'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import {createStore, combineReducers, applyMiddleware} from 'redux'
@@ -8,9 +15,12 @@ import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import * as reducers from './reducers'
 import effects from './effects'
-import {BrowserRouter as Router} from 'react-router-dom'
-import {Route} from 'react-router'
 import {injectGlobal} from 'styled-components'
+
+injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Nunito');
+`
+
 const sagaMiddleware = createSagaMiddleware()
 
 // Creates a store for all reducers
