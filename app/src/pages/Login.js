@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import {tryLogin} from '../actions/login'
+import {tryLogin, toggleLoading} from '../actions/login'
 import {connect} from 'react-redux'
+import CenteredForm from '../components/CenteredForm'
+import Input from '../components/Input'
+import Button from '../components/Button'
 
 const LoginContainer = styled.div`
   width: 100vw;
@@ -18,6 +21,7 @@ const InputContainer = styled.div`
 function mapDispatchToProps(dispatch) {
   return {
     tryLogin: credentials => dispatch(tryLogin(credentials)),
+    toggleLoading: () => dispatch(toggleLoading()),
   }
 }
 
@@ -35,37 +39,37 @@ export const Login = connect(state => state, mapDispatchToProps)(
       this.setState({[target]: event.target.value.trim()})
     }
 
-    handleLogin = () => {
+    handleLogin = async () => {
+      const {password, username} = this.state
+      if (!password.length && !username.length) return
+
       const payload = {...this.state}
       this.props.tryLogin(payload)
     }
 
     render() {
-      const {username, password} = this.state
-      const isDisabled = username.length && password.length ? null : 'disabled'
-      const isLoading = this.props.login.isLoading ? <p>SPINNER</p> : null
       return (
-        <LoginContainer>
-          {isLoading && <p>Spinner</p>}
-          <InputContainer>
-            <input
-              type="text"
-              placeholder="username"
-              onChange={this.updateField('username')}
-            />
-            <input
-              type="password"
-              placeholder="password"
-              onChange={this.updateField('password')}
-            />
-            <input
-              type="button"
-              disabled={isDisabled}
-              value="Login"
-              onClick={this.handleLogin}
-            />
-          </InputContainer>
-        </LoginContainer>
+        <div>
+          <Input
+            type="text"
+            label="Username"
+            value={this.state.username}
+            onChange={this.updateField('username')}
+          />
+          <Input
+            type="password"
+            label="Password"
+            value={this.state.password}
+            onChange={this.updateField('password')}
+          />
+          <Button
+            primary
+            loading={this.props.login.isLoading}
+            onClick={() => this.handleLogin()}
+          >
+            Login
+          </Button>
+        </div>
       )
     }
   },
