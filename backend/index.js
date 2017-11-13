@@ -5,14 +5,17 @@ const bodyParser = require('body-parser');
 const morgan     = require('morgan');
 const bluebird   = require('bluebird');
 
+const cors = require('cors')
 const config = require('./src/config');
 const routes = require('./src/routes');
 //const auth = require('./routes/auth');
 const app  = express();
 
+
+
 mongoose.Promise = bluebird;
 mongoose.connect(config.mongo.url);
-
+app.use(cors())
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
