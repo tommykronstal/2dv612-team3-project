@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateText, updateWelcomeMessage} from './actions/example'
 import {setStatus} from './actions/status'
-
 import Header from './components/Header'
 import Content from './components/Content'
 import Input from './components/Input'
@@ -29,32 +28,13 @@ function mapDispatchToProps(dispatch) {
 
 class App extends Component {
   render() {
-    const {text, updateText, message, setStatus} = this.props
 
     return (
       <div>
         <Header />
-        {/* This part should be replaced with react-router */}
         <Content>
           <ContentRoutes />
-          <Title>
-            Result from server<br />
-            {message}
-          </Title>
-          <Text center>
-            {!text ? 'This will change when you write.' : text}
-          </Text>
-          <Input
-            type="text"
-            value={text}
-            label="Some text there"
-            onChange={e => updateText(e.target.value)}
-          />
-          <Button primary onClick={() => setStatus(text || 'Success')}>
-            Set Status
-          </Button>
         </Content>
-        {/* Until here */}
         <StatusModalContainer />
       </div>
     )
