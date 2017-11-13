@@ -1,4 +1,3 @@
-import example from './example';
-import status from './status';
-
-export { example, status };
+import example from './example'
+import {login} from './login'
+export {example, login}
