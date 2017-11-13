@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 
 import Loading from './Loading';
@@ -12,9 +12,9 @@ const Button = styled.button`
   display: block;
 	border-radius: 4px;
 	padding: 1rem 1rem;
-	margin: 1rem 0rem;
+	margin: 1rem auto;
   text-align: center;
-	max-width: 32rem;
+	max-width: 28rem;
   min-width: 8rem;
   width: 100%;
 	background: rgb(110, 160, 220);
