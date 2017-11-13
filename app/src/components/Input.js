@@ -12,6 +12,8 @@ const Input = styled.input`
   margin: 1rem 0;
   outline: none;
   border: none;
+  border-radius: 0;
+  -webkit-appearance: none;
   box-shadow: 0 1px ${props => props.warning ? 'rgb(240, 100, 100)' : 'rgb(100, 100, 100)'};
 
   :focus {
