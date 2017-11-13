@@ -29,7 +29,7 @@ class Example extends Component {
       const {text, updateText, message, setStatus} = this.props
       return (
         <Content>
-          <Title>
+          <Title center>
             Result from server<br />
             {message}
           </Title>

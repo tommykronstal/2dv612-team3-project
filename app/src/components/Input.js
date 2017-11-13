@@ -38,6 +38,7 @@ const Label = styled.label`
   user-select: none;
   transition: transform 0.3s;
   transform-origin: left;
+  text-align: left;
 
   ${props => props.value && css`
     transform: translate(0, -1.1rem) scale(0.7);
@@ -47,7 +48,7 @@ const Label = styled.label`
 const Div = styled.div`
   box-sizing: border-box;
   margin: 0.5rem auto;
-  max-width: 28rem;
+  max-width: 22rem;
   min-width: 8rem;
   width: 100%;
   position: relative;
