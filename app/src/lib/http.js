@@ -11,6 +11,7 @@ const setMethod = method => async (url, config = {}) => {
   })
   // Catching error promise style since async returns promise.
   .catch(e => console.log(e))
+
   // parses response response before returning if neccessary
   return typeof response.json === 'function' ? response.json() : response
 }

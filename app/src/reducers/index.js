@@ -1,3 +1,3 @@
-import example from './example';
-
-export { example };
+import example from './example'
+import {login} from './login'
+export {example, login}
