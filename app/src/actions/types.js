@@ -2,3 +2,8 @@ export const UPDATE_TEXT = 'UPDATE_TEXT';
 export const SET_STATUS = 'SET_STATUS';
 export const DISMISS_STATUS = 'DISMISS_STATUS';
 export const UPDATE_WELCOME_MESSAGE = 'UPDATE_WELCOME_MESSAGE';
+
+
+// LOGIN
+export const TOGGLE_LOADING = 'TOGGLE_LOADING'
+export const TRY_LOGIN = 'TRY_LOGIN'
