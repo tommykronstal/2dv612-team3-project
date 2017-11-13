@@ -6,6 +6,7 @@ const getHeaders = () => ({
 const setMethod = method => async (url, config = {}) => {
   const response = await fetch(url, {
     headers: getHeaders(),
+    method,
     // Spreading out config to include it on request
     ...config,
   })
