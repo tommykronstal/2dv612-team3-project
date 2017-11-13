@@ -3,15 +3,15 @@ const getHeaders = () => ({
   'Content-Type': 'application/json',
 })
 
-const setMethod = method => async (url, config = {}) => {
+const setMethod = method => async (url, {headers, ...remaining} = {}) => {
   const response = await fetch(url, {
-    headers: getHeaders(),
     method,
-    // Spreading out config to include it on request
-    ...config,
+    headers: {
+      ...getHeaders(),
+      ...headers,
+    },
+    ...remaining,
   })
-  // Catching error promise style since async returns promise.
-  .catch(e => console.log(e))
 
   // parses response response before returning if neccessary
   return typeof response.json === 'function' ? response.json() : response

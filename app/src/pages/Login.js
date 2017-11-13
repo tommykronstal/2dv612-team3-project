@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import {tryLogin, toggleLoading} from '../actions/login'
+import {tryLogin} from '../actions/login'
 import {connect} from 'react-redux'
 import CenteredForm from '../components/CenteredForm'
 import Input from '../components/Input'
@@ -21,7 +21,6 @@ const InputContainer = styled.div`
 function mapDispatchToProps(dispatch) {
   return {
     tryLogin: credentials => dispatch(tryLogin(credentials)),
-    toggleLoading: () => dispatch(toggleLoading()),
   }
 }
 
