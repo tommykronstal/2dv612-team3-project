@@ -1,15 +1,22 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import * as types from '../actions/types'
+import { delay } from 'redux-saga'
+import {TRY_LOGIN, TOGGLE_LOADING} from '../actions/types'
+import {post} from '../lib/http'
 
-
-function* doLogin(args) {
-  console.log('(doLogin) args :', args)
-  put({
-    type: types.TOGGLE_LOADING
-  })
+export function* watchLogin(...args) {
+  yield takeEvery(TRY_LOGIN, tryLogin)
 }
 
-export function* watchLogin(args) {
-  console.log('watch args :', args)
-  yield takeEvery(types.TRY_LOGIN, doLogin)
+export function* tryLogin({credentials: {username, password}}) {
+
+  // Start loading animation after user has clicked login
+  yield put({type: TOGGLE_LOADING})
+
+  /**
+   * this will need to change when the login functionality for the backend is implemented!
+   */
+  // const response = yield post('http://localhost:4000/api/login')
+
+  // Stop spinner animation after login response has been handled.
+  yield put({type: TOGGLE_LOADING})
 }

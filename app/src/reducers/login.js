@@ -1,4 +1,6 @@
-import * as t from '../actions/types'
+// import * as t from '../actions/types'
+
+import {TOGGLE_LOADING} from '../actions/types'
 
 const defaultState = {
   isLoading: false,
@@ -7,10 +9,10 @@ const defaultState = {
 export const login = (state = defaultState, action) => {
   console.log('action :', action)
   switch (action.type) {
-    case 'TOGGLE_LOADING':
+    case TOGGLE_LOADING:
       return {
         ...state,
-        isLoading: true,
+        isLoading: !state.isLoading,
       }
     default:
       return state
