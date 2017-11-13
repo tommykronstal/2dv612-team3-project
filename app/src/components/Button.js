@@ -12,7 +12,7 @@ const Button = styled.button`
   display: block;
 	border-radius: 4px;
 	padding: 1rem 1rem;
-	margin: 1rem auto;
+	margin: 1.5rem auto;
   text-align: center;
 	max-width: 28rem;
   min-width: 8rem;

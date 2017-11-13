@@ -1,10 +1,10 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
-import {Login} from '../pages/Login'
+import Login from '../pages/Login'
 import {Link} from 'react-router-dom'
 import Text from './Text'
 import styled from 'styled-components'
-import Example from './Example'
+import Example from '../pages/Example'
 
 const SampleContainer = styled.div`
   display: flex;

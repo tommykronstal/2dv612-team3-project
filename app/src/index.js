@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import createSagaMiddleware from 'redux-saga'
 import {BrowserRouter as Router} from 'react-router-dom'
@@ -12,10 +11,6 @@ import * as reducers from './reducers'
 import effects from './effects'
 import {injectGlobal} from 'styled-components'
 
-injectGlobal`
-  @import url('https://fonts.googleapis.com/css?family=Nunito');
-`
-
 const sagaMiddleware = createSagaMiddleware()
 
 // Creates a store for all reducers
@@ -26,6 +21,12 @@ const store = createStore(
 
 // Setting all elements to 0 margin and 0 padding by default.
 injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Nunito');
+
+  body {
+    background-color: rgb(240, 240, 240);
+  }
+
   * {
     margin: 0;
     padding: 0;

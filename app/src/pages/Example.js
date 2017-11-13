@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateText, updateWelcomeMessage} from '../actions/example'
 import {setStatus} from '../actions/status'
-import Header from './Header'
-import Content from './Content'
-import Input from './Input'
-import Button from './Button'
-import Title from './Title'
-import Text from './Text'
+import Content from '../components/Content'
+import Input from '../components/Input'
+import Button from '../components/Button'
+import Title from '../components/Title'
+import Text from '../components/Text'
 
 // Maps the state to App component properties
 function mapStateToProps({example}) {
@@ -29,7 +28,7 @@ class Example extends Component {
     {
       const {text, updateText, message, setStatus} = this.props
       return (
-        <div>
+        <Content>
           <Title>
             Result from server<br />
             {message}
@@ -46,7 +45,7 @@ class Example extends Component {
           <Button primary onClick={() => setStatus(text || 'Success')}>
             Set Status
           </Button>
-        </div>
+        </Content>
       )
     }
   }

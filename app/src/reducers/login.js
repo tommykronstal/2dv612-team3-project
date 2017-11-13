@@ -6,8 +6,7 @@ const defaultState = {
   isLoading: false,
 }
 
-export const login = (state = defaultState, action) => {
-  console.log('action :', action)
+export default (state = defaultState, action) => {
   switch (action.type) {
     case TOGGLE_LOADING:
       return {

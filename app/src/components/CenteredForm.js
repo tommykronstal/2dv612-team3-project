@@ -5,9 +5,11 @@ import Section from './Section'
 
 const Div = styled.div`
   box-sizing: border-box;
-  position: fixed;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  left: 0;
+  bottom: 0;
   margin: 0;
   padding: 1rem;
   display: flex;
@@ -15,14 +17,14 @@ const Div = styled.div`
   justify-content: center;
 `
 
-const Child = styled.div`
+const Child = styled.form`
   width: 320px;
 `
 
 export default (props) => {
   return (
     <Div>
-      <Child>
+      <Child onSubmit={(e) => !e.preventDefault() && props.onSubmit && props.onSubmit(e)}>
         <Section>{props.children}</Section>
       </Child>
     </Div>

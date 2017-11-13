@@ -6,7 +6,6 @@ const Input = styled.input`
   font-family: Helvetica, arial, sans-serif;
   font-weight: 400;
   font-size: 1rem;
-
   width: 100%;
   color: rgb(60, 60, 60);
   padding: 0.2rem 0;

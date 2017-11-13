@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {updateText, updateWelcomeMessage} from './actions/example'
 import {setStatus} from './actions/status'
 import Header from './components/Header'
-import Content from './components/Content'
 import Input from './components/Input'
 import Button from './components/Button'
 import Title from './components/Title'
@@ -26,19 +25,17 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-class App extends Component {
+class Example extends Component {
   render() {
 
     return (
       <div>
         <Header />
-        <Content>
-          <ContentRoutes />
-        </Content>
+        <ContentRoutes />
         <StatusModalContainer />
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(Example)
