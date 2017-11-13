@@ -1,6 +1,6 @@
 const Facade = require('../../lib/facade');
 const companySchema = require('./schema');
 
-class UserFacade extends Facade {}
+class CompanyFacade extends Facade {}
 
-module.exports = new UserFacade(companySchema);
+module.exports = new CompanyFacade(companySchema);
