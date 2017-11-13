@@ -22,5 +22,5 @@ export function* tryLogin({credentials: {username, password}}) {
   // })
 
   // Stop spinner animation after login response has been handled.
-  yield put({type: TOGGLE_LOADING})
+  // yield put({type: TOGGLE_LOADING})
 }

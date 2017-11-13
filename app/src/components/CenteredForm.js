@@ -15,10 +15,18 @@ const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media(max-height: 400px) {
+    display: block;
+    width: 100%;
+    position: relative;
+  }
 `
 
 const Child = styled.form`
-  width: 320px;
+  width: 340px;
+  text-align: center;
+  @media(max-height: 400px) { margin: 0 auto; }
 `
 
 export default (props) => {

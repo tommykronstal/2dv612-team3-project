@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import styled from 'styled-components'
 import {tryLogin} from '../actions/login'
 import {connect} from 'react-redux'
 import CenteredForm from '../components/CenteredForm'
@@ -21,6 +20,8 @@ class Login extends Component {
   }
 
   handleLogin = async () => {
+    if(this.props.login.isLoading) return
+
     const {password, username} = this.state
     if (!password.length && !username.length) return
 

@@ -7,8 +7,12 @@ import styled from 'styled-components'
 import Example from '../pages/Example'
 
 const SampleContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `
 
 /**
@@ -19,6 +23,7 @@ const SampleContainer = styled.div`
 export const ContentRoutes = props => (
   <div>
     <Route exact path="/login" component={Login} />
+    <Route exact path="/admin/company/create" component={Login} />
     <Route exact path='/example' component={Example} />
     <Route
       exact
