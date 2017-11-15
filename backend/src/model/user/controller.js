@@ -50,6 +50,37 @@ class UserController extends Controller {
       return res.json({ token });
     }).catch(() => res.status(500).json({error: true}));
   }
+
+  authorize(req, res, next) {
+
+    if (req.headers.authorization === undefined){
+        return res.status(401).json({error: true, message: 'There was no token in the header'});
+    }
+
+    const token = req.headers.authorization;
+    let decoded;
+    //TODO FIX .verify error
+    try {
+        decoded = jwt.verify(token, jwtSecret);
+    }catch (e){
+      console.log(e);
+        return res.status(401).json({error: true, name: e.name, message: e.message});
+    }
+
+
+    const mongoUserQuery = {
+        $and: [
+            { 'email': decoded.email },
+            { 'role': decoded.role }
+        ]
+    };
+
+    userFacade.findOne(mongoUserQuery).then((doc) => {
+      if (!doc) return res.status(401).json({error: true, message: 'Invalid token.'});
+
+      next();
+    }).catch(() => res.status(500).json({error: true}));
+  }
 }
 
 module.exports = new UserController(userFacade);
