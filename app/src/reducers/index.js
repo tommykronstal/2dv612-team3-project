@@ -1,4 +1,6 @@
-import example from './example';
-import status from './status';
+import example from './example'
+import login from './login'
+import status from './status'
+import auth from './auth'
 
-export { example, status };
+export {example, login, status, auth}

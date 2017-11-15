@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 
 const companySchema = new Schema({
-  companyName: {type: String, required: true}
+  name: { type: String, required: true },
+  reps: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CompanyRep'}]
 });
-
 
 module.exports = mongoose.model('Company', companySchema);

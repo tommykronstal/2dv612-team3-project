@@ -29,7 +29,7 @@ const Img = styled.img`
   display: inline-block;
   height: 1.5rem;
   padding: 0;
-  margin: 0 1rem 0 0;
+  margin: 0 0.5rem 0 0;
   vertical-align: middle;
 `
 

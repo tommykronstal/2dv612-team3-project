@@ -12,15 +12,16 @@ const Button = styled.button`
   display: block;
 	border-radius: 4px;
 	padding: 1rem 1rem;
-	margin: 1rem auto;
+	margin: 1.5rem auto;
   text-align: center;
-	max-width: 28rem;
+	max-width: 22rem;
   min-width: 8rem;
   width: 100%;
+  outline: none;
 	background: rgb(110, 160, 220);
 	color: white;
   user-select: none;
-  cursor: pointer;
+  cursor: ${props => props.disabled ? 'wait' : 'pointer'};
 
   :not([disabled]):active {
     background: ${props => props.primary ? 'rgb(100, 150, 200)' : 'rgba(110, 160, 220, 0.1)'}
