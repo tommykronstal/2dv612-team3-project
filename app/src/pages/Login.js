@@ -21,7 +21,7 @@ class Login extends Component {
   }
 
   handleLogin = async () => {
-    if(this.props.login.isLoading) return
+    if (this.props.login.isLoading) return
 
     const {password, email} = this.state
     if (!password.length && !email.length) return
@@ -32,7 +32,7 @@ class Login extends Component {
 
   render() {
 
-    if(this.props.auth.isAuthenticated) return <Redirect to='/' />
+    if (this.props.auth.isAuthenticated) return <Redirect to='/' />
 
     return (
       <CenteredForm onSubmit={() => this.handleLogin()}>
