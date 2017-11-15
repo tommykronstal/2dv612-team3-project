@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {tryLogin} from '../actions/login'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import CenteredForm from '../components/CenteredForm'
 import Title from '../components/Title'
 import Input from '../components/Input'
@@ -30,6 +31,9 @@ class Login extends Component {
   }
 
   render() {
+
+    if(this.props.auth.isAuthenticated) return <Redirect to='/' />
+
     return (
       <CenteredForm onSubmit={() => this.handleLogin()}>
         <Title>Login</Title>
@@ -63,4 +67,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(state => state, mapDispatchToProps)(Login)
+export default connect(({auth, login}) => ({auth, login}), mapDispatchToProps)(Login)

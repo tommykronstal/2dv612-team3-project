@@ -1,6 +1,8 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
+import ProtectedRoute from '../containers/ProtectedRoute'
 import Login from '../pages/Login'
+import Logout from '../pages/Logout'
 import {Link} from 'react-router-dom'
 import Text from './Text'
 import styled from 'styled-components'
@@ -22,19 +24,20 @@ const SampleContainer = styled.div`
  */
 export const ContentRoutes = props => (
   <div>
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/admin/company/create" component={Login} />
+    <Route exact path='/login' component={Login} />
+    <Route exact path='/logout' component={Logout} />
+    <ProtectedRoute userRole='ADMIN' exact path='/admin/company/create' component={Example} />
     <Route exact path='/example' component={Example} />
     <Route
       exact
-      path="/"
+      path='/'
       render={() => {
         return (
           <SampleContainer>
-            <Link to="/login">
+            <Link to='/login'>
               <Text>Login</Text>
             </Link>
-            <Link to="/">
+            <Link to='/'>
               <Text>Home</Text>
             </Link>
             <Link to='/example'>
