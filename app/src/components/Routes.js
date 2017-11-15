@@ -1,10 +1,12 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
-import Login from '../pages/Login'
 import {Link} from 'react-router-dom'
 import Text from './Text'
 import styled from 'styled-components'
+
 import Example from '../pages/Example'
+import Companies from '../pages/Companies'
+import Login from '../pages/Login'
 
 const SampleContainer = styled.div`
   max-width: 800px;
@@ -23,8 +25,9 @@ const SampleContainer = styled.div`
 export const ContentRoutes = props => (
   <div>
     <Route exact path="/login" component={Login} />
-    <Route exact path="/admin/company/create" component={Login} />
+    <Route exact path="/admin/companies" component={Companies} />
     <Route exact path='/example' component={Example} />
+    
     <Route
       exact
       path="/"
@@ -36,6 +39,9 @@ export const ContentRoutes = props => (
             </Link>
             <Link to="/">
               <Text>Home</Text>
+            </Link>
+            <Link to="/admin/companies">
+              <Text>Companies</Text>
             </Link>
             <Link to='/example'>
               <Text>
