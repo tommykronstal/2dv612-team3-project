@@ -4,9 +4,13 @@ import {Link} from 'react-router-dom'
 import Text from './Text'
 import styled from 'styled-components'
 
+import ProtectedRoute from '../containers/ProtectedRoute'
+import Login from '../pages/Login'
+import Logout from '../pages/Logout'
 import Example from '../pages/Example'
 import Companies from '../pages/Companies'
-import Login from '../pages/Login'
+import CreateCompany from '../pages/CreateCompany'
+
 
 const SampleContainer = styled.div`
   max-width: 800px;
@@ -24,20 +28,23 @@ const SampleContainer = styled.div`
  */
 export const ContentRoutes = props => (
   <div>
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/admin/companies" component={Companies} />
+    <Route exact path='/login' component={Login} />
+    <Route exact path='/logout' component={Logout} />
+    <Route exact path='/admin/companies' component={Companies} />
+    <Route exact path='/admin/companies/create' component={CreateCompany} />
+    {/* <ProtectedRoute userRole='ADMIN' exact path='/admin/companies' component={Companies} /> */}
     <Route exact path='/example' component={Example} />
     
     <Route
       exact
-      path="/"
+      path='/'
       render={() => {
         return (
           <SampleContainer>
-            <Link to="/login">
+            <Link to='/login'>
               <Text>Login</Text>
             </Link>
-            <Link to="/">
+            <Link to='/'>
               <Text>Home</Text>
             </Link>
             <Link to="/admin/companies">
