@@ -11,7 +11,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
+      email: '',
       password: '',
     }
   }
@@ -23,8 +23,8 @@ class Login extends Component {
   handleLogin = async () => {
     if(this.props.login.isLoading) return
 
-    const {password, username} = this.state
-    if (!password.length && !username.length) return
+    const {password, email} = this.state
+    if (!password.length && !email.length) return
 
     const payload = {...this.state}
     this.props.tryLogin(payload)
@@ -38,14 +38,14 @@ class Login extends Component {
       <CenteredForm onSubmit={() => this.handleLogin()}>
         <Title>Login</Title>
         <Input
-          type="text"
-          label="Username"
-          value={this.state.username}
-          onChange={this.updateField('username')}
+          type='email'
+          label='E-mail'
+          value={this.state.email}
+          onChange={this.updateField('email')}
         />
         <Input
-          type="password"
-          label="Password"
+          type='password'
+          label='Password'
           value={this.state.password}
           onChange={this.updateField('password')}
         />

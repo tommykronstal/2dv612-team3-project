@@ -12,9 +12,9 @@ router.route('/:id')
   .delete((...args) => controller.remove(...args));
 
 router.route('/login')
-  .put((...args) => controller.login(...args));
+  .post((...args) => controller.login(...args));
 
 router.route('/register')
-  .put((...args) => controller.register(...args));
+  .post((...args) => controller.register(...args));
 
 module.exports = router;

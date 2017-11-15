@@ -13,8 +13,10 @@ const setMethod = method => async (url, {headers, ...remaining} = {}) => {
     ...remaining,
   })
 
-  // parses response response before returning if neccessary
-  return typeof response.json === 'function' ? response.json() : response
+  const result = await response.json()
+  result.status = response.status
+
+  return result
 }
 
 // import {post} from '[REPLACE_WITH_PATH]/http'
