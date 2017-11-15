@@ -1,5 +1,4 @@
-import {TRY_LOGIN, TOGGLE_LOADING} from './types'
-import {call, put} from 'redux-saga/effects'
+import {TRY_LOGIN} from './types'
 
 export const tryLogin = (credentials) => ({
   type: TRY_LOGIN,
