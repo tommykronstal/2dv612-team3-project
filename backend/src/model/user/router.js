@@ -2,10 +2,6 @@ const controller = require('./controller');
 const Router = require('express').Router;
 const router = new Router();
 
-router.all('/', function (req, res, next) {
-    controller.authorize(req, res, next);
-});
-
 router.route('/')
   .get((...args) => controller.find(...args))
   .post((...args) => controller.create(...args));
