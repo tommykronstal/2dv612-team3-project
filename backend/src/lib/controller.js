@@ -10,19 +10,19 @@ class Controller {
   }
 
   find(req, res, next) {
-    return this.facade.find(req.query)
+    return this.facade.find(req.query, {password: 0, __v: 0})
       .then(collection => res.status(200).json(collection))
       .catch(err => next(err));
   }
 
   findOne(req, res, next) {
-    return this.facade.findOne(req.query)
+    return this.facade.findOne(req.query, {password: 0, __v: 0})
       .then(doc => res.status(200).json(doc))
       .catch(err => next(err));
   }
 
   findById(req, res, next) {
-    return this.facade.findById(req.params.id)
+    return this.facade.findById(req.params.id, {password: 0, __v: 0})
       .then((doc) => {
         if (!doc) { return res.sendStatus(404); }
         return res.status(200).json(doc);
