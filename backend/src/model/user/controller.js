@@ -24,18 +24,18 @@ class UserController extends Controller {
       if (!doc) return res.status(401).json({error: true, message: 'Invalid username or password.'});
 
       const role = doc.role;
-      const userDetailsToHash = JSON.stringify({email, role});
+      const userDetailsToHash = JSON.stringify({ email, role });
       const token = jwt.sign(userDetailsToHash, jwtSecret);
 
-      return res.json({ token, error: false});
+      return res.json({ token, error: false });
     })
-    .catch(() => res.status(500).json({error: true}));
+      .catch(() => res.status(500).json({ error: true }));
   }
 
   register(req, res, next) {
     const newUser = req.body;
 
-    if(!(newUser.email && newUser.password)) return res.status(400).json({error: true});
+    if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
 
     newUser.role = 'ADMIN';
 
@@ -44,11 +44,11 @@ class UserController extends Controller {
 
     userFacade.create(newUser).then((doc) => {
 
-      const userDetailsToHash = JSON.stringify({email: doc.email, role: doc.role});
+      const userDetailsToHash = JSON.stringify({ email: doc.email, role: doc.role });
       const token = jwt.sign(userDetailsToHash, jwtSecret);
 
       return res.json({ token });
-    }).catch(() => res.status(500).json({error: true}));
+    }).catch(() => res.status(500).json({ error: true }));
   }
 
   authorize(req, res, next) {

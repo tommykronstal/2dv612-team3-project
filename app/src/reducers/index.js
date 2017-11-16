@@ -1,6 +1,5 @@
-import example from './example'
-import login from './login'
+import loading from './loading'
 import status from './status'
 import auth from './auth'
 
-export {example, login, status, auth}
+export {loading, status, auth}

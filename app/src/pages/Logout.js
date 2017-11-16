@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {logout} from '../actions/logout'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import CenteredForm from '../components/CenteredForm'
-import Loading from '../components/Loading'
+import CenteredForm from '../components/common/CenteredForm'
+import Loading from '../components/common/Loading'
 
 class Logout extends Component {
 
