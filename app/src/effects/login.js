@@ -23,7 +23,6 @@ export function* tryLogin({credentials: {email, password}}) {
 
   if(response.status !== 200) {
     return
-  }
 
   yield put({ type: SET_LOGGED_IN, token: response.token })
 
