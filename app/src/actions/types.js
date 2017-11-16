@@ -12,4 +12,6 @@ export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const LOGOUT = 'LOGOUT'
 
 //COMPANY
+export const FETCH_COMPANIES = 'FETCH_COMPANIES'
 export const ADD_COMPANY = 'ADD_COMPANY'
+export const UPDATE_COMPANY_NAME = 'UPDATE_COMPANY_NAME'

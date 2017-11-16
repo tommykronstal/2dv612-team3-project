@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
 
-import { storiesOf } from "@storybook/react";
+import {updateCompanyName} from '../../actions/addCompany'
+
 import { action } from "@storybook/addon-actions";
-import centered from "@storybook/addon-centered";
-import backgrounds from "@storybook/addon-backgrounds";
-import { injectGlobal } from "styled-components";
+
 
 import Button from "../Button";
 import Section from "../Section";
@@ -16,66 +16,30 @@ import Title from "../Title";
 import Input from "../Input";
 import StatusModal from "../StatusModal";
 
+
+function mapStateToProps({addCompany}) {
+  return addCompany
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateCompanyName: companyName => dispatch(updateCompanyName(companyName)),
+  }
+}
+
 class AddCompany extends Component {
-  constructor() {
-    super();
-    this.state = {
-      newCompany: {}
-    };
-  }
-
-  handleSubmit(e) {
-    this.setState(
-      {
-        newCompany: {
-          name: this.refs.name.value,
-          CompanyAdmin: {
-            name: this.refs.adminName.value,
-            email: this.refs.adminEmail.value
-          },
-          id: this.refs.name.value
-        }
-      },
-      function() {
-        //console.log(this.state.newCompany);
-        this.props.addCompany(this.state.newCompany);
-      }
-    );
-    e.preventDefault();
-  }
-
-  // action(bla) {
-  //   console.log(bla);
-  // }
-
   render() {
+    const {companyName} = this.props
     return (
-      // <div className="AddCompany">
-      //     <h3>Add Company</h3>
-      //     <form onSubmit={this.handleSubmit.bind(this)}>
-      //       <div>
-      //         <label>Company Name</label><br />
-      //         <input type= "text" ref="name"/>
-      //       </div>
-      //       <p><strong>Admin Info:</strong></p>
-      //       <div>
-      //         <label>Name</label><br />
-      //         <input type= "text" ref="adminName"/>
-      //       </div>
-      //       <div>
-      //         <label>Email</label><br />
-      //         <input type= "text" ref="adminEmail"/>
-      //       </div>
-      //       <input type="submit" value="submit"/>
-      //     </form>
-      // </div>
+      
       <div>
         <Content>
           <Title>Add a New Company</Title>
           <Input
+            value={companyName}
             name="company"
             label="Company name"
-            onChange={action("changed")}
+            onChange={e => updateCompanyName(e.target.value)}
           />
           <Input
             type="email"
@@ -98,4 +62,24 @@ class AddCompany extends Component {
   }
 }
 
-export default AddCompany;
+export default connect(mapStateToProps, mapDispatchToProps)(AddCompany);
+
+// handleSubmit(e) {
+//   this.setState(
+//     {
+//       newCompany: {
+//         name: this.refs.name.value,
+//         CompanyAdmin: {
+//           name: this.refs.adminName.value,
+//           email: this.refs.adminEmail.value
+//         },
+//         id: this.refs.name.value
+//       }
+//     },
+//     function() {
+//       //console.log(this.state.newCompany);
+//       this.props.addCompany(this.state.newCompany);
+//     }
+//   );
+//   e.preventDefault();
+// }
