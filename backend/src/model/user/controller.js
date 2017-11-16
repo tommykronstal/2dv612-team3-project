@@ -20,6 +20,7 @@ class UserController extends Controller {
     };
 
     userFacade.findOne(mongoUserQuery).then((doc) => {
+
       if (!doc) return res.status(401).json({error: true, message: 'Invalid username or password.'});
 
       const role = doc.role;
