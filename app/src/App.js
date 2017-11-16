@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Header from './components/Header'
+import Header from './components/common/Header'
 import StatusModalContainer from './containers/StatusModalContainer'
 import { ContentRoutes } from './components/Routes';
 

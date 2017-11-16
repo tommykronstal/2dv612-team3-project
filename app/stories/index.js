@@ -5,15 +5,15 @@ import centered from '@storybook/addon-centered';
 import backgrounds from "@storybook/addon-backgrounds";
 import { injectGlobal } from 'styled-components';
 
-import Button from '../src/components/Button';
-import Section from '../src/components/Section';
-import Loading from '../src/components/Loading';
-import Header from '../src/components/Header';
-import CenteredForm from '../src/components/CenteredForm';
-import Content from '../src/components/Content';
-import Title from '../src/components/Title';
-import Input from '../src/components/Input';
-import StatusModal from '../src/components/StatusModal';
+import Button from '../src/components/common/Button';
+import Section from '../src/components/common/Section';
+import Loading from '../src/components/common/Loading';
+import Header from '../src/components/common/Header';
+import CenteredForm from '../src/components/common/CenteredForm';
+import Content from '../src/components/common/Content';
+import Title from '../src/components/common/Title';
+import Input from '../src/components/common/Input';
+import StatusModal from '../src/components/common/StatusModal';
 
 injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Nunito');
