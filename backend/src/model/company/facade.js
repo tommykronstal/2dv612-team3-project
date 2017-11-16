@@ -10,8 +10,8 @@ class CompanyFacade extends Facade {
 
   find(...args) {
     return companySchema
-      .find(...args )
-      .populate('admin')
+      .find(...args)
+      .populate('admin', {password: 0, '__v': 0})
       .exec();
   }
 }

@@ -34,7 +34,7 @@ class AddCompany extends Component {
   }
 
   updateField = target => event => {
-    this.setState({[target]: event.target.value.trim()})
+    this.setState({[target]: event.target.value})
   }
 
   createCompany = event => {
@@ -45,9 +45,6 @@ class AddCompany extends Component {
 
 
   render() {
-
-    console.log('ewjofewjgfoiwejfweoiwej')
-
     const { name, firstName, lastName, email, password } = this.state
 
     return (
