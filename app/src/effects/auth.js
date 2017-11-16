@@ -2,7 +2,11 @@ import {takeEvery} from 'redux-saga/effects'
 import {SET_LOGGED_IN, LOGOUT} from '../actions/types'
 import {storeJwtToken, resetJwtToken} from '../lib/jwt'
 
-export function* watchAuthenticationActions(...args) {
+export function getToken (state) {
+  return state.auth.jwt
+}
+
+export function* watchAuthenticationActions (...args) {
   yield takeEvery(SET_LOGGED_IN, storeJWT)
   yield takeEvery(LOGOUT, resetJWT)
 }

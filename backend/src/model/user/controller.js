@@ -37,7 +37,7 @@ class UserController extends Controller {
 
     if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
 
-    newUser.role = 'ADMIN'; // todo temp hardcoded handle roles on reg
+    newUser.role = 'ADMIN';
 
     newUser.password = `${newUser.password}${salt}`;
     newUser.password = crypto.createHash('sha256').update(newUser.password).digest('hex');
@@ -59,7 +59,7 @@ class UserController extends Controller {
 
     const token = req.headers.authorization;
     let decoded;
-    //TODO FIX .verify error
+
     try {
         decoded = jwt.verify(token, jwtSecret);
     }catch (e){
