@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import StatusModal from '../components/StatusModal';
+import StatusModal from '../components/common/StatusModal';
 import { dismissStatus } from '../actions/status';
 
 function mapStateToProps ({status}) {
