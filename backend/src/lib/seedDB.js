@@ -14,5 +14,5 @@ exports.admin = function(adminAccount) {
 
       }
     })
-    .catch((e) => console.log('Something went wrong', e));
+    .catch((e) => console.log(e));
   }
