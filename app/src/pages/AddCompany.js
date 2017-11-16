@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
 
-import {tryAddCompany} from '../../actions/tryAddCompany'
+import {tryAddCompany} from '../actions/tryAddCompany'
 
-import Button from "../Button";
-import Section from "../Section";
-import Loading from "../Loading";
-import Header from "../Header";
-import CenteredForm from "../CenteredForm";
-import Content from "../Content";
-import Title from "../Title";
-import Input from "../Input";
-import StatusModal from "../StatusModal";
-
+import Button from "../components/common/Button";
+import Content from "../components/common/Content";
+import Title from "../components/common/Title";
+import Input from "../components/common/Input";
 
 function mapStateToProps({loading}) {
   return {loading}
@@ -51,6 +45,9 @@ class AddCompany extends Component {
 
 
   render() {
+
+    console.log('ewjofewjgfoiwejfweoiwej')
+
     const { name, firstName, lastName, email, password } = this.state
 
     return (

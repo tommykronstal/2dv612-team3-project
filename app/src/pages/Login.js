@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import {tryLogin} from '../actions/login'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import CenteredForm from '../components/CenteredForm'
-import Title from '../components/Title'
-import Input from '../components/Input'
-import Button from '../components/Button'
+import CenteredForm from '../components/common/CenteredForm'
+import Title from '../components/common/Title'
+import Input from '../components/common/Input'
+import Button from '../components/common/Button'
 
 class Login extends Component {
   constructor(props) {
