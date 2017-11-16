@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
 
-import {updateCompanyName} from '../../actions/addCompany'
-
-import { action } from "@storybook/addon-actions";
-
+import {tryAddCompany} from '../../actions/tryAddCompany'
 
 import Button from "../Button";
 import Section from "../Section";
@@ -17,45 +14,88 @@ import Input from "../Input";
 import StatusModal from "../StatusModal";
 
 
-function mapStateToProps({addCompany}) {
-  return addCompany
+function mapStateToProps({loading}) {
+  return {loading}
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateCompanyName: companyName => dispatch(updateCompanyName(companyName)),
+    tryAddCompany: companyDetails => dispatch(tryAddCompany(companyDetails)),
   }
 }
 
 class AddCompany extends Component {
+
+  defaultState = {
+    name: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {...this.defaultState}
+  }
+
+  updateField = target => event => {
+    this.setState({[target]: event.target.value.trim()})
+  }
+
+  createCompany = event => {
+    event.preventDefault()
+    this.props.tryAddCompany(this.state)
+    this.setState({...this.defaultState});
+  }
+
+
   render() {
-    const {companyName} = this.props
+    const { name, firstName, lastName, email, password } = this.state
+
     return (
-      
       <div>
         <Content>
-          <Title>Add a New Company</Title>
-          <Input
-            value={companyName}
-            name="company"
-            label="Company name"
-            onChange={e => updateCompanyName(e.target.value)}
-          />
-          <Input
-            type="email"
-            name="email"
-            label="Administrators E-Mail"
-            onChange={action("changed")}
-          />
-          <Input
-            type="password"
-            name="password"
-            label="Password"
-            onChange={action("changed")}
-          />
-          <Button primary onClick={action("clicked")}>
-            Add
-          </Button>
+          <form onSubmit={e => this.createCompany(e)}>
+            <Title>Add a New Company</Title>
+            <Input
+              value={name}
+              name="company"
+              label="Company name"
+              onChange={this.updateField('name')}
+            />
+            <Input
+              value={firstName}
+              type="text"
+              name="firstName"
+              label="Administrators First Name"
+              onChange={this.updateField('firstName')}
+            />
+            <Input
+              value={lastName}
+              type="text"
+              name="lastName"
+              label="Administrators Last Name"
+              onChange={this.updateField('lastName')}
+            />
+            <Input
+              value={email}
+              type="email"
+              name="email"
+              label="Administrators E-Mail"
+              onChange={this.updateField('email')}
+            />
+            <Input
+              value={password}
+              type="password"
+              name="password"
+              label="Password"
+              onChange={this.updateField('password')}
+            />
+            <Button primary loading={this.props.loading.isLoading}>
+              Add
+            </Button>
+          </form>
         </Content>
       </div>
     );

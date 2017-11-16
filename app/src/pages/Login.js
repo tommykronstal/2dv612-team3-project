@@ -21,7 +21,7 @@ class Login extends Component {
   }
 
   handleLogin = async () => {
-    if (this.props.login.isLoading) return
+    if (this.props.loading.isLoading) return
 
     const {password, email} = this.state
     if (!password.length && !email.length) return
@@ -51,7 +51,7 @@ class Login extends Component {
         />
         <Button
           primary
-          loading={this.props.login.isLoading}
+          loading={this.props.loading.isLoading}
 
         >
           Login
@@ -67,4 +67,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(({auth, login}) => ({auth, login}), mapDispatchToProps)(Login)
+export default connect(({auth, loading}) => ({auth, loading}), mapDispatchToProps)(Login)

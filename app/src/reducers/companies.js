@@ -1,5 +1,5 @@
 
-import {FETCH_COMPANIES, ADD_COMPANY} from '../actions/types'
+import {FETCH_COMPANIES} from '../actions/types'
 
 const initialState = [
     {
@@ -16,7 +16,7 @@ const initialState = [
 
 export default function (state = initialState, action = {}){
     switch (action.type) {
-        case ADD_COMPANY:
+        case FETCH_COMPANIES:
             return [action.payload, ...state]
     }
     return state
