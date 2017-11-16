@@ -8,8 +8,8 @@ class CompanyController extends Controller {
   registerCompany(req, res, next) {
     const { companyName, companyAdmin } = req.body;
     console.log(req.body)
-    if (!companyName || !companyAdmin) return res.status(400).json({ error: true, msg: 'Missing company details' }); // todo should probably be an error type instead?
-    if (!companyAdmin.email || !companyAdmin.password) return res.status(400).json({ error: true, msg: 'Missing company rep details' });
+    if (!companyName || !companyAdmin) return res.status(400).json({ error: true, message: 'Missing company details' }); // todo should probably be an error type instead?
+    if (!companyAdmin.email || !companyAdmin.password) return res.status(400).json({ error: true, message: 'Missing company rep details' });
 
     let user = {
       firstName: companyAdmin.firstName,
@@ -22,7 +22,7 @@ class CompanyController extends Controller {
     let company = {
       companyName: companyName
     }
-    
+
     const AlreadyExistPromises = [
       companyFacade.userSchema().find({'email': user.email}),
       companyFacade.find({'companyName': company.companyName})
@@ -40,17 +40,17 @@ class CompanyController extends Controller {
             return res.status(201).json({ error: false })
           })
         })
-      }      
+      }
       else if(exists[0].length > 0 && exists[1].length === 0) {
-        return res.status(400).json({ error: true, msg: 'User already exists'})
+        return res.status(400).json({ error: true, message: 'User already exists'})
       }
       else if(exists[0].length > 0 && exists[1].length > 0) {
-        return res.status(400).json({ error: true, msg: 'User & Company already exists'})
-      } 
-      else {
-        return res.status(400).json({ error: true, msg: 'Company already exists'})
+        return res.status(400).json({ error: true, message: 'User & Company already exists'})
       }
-    }).catch(err => next(err));       
+      else {
+        return res.status(400).json({ error: true, message: 'Company already exists'})
+      }
+    }).catch(err => next(err));
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import confirmSymbol from './confirmed.svg';
+import errorSymbol from './error.svg';
 
 const Div = styled.div`
   position: fixed;
@@ -19,6 +20,10 @@ const Div = styled.div`
     right: 0;
     border-radius: 0;
   }
+
+  ${props => props.warning && css`
+    background: rgb(240, 100, 100);
+  `}
 
   ${props => !props.active && css`
     transform: translateY(100px);
@@ -46,8 +51,8 @@ const P = styled.p`
 
 export default (props, state) => {
   return (
-    <Div active={props.active}>
-      <Img src={confirmSymbol} />
+    <Div warning={props.warning} active={props.active}>
+      <Img src={props.warning ? errorSymbol : confirmSymbol} />
       <P white>
         {props.message}
       </P>
