@@ -22,10 +22,10 @@ export function* tryAddCompany({companyDetails: {name: companyName, ...companyAd
   })
 
   if(response.status !== 201) {
-    return
+    if(response.message) yield put({type: SET_STATUS, warning: true, message: response.message})
+  } else {
+    yield put({type: SET_STATUS, message: `${companyName} created`})
   }
 
-  // Stop spinner animation after login response has been handled.
   yield put({type: TOGGLE_LOADING})
-  yield put({type: SET_STATUS, message: `${companyName} created`})
 }

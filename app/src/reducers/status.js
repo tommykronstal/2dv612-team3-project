@@ -18,8 +18,7 @@ export default function status (state = initialState, action = {}) {
     case DISMISS_STATUS:
       return {
         ...state,
-        active: false,
-        warning: false
+        active: false
       };
     default:
       return state;
