@@ -34,11 +34,9 @@ class CompanyController extends Controller {
       if(exists[0].length === 0 && exists[1].length === 0 ){
         companyFacade.userSchema().create(user)
         .then((userDoc) =>{
-          company.admin = userDoc.id
-          userDoc.save();
+          company.admin = userDoc
           companyFacade.create(company)
           .then((companyDoc) => {
-            companyDoc.save()
             return res.status(201).json({ error: false })
           })
         })
