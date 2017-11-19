@@ -1,10 +1,20 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
-export default ({ auth, userRole, component: Component, ...routeProps }) => (
-  <Route {...routeProps} render={props => (
-    auth.isAuthenticated && auth.role === userRole ?
+const ProtectedRoute = ({ auth, userRole, component: Component, ...routeProps }) => (
+  <Route {...routeProps} render={props => {
+    console.log(auth)
+    if (!auth.isAuthenticated) return <Redirect to={{ pathname: '/login' }} />
+
+    return auth.role === userRole ?
       <Component {...props} /> :
-      <Redirect to={{ pathname: '/login' }}/>
-  )}/>
+      <div>Unauthorized</div>
+  }} />
 )
+
+export default role => withRouter(connect(
+  ({auth}) => ({ auth, userRole: role }),
+  () => ({})
+)(ProtectedRoute))

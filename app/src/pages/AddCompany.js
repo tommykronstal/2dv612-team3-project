@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import {connect} from 'react-redux'
 
 import {tryAddCompany} from '../actions/tryAddCompany'
 
-import Button from "../components/common/Button";
-import Content from "../components/common/Content";
-import Title from "../components/common/Title";
-import Input from "../components/common/Input";
+import Button from '../components/common/Button'
+import Content from '../components/common/Content'
+import Title from '../components/common/Title'
+import Input from '../components/common/Input'
 
 function mapStateToProps({loading}) {
   return {loading}
@@ -40,7 +40,7 @@ class AddCompany extends Component {
   createCompany = event => {
     event.preventDefault()
     this.props.tryAddCompany(this.state)
-    this.setState({...this.defaultState});
+    this.setState({...this.defaultState})
   }
 
 
@@ -54,36 +54,36 @@ class AddCompany extends Component {
             <Title>Add a New Company</Title>
             <Input
               value={name}
-              name="company"
-              label="Company name"
+              name='company'
+              label='Company name'
               onChange={this.updateField('name')}
             />
             <Input
               value={firstName}
-              type="text"
-              name="firstName"
-              label="Administrators First Name"
+              type='text'
+              name='firstName'
+              label='Administrators First Name'
               onChange={this.updateField('firstName')}
             />
             <Input
               value={lastName}
-              type="text"
-              name="lastName"
-              label="Administrators Last Name"
+              type='text'
+              name='lastName'
+              label='Administrators Last Name'
               onChange={this.updateField('lastName')}
             />
             <Input
               value={email}
-              type="email"
-              name="email"
-              label="Administrators E-Mail"
+              type='email'
+              name='email'
+              label='Administrators E-Mail'
               onChange={this.updateField('email')}
             />
             <Input
               value={password}
-              type="password"
-              name="password"
-              label="Password"
+              type='password'
+              name='password'
+              label='Password'
               onChange={this.updateField('password')}
             />
             <Button primary loading={this.props.loading.isLoading}>
@@ -92,11 +92,11 @@ class AddCompany extends Component {
           </form>
         </Content>
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCompany);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCompany)
 
 // handleSubmit(e) {
 //   this.setState(

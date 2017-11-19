@@ -1,23 +1,18 @@
 import React from 'react'
-import {Route} from 'react-router-dom'
-import {Link} from 'react-router-dom'
-import Text from './common/Text'
-import styled from 'styled-components'
+import { Route, Redirect } from 'react-router-dom'
 
-import ProtectedRoute from '../containers/ProtectedRoute'
+import USER_TYPES from '../userTypes'
+import ProtectedRoute from '../components/ProtectedRoute'
 import Login from '../pages/Login'
 import Logout from '../pages/Logout'
+import Main from '../pages/Main'
+import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
 
-
-const SampleContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
+const AdminRoute = ProtectedRoute(USER_TYPES.ADMIN)
+const CompanyAdminRoute = ProtectedRoute(USER_TYPES.COMPANY_ADMIN)
+const CompanyUserRoute = ProtectedRoute(USER_TYPES.COMPANY_USER)
+const UserRoute = ProtectedRoute(USER_TYPES.USER)
 
 /**
  * Main Content routes
@@ -26,22 +21,13 @@ const SampleContainer = styled.div`
  */
 export const ContentRoutes = props => (
   <div>
+    <Route exact path='/' component={Main} />
     <Route exact path='/login' component={Login} />
     <Route exact path='/logout' component={Logout} />
-    <ProtectedRoute userRole='ADMIN' exact path='/admin/companies' component={() => <AddCompany/>} />
-
-    <Route
-      exact
-      path='/'
-      render={() => {
-        return (
-          <SampleContainer>
-            <Link to='/admin/companies'>
-              <Text>Companies</Text>
-            </Link>
-          </SampleContainer>
-        )
-      }}
-    />
+    <AdminRoute exact path='/admin' component={() => <Redirect to='/admin/companies' />} />
+    <AdminRoute exact path='/admin/companies' component={AddCompany} />
+    <CompanyAdminRoute exact path='/company/admin' component={Welcome} />
+    <CompanyUserRoute exact path='/company/user' component={Welcome} />
+    <UserRoute exact path='/user' component={Welcome} />
   </div>
 )

@@ -12,7 +12,7 @@ class Logout extends Component {
   }
 
   render() {
-    if(!this.props.auth.isAuthenticated) return <Redirect to='/login' />
+    if (!this.props.auth.isAuthenticated) return <Redirect to='/login' />
 
     return (
       <CenteredForm>
@@ -24,7 +24,7 @@ class Logout extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: credentials => dispatch(logout()),
+    logout: _ => dispatch(logout()),
   }
 }
 

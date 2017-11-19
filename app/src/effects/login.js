@@ -6,12 +6,13 @@ import {
   SET_LOGGED_IN
 } from '../actions/types'
 import {post} from '../lib/http'
+import {getPayloadFromJwtToken} from '../lib/jwt'
 
-export function* watchLogin(...args) {
+export function *watchLogin() {
   yield takeEvery(TRY_LOGIN, tryLogin)
 }
 
-export function* tryLogin({credentials: {email, password}}) {
+export function *tryLogin({credentials: {email, password}}) {
   // Start loading animation after user has clicked login
   yield put({type: TOGGLE_LOADING})
 
@@ -22,10 +23,14 @@ export function* tryLogin({credentials: {email, password}}) {
     body: JSON.stringify({ email, password })
   })
 
-  if(response.status !== 200) {
-    if(response.message) yield put({type: SET_STATUS, warning: true, message: response.message})
+  if (response.status !== 200) {
+    if (response.message) yield put({type: SET_STATUS, warning: true, message: response.message})
   } else {
-    yield put({ type: SET_LOGGED_IN, token: response.token })
+    yield put({ 
+      type: SET_LOGGED_IN, 
+      token: response.token, 
+      payload: getPayloadFromJwtToken(response.token) 
+    })
   }
 
   // Stop spinner animation after login response has been handled.
