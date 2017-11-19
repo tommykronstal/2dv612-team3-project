@@ -4,5 +4,5 @@ import { dismissStatus } from '../actions/status'
 
 export default connect(
   ({status}) => status, 
-  dispatch => { dismissStatus = () => dispatch(dismissStatus()) }
+  dispatch => ({ dismissStatus: () => dispatch(dismissStatus()) })
 )(StatusModal)
