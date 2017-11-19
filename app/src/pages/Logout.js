@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {logout} from '../actions/logout'
+import {logout} from '../actions/auth'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import CenteredForm from '../components/common/CenteredForm'

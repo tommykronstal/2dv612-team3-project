@@ -6,7 +6,7 @@ const salt = 'jod';
 class CompanyController extends Controller {
 
   registerCompany(req, res, next) {
-    const { companyName, companyAdmin } = req.body;
+    const { companyName, ...companyAdmin } = req.body;
     console.log(req.body)
     if (!companyName || !companyAdmin) return res.status(400).json({ error: true, message: 'Missing company details' }); // todo should probably be an error type instead?
     if (!companyAdmin.email || !companyAdmin.password) return res.status(400).json({ error: true, message: 'Missing company rep details' });
