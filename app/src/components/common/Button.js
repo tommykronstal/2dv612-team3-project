@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react'
+import styled, { css } from 'styled-components'
 
-import Loading from './Loading';
+import Loading from './Loading'
 
 const Button = styled.button`
   font-family: 'nunito', Helvetica, arial, sans-serif;
@@ -24,7 +24,7 @@ const Button = styled.button`
   cursor: ${props => props.disabled ? 'wait' : 'pointer'};
 
   :not([disabled]):active {
-    background: ${props => props.primary ? 'rgb(100, 150, 200)' : 'rgba(110, 160, 220, 0.1)'}
+    background: ${props => props.primary ? 'rgb(100, 150, 200)' : 'rgba(110, 160, 220, 0.1)'};
   }
 
 	${props => !props.primary && css`
@@ -35,14 +35,13 @@ const Button = styled.button`
 
 `
 
-export default (props) => {
-  return (
-    <Button
-      primary={props.primary}
-      onClick={(e) => props.onClick && props.onClick(e)}
-      disabled={props.loading}
-    >
-      {props.loading ? <Loading small white={props.primary} /> : props.children}
-    </Button>
-  )
-};
+export default props => (
+  <Button
+    primary={props.primary}
+    onClick={event => props.onClick && props.onClick(event)}
+    disabled={props.loading}
+  >
+    {props.loading ? <Loading small white={props.primary} /> : props.children}
+  </Button>
+)
+

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import USER_TYPES from '../userTypes'
 import ProtectedRoute from '../components/ProtectedRoute'
@@ -8,6 +8,7 @@ import Logout from '../pages/Logout'
 import Main from '../pages/Main'
 import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
+import NotFound from '../pages/NotFound'
 
 const AdminRoute = ProtectedRoute(USER_TYPES.ADMIN)
 const CompanyAdminRoute = ProtectedRoute(USER_TYPES.COMPANY_ADMIN)
@@ -19,8 +20,8 @@ const UserRoute = ProtectedRoute(USER_TYPES.USER)
  * if we want any more endpoints such as /manuals or w/e
  * we can just add another route
  */
-export const ContentRoutes = props => (
-  <div>
+export const ContentRoutes = () => (
+  <Switch>
     <Route exact path='/' component={Main} />
     <Route exact path='/login' component={Login} />
     <Route exact path='/logout' component={Logout} />
@@ -29,5 +30,6 @@ export const ContentRoutes = props => (
     <CompanyAdminRoute exact path='/company/admin' component={Welcome} />
     <CompanyUserRoute exact path='/company/user' component={Welcome} />
     <UserRoute exact path='/user' component={Welcome} />
-  </div>
+    <Route component={NotFound}/>
+  </Switch>
 )

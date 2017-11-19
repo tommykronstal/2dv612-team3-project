@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import confirmSymbol from './confirmed.svg';
-import errorSymbol from './error.svg';
+import React from 'react'
+import styled, { css } from 'styled-components'
+import confirmSymbol from './confirmed.svg'
+import errorSymbol from './error.svg'
 
 const Div = styled.div`
   position: fixed;
@@ -49,13 +49,12 @@ const P = styled.p`
   text-align: center;
 `
 
-export default (props, state) => {
-  return (
-    <Div warning={props.warning} active={props.active}>
-      <Img src={props.warning ? errorSymbol : confirmSymbol} />
-      <P white>
-        {props.message}
-      </P>
-    </Div>
-  )
-};
+export default props => (
+  <Div warning={props.warning} active={props.active}>
+    <Img src={props.warning ? errorSymbol : confirmSymbol} />
+    <P white>
+      {props.message}
+    </P>
+  </Div>
+)
+

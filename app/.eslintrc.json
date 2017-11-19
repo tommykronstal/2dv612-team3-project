@@ -1,3 +1,6 @@
 {
-  "extends": "beanloop"
+  "extends": "beanloop",
+  "rules" : {
+    "react/jsx-uses-react": 2
+  }
 }

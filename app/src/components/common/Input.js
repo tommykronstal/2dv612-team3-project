@@ -1,5 +1,5 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react'
+import styled, { css } from 'styled-components'
 
 const Input = styled.input`
   box-sizing: border-box;
@@ -23,7 +23,7 @@ const Input = styled.input`
   :focus + label {
     transform: translate(0, -1.1rem) scale(0.7);
   }
-`;
+`
 
 const Label = styled.label`
   font-family: Helvetica, arial, sans-serif;
@@ -43,7 +43,7 @@ const Label = styled.label`
   ${props => props.value && css`
     transform: translate(0, -1.1rem) scale(0.7);
   `}
-`;
+`
 
 const Div = styled.div`
   box-sizing: border-box;
@@ -52,20 +52,18 @@ const Div = styled.div`
   min-width: 8rem;
   width: 100%;
   position: relative;
-`;
+`
 
-export default (props) => {
-  const value = props.value || '';
-  const type = props.type || 'text';
-  const warning = props.warning;
-  const label = warning ? `${props.label} - ${warning}` : props.label;
+export default props => {
+  const value = props.value || ''
+  const type = props.type || 'text'
+  const warning = props.warning
+  const label = warning ? `${props.label} - ${warning}` : props.label
 
   return (
     <Div>
-      <Input name={props.name} warning={warning} onChange={(e) => props.onChange(e)} type={type} value={value} />
+      <Input name={props.name} warning={warning} onChange={e => props.onChange(e)} type={type} value={value} />
       <Label for={props.name} warning={warning} value={value}>{label}</Label>
     </Div>
   )
-};
-
-export const textStyles = Text;
+}

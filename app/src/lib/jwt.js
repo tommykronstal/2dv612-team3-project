@@ -7,10 +7,10 @@ const parseJwt = token => token ?
     .replace('_', '/')
   )) : {}
 
-export const storeJwtToken = (token) => sessionStorage.setItem(TOKEN_ID, token)
+export const storeJwtToken = token => sessionStorage.setItem(TOKEN_ID, token)
 
 export const getJwtToken = () => sessionStorage.getItem(TOKEN_ID)
 
 export const resetJwtToken = () => sessionStorage.removeItem(TOKEN_ID)
 
-export const getPayloadFromJwtToken = (token) => parseJwt(token)
+export const getPayloadFromJwtToken = token => parseJwt(token)

@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 import Section from './Section'
 
@@ -29,12 +29,11 @@ const Child = styled.form`
   @media(max-height: 400px) { margin: 0 auto; }
 `
 
-export default (props) => {
-  return (
-    <Div>
-      <Child onSubmit={(e) => !e.preventDefault() && props.onSubmit && props.onSubmit(e)}>
-        <Section>{props.children}</Section>
-      </Child>
-    </Div>
-  )
-};
+export default props => (
+  <Div>
+    <Child onSubmit={e => !e.preventDefault() && props.onSubmit && props.onSubmit(e)}>
+      <Section>{props.children}</Section>
+    </Child>
+  </Div>
+)
+

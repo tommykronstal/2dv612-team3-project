@@ -33,13 +33,13 @@ injectGlobal`
   }
 `
 
-//Init effects/sagas
+// Init effects/sagas
 sagaMiddleware.run(effects)
 
 ReactDOM.render(
   <Router>
     <Provider store={store}>
-      <Route path="/" component={App} />
+      <Route path='/' component={App} />
     </Provider>
   </Router>,
   document.getElementById('root'),

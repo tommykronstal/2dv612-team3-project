@@ -10,4 +10,4 @@ const Section = styled.section`
   border-radius: 8px;
 `
 
-export default (props) => (<Section>{props.children}</Section>)
+export default props => (<Section>{props.children}</Section>)

@@ -8,11 +8,10 @@ const Div = styled.div`
   text-align: center
 `
 
-export default (props) => (
+export default props => (
   <Div>
     <Wrapper>
       <Section>{props.children}</Section>
     </Wrapper>
   </Div>
 )
-

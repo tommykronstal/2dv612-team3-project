@@ -1,10 +1,10 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from 'react'
+import styled, { keyframes } from 'styled-components'
 
 const hideShow = keyframes`
 	from {opacity: 1;}
 	to   {opacity: 0;}
-`;
+`
 
 const Circle = styled.div`
   width: ${props => props.size}rem;
@@ -21,8 +21,7 @@ const Circle = styled.div`
   animation-timing-function: ease;
 `
 
-export default (props) => {
-
+export default props => {
   const circleProps = {
     size: props.small ? 0.5 : 1,
     white: props.white
@@ -35,4 +34,4 @@ export default (props) => {
       <Circle {...circleProps} delay={0.66} />
     </div>
   )
-};
+}

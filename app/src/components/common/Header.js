@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import logo from './logo.svg';
-import Wrapper from './Wrapper';
+import React from 'react'
+import styled from 'styled-components'
+import logo from './logo.svg'
+import Wrapper from './Wrapper'
 
 const Header = styled.header`
   box-sizing: border-box;
@@ -15,13 +15,11 @@ const Img = styled.img`
   margin: 0;
 `
 
-export default (props) => {
-  return (
-    <Header>
-      <Wrapper>
-        <Img src={logo} />
-        {props.children}
-      </Wrapper>
-    </Header>
-  )
-};
+export default props => (
+  <Header>
+    <Wrapper>
+      <Img src={logo} />
+      {props.children}
+    </Wrapper>
+  </Header>
+)
