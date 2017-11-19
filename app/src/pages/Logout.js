@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {logout} from '../actions/logout'
+import {logout} from '../actions/auth'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import CenteredForm from '../components/common/CenteredForm'
@@ -12,7 +12,7 @@ class Logout extends Component {
   }
 
   render() {
-    if(!this.props.auth.isAuthenticated) return <Redirect to='/login' />
+    if (!this.props.auth.isAuthenticated) return <Redirect to='/login' />
 
     return (
       <CenteredForm>
@@ -24,7 +24,7 @@ class Logout extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: credentials => dispatch(logout()),
+    logout: _ => dispatch(logout()),
   }
 }
 

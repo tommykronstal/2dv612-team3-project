@@ -1,17 +1,12 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Header from './components/common/Header'
 import StatusModalContainer from './containers/StatusModalContainer'
-import { ContentRoutes } from './components/Routes';
+import { ContentRoutes } from './components/Routes'
 
-export default class App extends Component {
-  render() {
-
-    return (
-      <div>
-        <Header />
-        <ContentRoutes />
-        <StatusModalContainer />
-      </div>
-    )
-  }
-}
+export default () => (
+  <div>
+    <Header />
+    <ContentRoutes />
+    <StatusModalContainer />
+  </div>
+)

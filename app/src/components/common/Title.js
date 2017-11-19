@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const Title = styled.h1`
   font-family: 'Nunito', Helvetica, arial, sans-serif;
@@ -11,8 +11,4 @@ const Title = styled.h1`
   color: rgb(60, 60, 60);
 `
 
-export default (props) => {
-  return (
-    <Title {...props}>{props.children}</Title>
-  )
-};
+export default props => (<Title {...props}>{props.children}</Title>)

@@ -1,70 +1,54 @@
-import React, {Component} from 'react'
-import {tryLogin} from '../actions/login'
+import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
+
+import {LOGIN} from '../formTypes'
+import {updateField, submitForm} from '../actions/form'
+import { setUserToLoggedIn } from '../actions/auth'
 import CenteredForm from '../components/common/CenteredForm'
 import Title from '../components/common/Title'
 import Input from '../components/common/Input'
 import Button from '../components/common/Button'
 
-class Login extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: '',
-      password: '',
-    }
-  }
+const Login = props => {
 
-  updateField = target => event => {
-    this.setState({[target]: event.target.value.trim()})
-  }
+  if (props.auth.isAuthenticated) return <Redirect to='/' />
 
-  handleLogin = async () => {
-    if (this.props.loading.isLoading) return
-
-    const {password, email} = this.state
-    if (!password.length && !email.length) return
-
-    const payload = {...this.state}
-    this.props.tryLogin(payload)
-  }
-
-  render() {
-
-    if (this.props.auth.isAuthenticated) return <Redirect to='/' />
-
-    return (
-      <CenteredForm onSubmit={() => this.handleLogin()}>
-        <Title>Login</Title>
-        <Input
-          type='email'
-          label='E-mail'
-          value={this.state.email}
-          onChange={this.updateField('email')}
-        />
-        <Input
-          type='password'
-          label='Password'
-          value={this.state.password}
-          onChange={this.updateField('password')}
-        />
-        <Button
-          primary
-          loading={this.props.loading.isLoading}
-
-        >
-          Login
-        </Button>
-      </CenteredForm>
-    )
-  }
+  return (
+    <CenteredForm onSubmit={props.tryLogin}>
+      <Title>Login</Title>
+      <Input
+        type='email'
+        label='E-mail'
+        name='email'
+        value={props.form.email}
+        onChange={props.updateField}
+      />
+      <Input
+        type='password'
+        label='Password'
+        name='password'
+        value={props.form.password}
+        onChange={props.updateField}
+      />
+      <Button
+        primary
+        loading={props.loading.isLoading}
+      >
+        Login
+      </Button>
+    </CenteredForm>
+  )
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    tryLogin: credentials => dispatch(tryLogin(credentials)),
-  }
-}
-
-export default connect(({auth, loading}) => ({auth, loading}), mapDispatchToProps)(Login)
+export default connect(
+  ({auth, loading, form}) => ({
+    auth, 
+    loading, 
+    form: form[LOGIN] || {}
+  }),
+  dispatch => ({
+    tryLogin: () => dispatch(submitForm(LOGIN, '/api/user/login', setUserToLoggedIn, false)),
+    updateField: ({target}) => dispatch(updateField(LOGIN, target.name, target.value))   
+  })
+)(Login)

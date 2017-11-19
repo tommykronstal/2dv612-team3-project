@@ -1,5 +1,3 @@
-// import * as t from '../actions/types'
-
 import {TOGGLE_LOADING} from '../actions/types'
 
 const defaultState = {
@@ -8,12 +6,12 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case TOGGLE_LOADING:
-      return {
-        ...state,
-        isLoading: !state.isLoading,
-      }
-    default:
-      return state
+  case TOGGLE_LOADING:
+    return {
+      ...state,
+      isLoading: !state.isLoading,
+    }
+  default:
+    return state
   }
 }

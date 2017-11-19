@@ -8,8 +8,6 @@
     }
   },
   "dependencies": {
-    "eslint": "^4.10.0",
-    "eslint-config-beanloop": "^0.1.0",
     "isomorphic-fetch": "^2.2.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -21,6 +19,8 @@
     "styled-components": "^2.2.3"
   },
   "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-beanloop": "^0.1.0",
     "@storybook/addon-backgrounds": "^3.0.0",
     "@storybook/addon-centered": "^3.2.14",
     "@storybook/react": "^3.2.14",
