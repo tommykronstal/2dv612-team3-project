@@ -1,86 +1,130 @@
-const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
-const Controller = require('../../lib/controller');
-const userFacade = require('./facade');
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
+const Controller = require('../../lib/controller')
+const userFacade = require('./facade')
 
-const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
-const salt = 'jod';
+const jwtSecret = 'keyboardcat' // todo should be in a .env or config file or read from process
+const salt = 'jod'
 
 class UserController extends Controller {
-
   login(req, res, next) {
-    const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
-    const saltedPassword = `${password}${salt}`;    // todo save salt in .env or similar variable not here
-    const saltedPassHash = crypto.createHash('sha256').update(saltedPassword).digest('hex');
+    const {email, password} = req.body // todo presuming email and pw are sent on body params from loginform
+    const saltedPassword = `${password}${salt}` // todo save salt in .env or similar variable not here
+    const saltedPassHash = crypto
+      .createHash('sha256')
+      .update(saltedPassword)
+      .digest('hex')
     const mongoUserQuery = {
-      $and: [
-        { 'email': email },
-        { 'password': saltedPassHash }
-      ]
-    };
+      $and: [{email: email}, {password: saltedPassHash}],
+    }
 
-    userFacade.findOne(mongoUserQuery).then((doc) => {
+    userFacade
+      .findOne(mongoUserQuery)
+      .then(doc => {
+        if (!doc)
+          return res
+            .status(401)
+            .json({error: true, message: 'Invalid username or password'})
 
-      if (!doc) return res.status(401).json({error: true, message: 'Invalid username or password'});
+        const role = doc.role
+        const userDetailsToHash = JSON.stringify({email, role})
+        const token = jwt.sign(userDetailsToHash, jwtSecret)
 
-      const role = doc.role;
-      const userDetailsToHash = JSON.stringify({ email, role });
-      const token = jwt.sign(userDetailsToHash, jwtSecret);
+        return res.json({token, error: false})
+      })
+      .catch(() => res.status(500).json({error: true}))
+  }
 
-      return res.json({ token, error: false });
-    })
-      .catch(() => res.status(500).json({ error: true }));
+  async registerConsumer(req, res, next) {
+
+    const {body: {email, password, firstname, lastname}} = req
+    if (!email || !password) {
+      return res.status(400).json({
+        error: true,
+        msg: 'Missing Email or Password.',
+      })
+    }
+    const {email: savedEmail, role: savedRole, ...remaining} = await userFacade
+      .create({
+        email,
+        firstname,
+        lastname,
+        role: 'USER',
+        password: `${password}${salt}`,
+      })
+      .catch(error => {
+        console.log(error)
+        return res.status(500).json({
+          error: true,
+          message: 'Internal Server Error',
+        })
+      })
+
+    const token = jwt.sign({savedEmail, savedRole}, jwtSecret)
+    return res.status(201).json({token, message: `User ${email} created.`})
   }
 
   register(req, res, next) {
-    const newUser = req.body;
+    const newUser = req.body
 
-    if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
+    if (!(newUser.email || newUser.password))
+      return res.status(400).json({error: true})
 
-    newUser.role = 'ADMIN';
+    newUser.role = 'ADMIN'
 
-    newUser.password = `${newUser.password}${salt}`;
-    newUser.password = crypto.createHash('sha256').update(newUser.password).digest('hex');
+    newUser.password = `${newUser.password}${salt}`
+    newUser.password = crypto
+      .createHash('sha256')
+      .update(newUser.password)
+      .digest('hex')
 
-    userFacade.create(newUser).then((doc) => {
+    userFacade
+      .create(newUser)
+      .then(doc => {
+        const userDetailsToHash = JSON.stringify({
+          email: doc.email,
+          role: doc.role,
+        })
+        const token = jwt.sign(userDetailsToHash, jwtSecret)
 
-      const userDetailsToHash = JSON.stringify({ email: doc.email, role: doc.role });
-      const token = jwt.sign(userDetailsToHash, jwtSecret);
-
-      return res.json({ token });
-    }).catch(() => res.status(500).json({ error: true }));
+        return res.json({token})
+      })
+      .catch(() => res.status(500).json({error: true}))
   }
 
   authorize(req, res, next) {
-
-    if (req.headers.authorization === undefined){
-        return res.status(401).json({error: true, message: 'There was no token in the header'});
+    if (req.headers.authorization === undefined) {
+      return res
+        .status(401)
+        .json({error: true, message: 'There was no token in the header'})
     }
 
-    const token = req.headers.authorization;
-    let decoded;
+    const token = req.headers.authorization
+    let decoded
 
     try {
-        decoded = jwt.verify(token, jwtSecret);
-    }catch (e){
-      console.log(e);
-        return res.status(401).json({error: true, name: e.name, message: e.message});
+      decoded = jwt.verify(token, jwtSecret)
+    } catch (e) {
+      console.log(e)
+      return res
+        .status(401)
+        .json({error: true, name: e.name, message: e.message})
     }
 
-
     const mongoUserQuery = {
-        $and: [
-            { 'email': decoded.email },
-            { 'role': decoded.role }
-        ]
-    };
+      $and: [{email: decoded.email}, {role: decoded.role}],
+    }
 
-    userFacade.findOne(mongoUserQuery).then((doc) => {
-      if (!doc) return res.status(401).json({error: true, message: 'Invalid token'});
+    userFacade
+      .findOne(mongoUserQuery)
+      .then(doc => {
+        if (!doc)
+          return res.status(401).json({error: true, message: 'Invalid token'})
 
-      next();
-    }).catch(() => res.status(500).json({error: true}));
+        next()
+      })
+      .catch(() => res.status(500).json({error: true}))
   }
 }
 
-module.exports = new UserController(userFacade);
+module.exports = new UserController(userFacade)
