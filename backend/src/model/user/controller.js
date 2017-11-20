@@ -37,11 +37,6 @@ class UserController extends Controller {
 
     if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
 
-    newUser.role = 'ADMIN';
-
-    newUser.password = `${newUser.password}${salt}`;
-    newUser.password = crypto.createHash('sha256').update(newUser.password).digest('hex');
-
     userFacade.create(newUser).then((doc) => {
 
       const userDetailsToHash = JSON.stringify({ email: doc.email, role: doc.role });
