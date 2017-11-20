@@ -1,34 +1,39 @@
-const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const Controller = require('../../lib/controller');
 const userFacade = require('./facade');
 
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
-const salt = 'jod';
 
 class UserController extends Controller {
 
   login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
-    const saltedPassword = `${password}${salt}`;    // todo save salt in .env or similar variable not here
-    const saltedPassHash = crypto.createHash('sha256').update(saltedPassword).digest('hex');
-    const mongoUserQuery = {
-      $and: [
-        { 'email': email },
-        { 'password': saltedPassHash }
-      ]
-    };
 
-    userFacade.findOne(mongoUserQuery).then((doc) => {
+    userFacade.findOne({email: req.body.email}).then((doc) => {
 
-      if (!doc) return res.status(401).json({error: true, message: 'Invalid username or password'});
+      if (!doc)  {
+          return res.status(401).json({error: true, message: 'Invalid username or password'});
+      }
 
-      const role = doc.role;
-      const userDetailsToHash = JSON.stringify({ email, role });
-      const token = jwt.sign(userDetailsToHash, jwtSecret);
+      doc.comparePassword(req.body.password, function(error, match) {
+          if (error) {
+              return res.status(500).json({error: true, message: 'Invalid username or password'});
+          }
 
-      return res.json({ token, error: false });
-    })
+          if (match) {
+            const role = doc.role;
+            const userDetailsToHash = JSON.stringify({ email, role });
+            const token = jwt.sign(userDetailsToHash, jwtSecret);
+      
+            // Everything went ok, logging in!
+            return res.json({ token, error: false });
+          } else {
+
+              // Wrong password is provided
+              return res.status(401).json({error: true, message: 'Invalid username or password'});
+          }
+      });
+  })
       .catch(() => res.status(500).json({ error: true }));
   }
 
@@ -36,11 +41,6 @@ class UserController extends Controller {
     const newUser = req.body;
 
     if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
-
-    newUser.role = 'ADMIN';
-
-    newUser.password = `${newUser.password}${salt}`;
-    newUser.password = crypto.createHash('sha256').update(newUser.password).digest('hex');
 
     userFacade.create(newUser).then((doc) => {
 
