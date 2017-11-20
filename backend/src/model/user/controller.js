@@ -1,17 +1,19 @@
-const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const Controller = require('../../lib/controller');
 const userFacade = require('./facade');
+const user = require('./schema');
 
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
-const salt = 'jod';
 
 class UserController extends Controller {
 
   login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
-    const saltedPassword = `${password}${salt}`;    // todo save salt in .env or similar variable not here
-    const saltedPassHash = crypto.createHash('sha256').update(saltedPassword).digest('hex');
+
+    //const saltedPassword = `${password}${salt}`;    // todo save salt in .env or similar variable not here
+    //const saltedPassHash = crypto.createHash('sha256').update(saltedPassword).digest('hex');
+    
+    
     const mongoUserQuery = {
       $and: [
         { 'email': email },
