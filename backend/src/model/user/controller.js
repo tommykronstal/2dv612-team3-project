@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Controller = require('../../lib/controller');
 const userFacade = require('./facade');
-const user = require('./schema');
 
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
 
@@ -22,15 +21,39 @@ class UserController extends Controller {
 
     userFacade.findOne({email: req.body.email}).then((doc) => {
 
-      if (!doc) return res.status(401).json({error: true, message: 'Invalid username or password'});
-      console.log(doc);
+      if (!doc)  {
+          return res.status(401).json({error: true, message: 'Invalid username or password'});
+      }
+
+      doc.comparePassword(req.body.password, function(error, match) {
+          if (error) {
+
+              console.log("Internal error of some sort...");
+          }
+
+          if (match) {
+
+              // Everything went ok, logging in!
+              console.log("Yay! Hashing worked...");
+
+          } else {
+
+              // Wrong password is provided
+              console.log("Nope, wrong password");
+
+          }
+      });
+
 
       const role = doc.role;
       const userDetailsToHash = JSON.stringify({ email, role });
       const token = jwt.sign(userDetailsToHash, jwtSecret);
+      console.log(doc.role, token, userDetailsToHash);
 
       return res.json({ token, error: false });
-    })
+
+
+  })
       .catch(() => res.status(500).json({ error: true }));
   }
 
