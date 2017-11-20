@@ -49,8 +49,8 @@ class UserController extends Controller {
         email,
         firstname,
         lastname,
+        password,
         role: 'USER',
-        password: `${password}${salt}`,
       })
       .catch(error => {
         console.log(error)
