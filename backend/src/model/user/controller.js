@@ -18,7 +18,7 @@ class UserController extends Controller {
       doc.comparePassword(req.body.password, function(error, match) {
           if (error) {
 
-              console.log("Internal error of some sort...");
+              //console.log("Internal error of some sort...");
               return res.status(500).json({error: true, message: 'Invalid username or password'});
           }
 
@@ -26,16 +26,16 @@ class UserController extends Controller {
             const role = doc.role;
             const userDetailsToHash = JSON.stringify({ email, role });
             const token = jwt.sign(userDetailsToHash, jwtSecret);
-            console.log(doc.role, token, userDetailsToHash);
+            //console.log(doc.role, token, userDetailsToHash);
       
             return res.json({ token, error: false });
               // Everything went ok, logging in!
-              console.log("Yay! Hashing worked...");
+              //console.log("Yay! Hashing worked...");
 
           } else {
 
               // Wrong password is provided
-              console.log("Nope, wrong password");
+              //console.log("Nope, wrong password");
               return res.status(401).json({error: true, message: 'Invalid username or password'});
           }
       });
