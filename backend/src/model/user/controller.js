@@ -13,17 +13,17 @@ class UserController extends Controller {
     //const saltedPassword = `${password}${salt}`;    // todo save salt in .env or similar variable not here
     //const saltedPassHash = crypto.createHash('sha256').update(saltedPassword).digest('hex');
     
-    
-    const mongoUserQuery = {
-      $and: [
-        { 'email': email },
-        { 'password': saltedPassHash }
-      ]
-    };
+    // const mongoUserQuery = {
+    //   $and: [
+    //     { 'email': email },
+    //     { 'password': saltedPassHash }
+    //   ]
+    // };
 
-    userFacade.findOne(mongoUserQuery).then((doc) => {
+    userFacade.findOne({email: req.body.email}).then((doc) => {
 
       if (!doc) return res.status(401).json({error: true, message: 'Invalid username or password'});
+      console.log(doc);
 
       const role = doc.role;
       const userDetailsToHash = JSON.stringify({ email, role });
