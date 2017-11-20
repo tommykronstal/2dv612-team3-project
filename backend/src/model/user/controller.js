@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Controller = require('../../lib/controller');
 const userFacade = require('./facade');
+const companyFacade = require('../company/facade');
 
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
 
@@ -78,9 +79,48 @@ class UserController extends Controller {
     userFacade.findOne(mongoUserQuery).then((doc) => {
       if (!doc) return res.status(401).json({error: true, message: 'Invalid token'});
 
-      next();
+      return checkRole(req, res, next, decoded);
     }).catch(() => res.status(500).json({error: true}));
   }
+}
+
+function checkRole(req, res, next, decoded) {
+
+    if (decoded.role === 'ADMIN') return next();
+
+    if (decoded.role === 'CONSUMER') return res.status(403).json({error: true, message: 'Forbidden'});
+
+    if (decoded.role === 'REPRESENTATIVE') return res.status(403).json({error: true, message: 'Forbidden'});
+
+    if (decoded.role === 'COMPANY_ADMIN'){
+        const companyId = req.url.substring(13);
+        const mongoCompanyQuery = {
+            $and: [
+                { _id: companyId }
+            ]
+        };
+
+        companyFacade.findOne(mongoCompanyQuery).then((doc) => {
+            if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
+
+            const mongoUserQuery = {
+                $and: [
+                    { email: decoded.email }
+                ]
+            };
+
+            userFacade.findOne(mongoUserQuery).then((user) => {
+                if (!user) return res.status(401).json({error: true, message: 'Invalid token'});
+
+                if (user._id.toString() !== doc.admin.toString()) {
+                    return res.status(403).json({error: true, message: 'Forbidden. Company admin only'});
+                }
+
+                return next();
+            }).catch(() => res.status(500).json({error: true}));
+
+        }).catch(() => res.status(500).json({error: true}));
+    }
 }
 
 module.exports = new UserController(userFacade);

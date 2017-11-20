@@ -11,6 +11,7 @@ router.route('/api').get((req, res) => {
 
 router.route('*').all(function (req, res, next) {
     if (req.url === '/api/user/login') return next();
+    if (req.url === '/api/user/register') return next();
     controller.authorize(req, res, next);
 });
 
