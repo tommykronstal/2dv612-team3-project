@@ -9,16 +9,6 @@ class UserController extends Controller {
   login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
 
-    //const saltedPassword = `${password}${salt}`;    // todo save salt in .env or similar variable not here
-    //const saltedPassHash = crypto.createHash('sha256').update(saltedPassword).digest('hex');
-    
-    // const mongoUserQuery = {
-    //   $and: [
-    //     { 'email': email },
-    //     { 'password': saltedPassHash }
-    //   ]
-    // };
-
     userFacade.findOne({email: req.body.email}).then((doc) => {
 
       if (!doc)  {
@@ -29,10 +19,16 @@ class UserController extends Controller {
           if (error) {
 
               console.log("Internal error of some sort...");
+              return res.status(500).json({error: true, message: 'Invalid username or password'});
           }
 
           if (match) {
-
+            const role = doc.role;
+            const userDetailsToHash = JSON.stringify({ email, role });
+            const token = jwt.sign(userDetailsToHash, jwtSecret);
+            console.log(doc.role, token, userDetailsToHash);
+      
+            return res.json({ token, error: false });
               // Everything went ok, logging in!
               console.log("Yay! Hashing worked...");
 
@@ -40,19 +36,9 @@ class UserController extends Controller {
 
               // Wrong password is provided
               console.log("Nope, wrong password");
-
+              return res.status(401).json({error: true, message: 'Invalid username or password'});
           }
       });
-
-
-      const role = doc.role;
-      const userDetailsToHash = JSON.stringify({ email, role });
-      const token = jwt.sign(userDetailsToHash, jwtSecret);
-      console.log(doc.role, token, userDetailsToHash);
-
-      return res.json({ token, error: false });
-
-
   })
       .catch(() => res.status(500).json({ error: true }));
   }
