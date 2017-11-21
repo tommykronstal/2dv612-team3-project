@@ -7,12 +7,14 @@ export function* watchFormActions() {
   yield takeEvery(SUBMIT_FORM, formRequest)
 }
 
-export function* formRequest({endpoint, form, action, tokenRequired}) {
+export function* formRequest({endpoint, form, action, tokenRequired, role}) {
   yield put({type: TOGGLE_LOADING})
-
   const {token, payload} = yield select(state => ({
     token: state.auth.jwt,
-    payload: state.form[form],
+    payload: {
+      ...role && {role},
+      ...state.form[form]
+    }
   }))
 
   const response = yield post(endpoint, {
@@ -22,11 +24,6 @@ export function* formRequest({endpoint, form, action, tokenRequired}) {
 
   if (response.status === 200 || response.status === 201) {
     if (action) yield put(action(response))
-
-    // Displaying message if there is one sent back from server.
-    if ('message' in response) {
-      yield put({type: SET_STATUS, warning: false, message: response.message})
-    }
 
     yield put(clearForm(form))
   } else {

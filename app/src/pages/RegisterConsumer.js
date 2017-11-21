@@ -5,6 +5,7 @@ import Input from '../components/common/Input'
 import Content from '../components/common/Content'
 import Button from '../components/common/Button'
 import {connect} from 'react-redux'
+import types from '../userTypes'
 import {REGISTER_CONSUMER} from '../formTypes'
 import {submitForm, updateField} from '../actions/form'
 import {setUserToLoggedIn} from '../actions/auth'
@@ -72,6 +73,7 @@ export default connect(
           '/api/user/register',
           setUserToLoggedIn,
           false,
+          types.USER
         ),
       ),
     updateField: ({target: {value, name}}) =>
