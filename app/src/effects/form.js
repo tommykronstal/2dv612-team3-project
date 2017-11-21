@@ -9,6 +9,7 @@ export function* watchFormActions() {
 
 export function* formRequest({endpoint, form, action, tokenRequired, role}) {
   yield put({type: TOGGLE_LOADING})
+
   const {token, payload} = yield select(state => ({
     token: state.auth.jwt,
     payload: {
@@ -18,12 +19,13 @@ export function* formRequest({endpoint, form, action, tokenRequired, role}) {
   }))
 
   const response = yield post(endpoint, {
-    headers: tokenRequired ? {Authorization: token} : undefined,
+    headers: tokenRequired && token ? {Authorization: token} : undefined,
     body: JSON.stringify(payload),
   })
 
   if (response.status === 200 || response.status === 201) {
     if (action) yield put(action(response))
+
 
     yield put(clearForm(form))
   } else {
