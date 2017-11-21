@@ -37,17 +37,16 @@ class UserController extends Controller {
   }
 
   register(req, res, next) {
-    const newUser = req.body;
+    const {email, password, role, firstname: firstName, lastname: lastName} = req.body
 
-    if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
+    if (!email || !password || !role) return res.status(400).json({error: true})
 
-    userFacade.create(newUser).then((doc) => {
-
-      const userDetailsToHash = JSON.stringify({ email: doc.email, role: doc.role });
-      const token = jwt.sign(userDetailsToHash, jwtSecret);
-
-      return res.json({ token });
-    }).catch(() => res.status(500).json({ error: true }));
+    userFacade
+      .create({ email, role, password, firstName, lastName})
+      .then(userDocument => {
+        return res.status(201)
+          .json({error: false, token: jwt.sign({email, role}, jwtSecret)})
+      })
   }
 
   authorize(req, res, next) {
