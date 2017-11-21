@@ -105,7 +105,7 @@ function checkRole(req, res, next, decoded) {
 
         }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
     }else {
-        return res.status(403).json({error: true, message: 'Forbidden. There was no valid role found.'});
+        return res.status(403).json({error: true, message: 'Forbidden. There was no valid role found for the given request.'});
     }
 }
 
