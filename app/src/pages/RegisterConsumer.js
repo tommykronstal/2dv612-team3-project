@@ -9,55 +9,61 @@ import types from '../userTypes'
 import {REGISTER_CONSUMER} from '../formTypes'
 import {submitForm, updateField} from '../actions/form'
 import {setUserToLoggedIn} from '../actions/auth'
+import {setStatus} from '../actions/status'
+import {Redirect} from 'react-router-dom'
 
 const RegisterConsumer = ({
   updateField,
   tryRegister,
   loading: {isLoading},
   form: {email, firstname, lastname, password},
-}) => (
-  <Content>
-    <form
-      onSubmit={e => {
-        e.preventDefault()
-        tryRegister()
-      }}
-    >
-      <Title>Register</Title>
-      <Input
-        type="email"
-        label="E-mail"
-        name="email"
-        value={email}
-        onChange={updateField}
-      />
-      <Input
-        type="text"
-        label="Firstname"
-        name="firstname"
-        value={firstname}
-        onChange={updateField}
-      />
-      <Input
-        type="text"
-        label="Lastname"
-        name="lastname"
-        value={lastname}
-        onChange={updateField}
-      />
-      <Input
-        type="password"
-        label="Pasword"
-        name="password"
-        value={password}
-        onChange={updateField}
-      />
-      <Button primary loading={isLoading}>
-        Register
-      </Button>
-    </form>
-  </Content>
-)
+  auth: {isAuthenticated},
+}) =>
+  isAuthenticated ? (
+    <Redirect to="/" />
+  ) : (
+    <Content>
+      <form
+        onSubmit={e => {
+          e.preventDefault()
+          tryRegister()
+        }}
+      >
+        <Title>Register</Title>
+        <Input
+          type="email"
+          label="E-mail"
+          name="email"
+          value={email}
+          onChange={updateField}
+        />
+        <Input
+          type="text"
+          label="Firstname"
+          name="firstname"
+          value={firstname}
+          onChange={updateField}
+        />
+        <Input
+          type="text"
+          label="Lastname"
+          name="lastname"
+          value={lastname}
+          onChange={updateField}
+        />
+        <Input
+          type="password"
+          label="Pasword"
+          name="password"
+          value={password}
+          onChange={updateField}
+        />
+        <Button primary loading={isLoading}>
+          Register
+        </Button>
+      </form>
+    </Content>
+  )
 
 export default connect(
   ({auth, loading, form}) => ({
@@ -73,7 +79,7 @@ export default connect(
           '/api/user/register',
           setUserToLoggedIn,
           false,
-          types.USER
+          types.USER,
         ),
       ),
     updateField: ({target: {value, name}}) =>
