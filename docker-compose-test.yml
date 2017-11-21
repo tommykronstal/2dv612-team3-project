@@ -24,8 +24,6 @@ services:
       - ./backend/src:/usr/src/app/src
     ports:
       - "4001:4001"
-    links:
-      - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27018/backend
       - TEST_REPORT_PATH=./src
