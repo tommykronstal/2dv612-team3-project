@@ -63,7 +63,7 @@ export default props => {
   return (
     <Div>
       <Input name={props.name} warning={warning} onChange={e => props.onChange(e)} type={type} value={value} />
-      <Label for={props.name} warning={warning} value={value}>{label}</Label>
+      <Label for={props.name} warning={warning}>{label}</Label>
     </Div>
   )
 }
