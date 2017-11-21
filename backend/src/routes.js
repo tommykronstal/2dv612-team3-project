@@ -10,11 +10,7 @@ router.route('/api').get((req, res) => {
 })
 
 router.route('*').all(function(req, res, next) {
-  if (
-    req.url === '/api/user/login' ||
-    req.url === '/api/user/register/consumer' ||
-    req.url === '/api/user'
-  ) {
+  if (req.url === '/api/user/login' || req.url === '/api/user/register') {
     return next()
   }
 
