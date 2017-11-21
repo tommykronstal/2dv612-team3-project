@@ -16,10 +16,12 @@ const RegisterConsumer = ({
   form: {email, firstname, lastname, password},
 }) => (
   <Content>
-    <form onSubmit={e => {
-      e.preventDefault()
-      tryRegister()
-    }}>
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        tryRegister()
+      }}
+    >
       <Title>Register</Title>
       <Input
         type="email"
@@ -67,7 +69,7 @@ export default connect(
       dispatch(
         submitForm(
           REGISTER_CONSUMER,
-          '/api/user/register/consumer',
+          '/api/user/register',
           setUserToLoggedIn,
           false,
         ),
