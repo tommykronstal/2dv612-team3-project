@@ -11,8 +11,8 @@ import Button from '../components/common/Button'
 
 const AddCompany = props => (
   <Content>
-    <form onSubmit={event => { 
-      event.preventDefault() 
+    <form onSubmit={event => {
+      event.preventDefault()
       props.addCompany()
     }}>
       <Title>Add a New Company</Title>
@@ -60,15 +60,16 @@ const AddCompany = props => (
 
 export default connect(
   ({loading, form}) => ({
-    loading, 
+    loading,
     form: form[ADD_COMPANY] || {}
   }),
   dispatch => ({
     addCompany: () => dispatch(submitForm(
-      ADD_COMPANY, 
-      '/api/company/register', 
-      _ => setStatus('Company Created')
+      ADD_COMPANY,
+      '/api/company/register',
+      _ => setStatus('Company Created'),
+      true
     )),
-    updateField: ({target}) => dispatch(updateField(ADD_COMPANY, target.name, target.value))   
+    updateField: ({target}) => dispatch(updateField(ADD_COMPANY, target.name, target.value))
   })
 )(AddCompany)
