@@ -68,7 +68,6 @@ class UserController extends Controller {
         return res.status(401).json({error: true, name: e.name, message: e.message});
     }
 
-
     const mongoUserQuery = {
         $and: [
             { 'email': decoded.email },
@@ -85,6 +84,7 @@ class UserController extends Controller {
 }
 
 function checkRole(req, res, next, decoded) {
+    const companyId = req.url.substring(13);
 
     if (decoded.role === 'ADMIN') return next();
 
@@ -92,24 +92,12 @@ function checkRole(req, res, next, decoded) {
 
     if (decoded.role === 'COMPANY_USER') return res.status(403).json({error: true, message: 'Forbidden'});
 
-    if (decoded.role === 'COMPANY_ADMIN'){
-        const companyId = req.url.substring(13);
-        const mongoCompanyQuery = {
-            $and: [
-                { _id: companyId }
-            ]
-        };
+    if (decoded.role === 'COMPANY_ADMIN' && req.url === "/api/company/" + companyId){
 
-        companyFacade.findOne(mongoCompanyQuery).then((doc) => {
+        companyFacade.findOne({ _id: companyId }).then((doc) => {
             if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
 
-            const mongoUserQuery = {
-                $and: [
-                    { email: decoded.email }
-                ]
-            };
-
-            userFacade.findOne(mongoUserQuery).then((user) => {
+            userFacade.findOne({ email: decoded.email }).then((user) => {
                 if (!user) return res.status(401).json({error: true, message: 'Invalid token'});
 
                 if (user._id.toString() !== doc.admin.toString()) {
@@ -117,9 +105,11 @@ function checkRole(req, res, next, decoded) {
                 }
 
                 return next();
-            }).catch(() => res.status(500).json({error: true}));
+            }).catch((error) => res.status(500).json({error: true, message: 'Error: Cant find the given admin' + error}));
 
-        }).catch(() => res.status(500).json({error: true}));
+        }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
+    }else {
+        return res.status(403).json({error: true, message: 'Forbidden. There was no valid role found.'});
     }
 }
 
