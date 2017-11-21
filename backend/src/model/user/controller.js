@@ -88,9 +88,9 @@ function checkRole(req, res, next, decoded) {
 
     if (decoded.role === 'ADMIN') return next();
 
-    if (decoded.role === 'CONSUMER') return res.status(403).json({error: true, message: 'Forbidden'});
+    if (decoded.role === 'USER') return res.status(403).json({error: true, message: 'Forbidden'});
 
-    if (decoded.role === 'REPRESENTATIVE') return res.status(403).json({error: true, message: 'Forbidden'});
+    if (decoded.role === 'COMPANY_USER') return res.status(403).json({error: true, message: 'Forbidden'});
 
     if (decoded.role === 'COMPANY_ADMIN'){
         const companyId = req.url.substring(13);
