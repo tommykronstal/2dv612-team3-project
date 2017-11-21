@@ -4,7 +4,7 @@ services:
   app:
     build: ./app
     ports:
-     - "3000:3000"
+     - "3001:3001"
     links:
      - backend
     volumes:
@@ -13,7 +13,7 @@ services:
   storybook:
     build: ./app
     ports:
-     - "9001:9001"
+     - "9002:9002"
     volumes:
      - ./app/src:/usr/src/app/src
     command: npm run storybook
@@ -23,16 +23,15 @@ services:
     volumes:
       - ./backend/src:/usr/src/app/src
     ports:
-      - "4000:4000"
-    links:
-      - mongo
+      - "4001:4001"
     environment:
-      - MONGO_DB_URI=mongodb://mongo:27017/backend
-    command: npm start
+      - MONGO_DB_URI=mongodb://mongo:27018/backend
+      - TEST_REPORT_PATH=./src
+    command: npm test
 
   mongo:
     image: mongo
     ports:
-      - "27017:27017"
+      - "27018:27018"
     volumes:
       - ./data/db:/data/db
