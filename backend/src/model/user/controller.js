@@ -35,48 +35,18 @@ class UserController extends Controller {
       .catch(() => res.status(500).json({error: true}))
   }
 
-  async registerConsumer(req, res, next) {
-
-    const {body: {email, password, firstname, lastname}} = req
-    if (!email || !password) {
-      return res.status(400).json({
-        error: true,
-        msg: 'Missing Email or Password.',
-      })
-    }
-    const {email: savedEmail, role: savedRole, ...remaining} = await userFacade
-      .create({
-        email,
-        firstname,
-        lastname,
-        password,
-        role: 'USER',
-      })
-      .catch(error => {
-        console.log(error)
-        return res.status(500).json({
-          error: true,
-          message: 'Internal Server Error',
-        })
-      })
-
-    const token = jwt.sign({savedEmail, savedRole}, jwtSecret)
-    return res.status(201).json({token, message: `User ${email} created.`})
-  }
 
   register(req, res, next) {
     const newUser = req.body
-
     if (!(newUser.email || newUser.password))
       return res.status(400).json({error: true})
-
     newUser.role = 'ADMIN'
-
     newUser.password = `${newUser.password}${salt}`
     newUser.password = crypto
       .createHash('sha256')
       .update(newUser.password)
       .digest('hex')
+
 
     userFacade
       .create(newUser)
