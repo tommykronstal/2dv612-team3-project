@@ -28,6 +28,7 @@ exports[`Login component renders correctly, initial 1`] = `
         />
         <label
           className="sc-EHOje IVybm"
+          value=""
         >
           E-mail
         </label>
@@ -44,6 +45,7 @@ exports[`Login component renders correctly, initial 1`] = `
         />
         <label
           className="sc-EHOje IVybm"
+          value=""
         >
           Password
         </label>
@@ -87,7 +89,8 @@ exports[`Login component renders correctly, with data 1`] = `
           value="woo@woo.com"
         />
         <label
-          className="sc-EHOje IVybm"
+          className="sc-EHOje iRLQDf"
+          value="woo@woo.com"
         >
           E-mail
         </label>
@@ -103,7 +106,8 @@ exports[`Login component renders correctly, with data 1`] = `
           value="aaa"
         />
         <label
-          className="sc-EHOje IVybm"
+          className="sc-EHOje iRLQDf"
+          value="aaa"
         >
           Password
         </label>

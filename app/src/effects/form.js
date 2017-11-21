@@ -17,10 +17,10 @@ export function *formRequest({endpoint, form, action, tokenRequired}) {
     }
   }))
 
-  const response = yield call(post, [endpoint, {
+  const response = yield call(post, endpoint, {
     headers: tokenRequired && token ? {Authorization: token} : undefined,
     body: JSON.stringify(payload),
-  }])
+  })
 
   if (response.status === 200 || response.status === 201) {
     if (action) yield put(action(response))

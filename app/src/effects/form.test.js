@@ -42,10 +42,10 @@ describe('formRequest with action without authorization', () => {
 
   test('should call post with correct headers and body', () => {
     generator.next()
-    expect(generator.next(selectedState).value).toEqual(call(post, [data.endpoint, {
+    expect(generator.next(selectedState).value).toEqual(call(post, data.endpoint, {
       headers: undefined,
       body: JSON.stringify(selectedState.payload)      
-    }]))
+    }))
   })
 
   test('should call action with response on success', () => {
@@ -95,12 +95,12 @@ describe('formRequest with authorization', () => {
 
   test('should call post with correct headers and body', () => {
     generator.next()
-    expect(generator.next(selectedState).value).toEqual(call(post, [data.endpoint, {
+    expect(generator.next(selectedState).value).toEqual(call(post, data.endpoint, {
       headers: {
         Authorization: selectedState.token
       },
       body: JSON.stringify(selectedState.payload)      
-    }]))
+    }))
   })
 
   test('should clear form', () => {
@@ -146,10 +146,10 @@ describe('formRequest that fails', () => {
 
   test('should call post with correct headers and body', () => {
     generator.next()
-    expect(generator.next(selectedState).value).toEqual(call(post, [data.endpoint, {
+    expect(generator.next(selectedState).value).toEqual(call(post, data.endpoint, {
       headers: undefined,
       body: JSON.stringify(selectedState.payload)      
-    }]))
+    }))
   })
 
   test('should set correct error message', () => {

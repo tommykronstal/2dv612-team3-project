@@ -1,10 +1,10 @@
 import { CLEAR_FORM, UPDATE_FIELD } from '../actions/types'
 import { REGISTER_CONSUMER } from '../formTypes'
-import { USER } from '../userTypes'
+import USER_TYPES from '../userTypes'
 
 const initialState = {
   [REGISTER_CONSUMER]: {
-    role: USER
+    role: USER_TYPES.USER
   }
 }
 
