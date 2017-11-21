@@ -8,6 +8,7 @@ import Logout from '../pages/Logout'
 import Main from '../pages/Main'
 import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
+import AddCompanyRep from '../pages/AddCompanyRep'
 import NotFound from '../pages/NotFound'
 
 const AdminRoute = ProtectedRoute(USER_TYPES.ADMIN)
@@ -26,8 +27,12 @@ export const ContentRoutes = () => (
     <Route exact path='/login' component={Login} />
     <Route exact path='/logout' component={Logout} />
     <AdminRoute exact path='/admin' component={() => <Redirect to='/admin/companies' />} />
+    
+    {/* Todo Change back when company admin login works*/}
     <AdminRoute exact path='/admin/companies' component={AddCompany} />
-    <CompanyAdminRoute exact path='/company/admin' component={Welcome} />
+    {/* <CompanyAdminRoute exact path='/company/admin' component={AddCompanyRep} /> */}
+    
+    <AdminRoute exact path='/company/admin' component={AddCompanyRep} />
     <CompanyUserRoute exact path='/company/user' component={Welcome} />
     <UserRoute exact path='/user' component={Welcome} />
     <Route component={NotFound}/>
