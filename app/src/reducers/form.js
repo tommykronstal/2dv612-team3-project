@@ -5,7 +5,10 @@ const initialState = {}
 export default function status (state = initialState, action = {}) {
   switch (action.type) {
   case CLEAR_FORM:
-    return {}
+    return {
+      ...state,
+      [action.form]: {}
+    }
   case UPDATE_FIELD:
     return {
       ...state,
