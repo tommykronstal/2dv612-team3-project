@@ -37,6 +37,13 @@ const AddCompanyRep = props => (
         label='Representatives E-Mail'
         onChange={props.updateField}
       />
+      <Input
+        value={props.form.password}
+        type='password'
+        name='password'
+        label='Password'
+        onChange={props.updateField}
+      />
       <Button primary loading={props.loading.isLoading}>
         Add
       </Button>

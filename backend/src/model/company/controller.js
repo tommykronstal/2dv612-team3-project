@@ -1,3 +1,7 @@
+//import { read } from 'fs';
+const jwt = require('jsonwebtoken');
+const jwtSecret = 'keyboardcat'; // TODO move elsewhere
+
 const Controller = require('../../lib/controller');
 const companyFacade = require('./facade');
 
@@ -51,11 +55,21 @@ class CompanyController extends Controller {
   }
 
   registerCompanyRep(req, res, next) {
+    
+    //Create companyAdmin Object
     const companyAdmin = (({ firstName, lastName, email }) => ({ firstName, lastName, email }))(req.body);
     companyAdmin.role = "COMPANY_ADMIN";
-    console.log(companyAdmin);
-  }
+    console.log(companyAdmin)
+    
+    //Get the company admin who created the user
+    const decodedToken = jwt.verify(req.headers.authorization, jwtSecret)
+    console.log(decodedToken.email)
 
+    //Find the Company the CompanyAdmin belongs to
+    // havne't figurerd this one out
+    companyFacade.find({'admin.email': decodedToken.email})
+    .then((docs)=> {console.log(docs)})
+  }
 }
 
 module.exports = new CompanyController(companyFacade);
