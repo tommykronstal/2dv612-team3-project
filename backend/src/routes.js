@@ -15,9 +15,6 @@ router.route('*').all(function (req, res, next) {
     controller.authorize(req, res, next);
 });
 
-  controller.authorize(req, res, next);
-})
-
 router.use('/api/user', user);
 router.use('/api/company', company);
 

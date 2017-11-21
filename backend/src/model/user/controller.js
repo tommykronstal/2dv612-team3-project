@@ -51,36 +51,31 @@ class UserController extends Controller {
   }
 
   authorize(req, res, next) {
-    if (req.headers.authorization === undefined) {
-      return res
-        .status(401)
-        .json({error: true, message: 'There was no token in the header'})
-    }
+      if (req.headers.authorization === undefined){
+          return res.status(401).json({error: true, message: 'There was no token in the header'});
+      }
 
-    const token = req.headers.authorization
-    let decoded
+      const token = req.headers.authorization;
+      let decoded;
 
-    try {
-      decoded = jwt.verify(token, jwtSecret)
-    } catch (e) {
-      console.log(e)
-      return res
-        .status(401)
-        .json({error: true, name: e.name, message: e.message})
-    }
+      try {
+          decoded = jwt.verify(token, jwtSecret);
+      }catch (e){
+          return res.status(401).json({error: true, name: e.name, message: e.message});
+      }
 
-    const mongoUserQuery = {
-      $and: [{email: decoded.email}, {role: decoded.role}],
-    }
+      const mongoUserQuery = {
+          $and: [
+              { 'email': decoded.email },
+              { 'role': decoded.role }
+          ]
+      };
 
-    userFacade
-      .findOne(mongoUserQuery)
-      .then(doc => {
-        if (!doc)
-          return res.status(401).json({error: true, message: 'Invalid token'})
+      userFacade.findOne(mongoUserQuery).then((doc) => {
+          if (!doc) return res.status(401).json({error: true, message: 'Invalid token'});
 
-      return checkRole(req, res, next, decoded);
-    }).catch(() => res.status(500).json({error: true}));
+          return checkRole(req, res, next, decoded);
+      }).catch(() => res.status(500).json({error: true}));
   }
 }
 
