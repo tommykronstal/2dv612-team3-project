@@ -11,8 +11,7 @@ describe('submitForm', () => {
       form: MY_FORM, 
       endpoint: '/a/b',
       action: () => {},
-      tokenRequired: false,
-      role: ''
+      tokenRequired: false
     }
 
     expect(submitForm(
@@ -29,8 +28,7 @@ describe('submitForm', () => {
       form: MY_FORM, 
       endpoint: '/a/b',
       action: () => {},
-      tokenRequired: true,
-      role: ''
+      tokenRequired: true
     }
 
     expect(submitForm(

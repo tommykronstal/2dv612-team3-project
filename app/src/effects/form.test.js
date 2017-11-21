@@ -17,8 +17,7 @@ describe('formRequest with action without authorization', () => {
       endpoint: '/a/b',
       form: MY_FORM,
       action: response => response,
-      tokenRequired: false,
-      role: 'USER'
+      tokenRequired: false
     }
 
     selectedState = {

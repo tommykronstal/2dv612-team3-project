@@ -11,10 +11,6 @@ test('should return current state if actions is missing', () => {
     .toEqual(state)
 })
 
-test('should have empty object as default state', () => {
-  expect(reducer()).toEqual({})
-})
-
 test('should be able to clear form', () => {
   const action = { type: CLEAR_FORM, form: MY_FORM }
   const state = { [MY_FORM]: { username: 'kalle' } }
@@ -25,10 +21,10 @@ test('should be able to clear form', () => {
 
 test('should be able to add field', () => {
   const action = { type: UPDATE_FIELD, form: MY_FORM, field: 'username', value: 'kalle' }
-  const state = undefined
+  const state = reducer() // Default state
 
   expect(reducer(state, action))
-    .toEqual({ MY_FORM: { username: 'kalle' } })
+    .toEqual({ ...state, MY_FORM: { username: 'kalle' } })
 })
 
 

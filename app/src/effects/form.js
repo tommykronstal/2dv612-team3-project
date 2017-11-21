@@ -7,13 +7,12 @@ export function *watchFormActions() {
   yield takeEvery(SUBMIT_FORM, formRequest)
 }
 
-export function *formRequest({endpoint, form, action, tokenRequired, role}) {
+export function *formRequest({endpoint, form, action, tokenRequired}) {
   yield put({type: TOGGLE_LOADING})
 
   const {token, payload} = yield select(state => ({
     token: state.auth.jwt,
     payload: {
-      ...role && {role},
       ...state.form[form]
     }
   }))
