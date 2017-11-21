@@ -1,0 +1,39 @@
+version: '2'
+services:
+
+  app:
+    build: ./app
+    ports:
+     - "3000:3000"
+    links:
+     - backend
+    volumes:
+     - ./app/src:/usr/src/app/src
+
+  storybook:
+    build: ./app
+    ports:
+     - "9001:9001"
+    volumes:
+     - ./app/src:/usr/src/app/src
+    command: npm run storybook
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/src:/usr/src/app/src
+    ports:
+      - "4000:4000"
+      - "9229:9229"
+    links:
+      - mongo
+    environment:
+      - MONGO_DB_URI=mongodb://mongo:27017/backend
+    command: npm run-script debug
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db

@@ -49,6 +49,13 @@ class CompanyController extends Controller {
       }
     }).catch(err => next(err));
   }
+
+  registerCompanyRep(req, res, next) {
+    const companyAdmin = (({ firstName, lastName, email }) => ({ firstName, lastName, email }))(req.body);
+    companyAdmin.role = "COMPANY_ADMIN";
+    console.log(companyAdmin);
+  }
+
 }
 
 module.exports = new CompanyController(companyFacade);

@@ -52,7 +52,7 @@ export default connect(
   dispatch => ({
     addCompanyRep: () => dispatch(submitForm(
       ADD_COMPANY_REP, 
-      '/api/company/register', 
+      '/api/company/rep/register', 
       _ => setStatus('Company representative Created')
     )),
     updateField: ({target}) => dispatch(updateField(ADD_COMPANY_REP, target.name, target.value))   
