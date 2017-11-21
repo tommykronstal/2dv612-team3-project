@@ -21,7 +21,7 @@ class CompanyController extends Controller {
 
     let company = {
       companyName: companyName
-    }
+    };
     
     // const promises = [
     //   companyFacade.userSchema().find({'email': user.email}),
