@@ -17,7 +17,10 @@ Latest news on live deployment. If you do a push to master, Jenkins will make a 
 # run locally
 
 * make sure you have run npm install from backend dir to install dependencies locally
+* if you are running frontend also npm install in app directory
 * use node version 9.2.0 (checkout nvm if you have a different version installed)
 * nodemon needs to be installed globally; sudo npm install nodemon -g
 * have mongodb installed locally and start the mongo daemon with command mongod
-* then npm start and the app should boot
+* then npm start in the backend directory and the app should boot
+
+To use debugger in webstorm when running locally select edit configurations top right, press +, select npm, select 'start' as command
