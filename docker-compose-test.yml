@@ -28,6 +28,7 @@ services:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
+      - TEST_REPORT_PATH=./src
     command: npm test
 
   mongo:
