@@ -17,7 +17,4 @@ router.route('/login')
 router.route('/register')
   .post((...args) => controller.register(...args));
 
-router.route('/register/consumer')
-  .post((...args) => controller.registerConsumer(...args))
-
 module.exports = router;
