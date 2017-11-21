@@ -1,2 +1,3 @@
 export const LOGIN = 'LOGIN'
 export const ADD_COMPANY = 'ADD_COMPANY'
+export const REGISTER_CONSUMER = 'REGISTER_CONSUMER'

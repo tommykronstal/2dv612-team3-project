@@ -5,7 +5,6 @@ const userFacade = require('./facade');
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
 
 class UserController extends Controller {
-
   login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
 
@@ -24,7 +23,7 @@ class UserController extends Controller {
             const role = doc.role;
             const userDetailsToHash = JSON.stringify({ email, role });
             const token = jwt.sign(userDetailsToHash, jwtSecret);
-      
+
             // Everything went ok, logging in!
             return res.json({ token, error: false });
           } else {
@@ -38,49 +37,51 @@ class UserController extends Controller {
   }
 
   register(req, res, next) {
-    const newUser = req.body;
+    const {email, password, role, firstname: firstName, lastname: lastName} = req.body
 
-    if (!(newUser.email || newUser.password)) return res.status(400).json({ error: true });
+    if (!email || !password || !role) return res.status(400).json({error: true})
 
-    userFacade.create(newUser).then((doc) => {
-
-      const userDetailsToHash = JSON.stringify({ email: doc.email, role: doc.role });
-      const token = jwt.sign(userDetailsToHash, jwtSecret);
-
-      return res.json({ token });
-    }).catch(() => res.status(500).json({ error: true }));
+    userFacade
+      .create({ email, role, password, firstName, lastName})
+      .then(userDocument => {
+        return res.status(201)
+          .json({error: false, token: jwt.sign({email, role}, jwtSecret)})
+      })
   }
 
   authorize(req, res, next) {
-
-    if (req.headers.authorization === undefined){
-        return res.status(401).json({error: true, message: 'There was no token in the header'});
+    if (req.headers.authorization === undefined) {
+      return res
+        .status(401)
+        .json({error: true, message: 'There was no token in the header'})
     }
 
-    const token = req.headers.authorization;
-    let decoded;
+    const token = req.headers.authorization
+    let decoded
 
     try {
-        decoded = jwt.verify(token, jwtSecret);
-    }catch (e){
-      console.log(e);
-        return res.status(401).json({error: true, name: e.name, message: e.message});
+      decoded = jwt.verify(token, jwtSecret)
+    } catch (e) {
+      console.log(e)
+      return res
+        .status(401)
+        .json({error: true, name: e.name, message: e.message})
     }
 
-
     const mongoUserQuery = {
-        $and: [
-            { 'email': decoded.email },
-            { 'role': decoded.role }
-        ]
-    };
+      $and: [{email: decoded.email}, {role: decoded.role}],
+    }
 
-    userFacade.findOne(mongoUserQuery).then((doc) => {
-      if (!doc) return res.status(401).json({error: true, message: 'Invalid token'});
+    userFacade
+      .findOne(mongoUserQuery)
+      .then(doc => {
+        if (!doc)
+          return res.status(401).json({error: true, message: 'Invalid token'})
 
-      next();
-    }).catch(() => res.status(500).json({error: true}));
+        next()
+      })
+      .catch(() => res.status(500).json({error: true}))
   }
 }
 
-module.exports = new UserController(userFacade);
+module.exports = new UserController(userFacade)
