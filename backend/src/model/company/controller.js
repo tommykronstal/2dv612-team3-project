@@ -59,16 +59,17 @@ class CompanyController extends Controller {
     //Create companyAdmin Object
     const companyAdmin = (({ firstName, lastName, email }) => ({ firstName, lastName, email }))(req.body);
     companyAdmin.role = "COMPANY_ADMIN";
-    console.log(companyAdmin)
+    console.log(companyAdmin);
     
     //Get the company admin who created the user
-    const decodedToken = jwt.verify(req.headers.authorization, jwtSecret)
-    console.log(decodedToken.email)
+    const decodedToken = jwt.verify(req.headers.authorization, jwtSecret);
+    console.log(decodedToken);
 
-    //Find the Company the CompanyAdmin belongs to
-    // havne't figurerd this one out
-    companyFacade.find({'admin.email': decodedToken.email})
-    .then((docs)=> {console.log(docs)})
+    const mongoUserQuery = {'email': 'company_admin@admin.nu'};
+    companyFacade.userSchema().findOne(mongoUserQuery).then((docs)=> {
+      companyFacade.find({'admin': docs._id}).then((docs)=> {return res.status(201).json({ error: false })})
+    });
+
   }
 }
 
