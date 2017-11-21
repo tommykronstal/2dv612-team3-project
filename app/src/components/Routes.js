@@ -8,6 +8,7 @@ import Logout from '../pages/Logout'
 import Main from '../pages/Main'
 import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
+import AddCompanyRep from '../pages/AddCompanyRep'
 import NotFound from '../pages/NotFound'
 import RegisterConsumer from '../pages/RegisterConsumer'
 
@@ -32,7 +33,7 @@ export const ContentRoutes = () => (
       component={() => <Redirect to="/admin/companies" />}
     />
     <AdminRoute exact path="/admin/companies" component={AddCompany} />
-    <CompanyAdminRoute exact path="/company/admin" component={Welcome} />
+    <CompanyAdminRoute exact path="/company/admin" component={AddCompanyRep} />
     <CompanyUserRoute exact path="/company/user" component={Welcome} />
     <UserRoute exact path="/user" component={Welcome} />
     <Route exact path="/register" component={RegisterConsumer} />

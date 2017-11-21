@@ -10,10 +10,6 @@ export const TRY_LOGIN = 'TRY_LOGIN'
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const LOGOUT = 'LOGOUT'
 
-// COMPANY
-export const FETCH_COMPANIES = 'FETCH_COMPANIES'
-export const TRY_ADD_COMPANY = 'TRY_ADD_COMPANY'
-
 // FORM
 export const CLEAR_FORM = 'CLEAR_FORM'
 export const SUBMIT_FORM = 'SUBMIT_FORM'
