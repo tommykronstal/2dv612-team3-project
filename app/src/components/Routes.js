@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 import USER_TYPES from '../userTypes'
 import ProtectedRoute from '../components/ProtectedRoute'
@@ -10,6 +10,7 @@ import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
 import AddCompanyRep from '../pages/AddCompanyRep'
 import NotFound from '../pages/NotFound'
+import RegisterConsumer from '../pages/RegisterConsumer'
 
 const AdminRoute = ProtectedRoute(USER_TYPES.ADMIN)
 const CompanyAdminRoute = ProtectedRoute(USER_TYPES.COMPANY_ADMIN)
@@ -23,18 +24,19 @@ const UserRoute = ProtectedRoute(USER_TYPES.USER)
  */
 export const ContentRoutes = () => (
   <Switch>
-    <Route exact path='/' component={Main} />
-    <Route exact path='/login' component={Login} />
-    <Route exact path='/logout' component={Logout} />
-    <AdminRoute exact path='/admin' component={() => <Redirect to='/admin/companies' />} />
-    
-    {/* Todo Change back when company admin login works*/}
-    <AdminRoute exact path='/admin/companies' component={AddCompany} />
-    {/* <CompanyAdminRoute exact path='/company/admin' component={AddCompanyRep} /> */}
-    
-    <AdminRoute exact path='/company/admin' component={AddCompanyRep} />
-    <CompanyUserRoute exact path='/company/user' component={Welcome} />
-    <UserRoute exact path='/user' component={Welcome} />
-    <Route component={NotFound}/>
+    <Route exact path="/" component={Main} />
+    <Route exact path="/login" component={Login} />
+    <Route exact path="/logout" component={Logout} />
+    <AdminRoute
+      exact
+      path="/admin"
+      component={() => <Redirect to="/admin/companies" />}
+    />
+    <AdminRoute exact path="/admin/companies" component={AddCompany} />
+    <CompanyAdminRoute exact path="/company/admin" component={Welcome} />
+    <CompanyUserRoute exact path="/company/user" component={Welcome} />
+    <UserRoute exact path="/user" component={Welcome} />
+    <Route exact path="/register" component={RegisterConsumer} />
+    <Route component={NotFound} />
   </Switch>
 )

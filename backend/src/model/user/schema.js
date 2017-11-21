@@ -5,8 +5,8 @@ const SALT_WORK_FACTOR = 10;
 
 
 const userSchema = new Schema({
-  firstName: { type: String },
-  lastName: { type: String },
+  firstName: { type: String, default: '' },
+  lastName: { type: String, default: '' },
   email: { type: String, required: true, unique: true },
   role: { type: String, required: true },
   password: { type: String, required: true }
@@ -36,8 +36,6 @@ userSchema.pre('save', function(next) {
 
 
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
-
-    console.log("Running compare password!");
 
     bcrypt.compare(candidatePassword, this.password, function(err, res) {
         if (err) {
