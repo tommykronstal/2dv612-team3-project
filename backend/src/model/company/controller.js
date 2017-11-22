@@ -4,24 +4,21 @@ const jwtSecret = 'keyboardcat'; // TODO move elsewhere
 
 const Controller = require('../../lib/controller');
 const companyFacade = require('./facade');
+const userFacade = require('../user/facade');
 
 class CompanyController extends Controller {
 
   registerCompany(req, res, next) {
-    const { companyName, ...companyAdmin } = req.body;
-<<<<<<< HEAD
-=======
-    console.log(req.body);
->>>>>>> commit before update
-    if (!companyName || !companyAdmin) return res.status(400).json({ error: true, message: 'Missing company details' }); // todo should probably be an error type instead?
-    if (!companyAdmin.email || !companyAdmin.password) return res.status(400).json({ error: true, message: 'Missing company rep details' });
+    const {
+      companyName, firstName, lastName, email, password
+    } = req.body;
 
+    if (!companyName) return res.status(400).json({ error: true, message: 'Missing company details' }); // todo should probably be an error type instead?
+    if (!email || !password) return res.status(400).json({ error: true, message: 'Missing company rep details' });
+
+    const role = 'COMPANY_ADMIN';
     const user = {
-      firstName: companyAdmin.firstName,
-      lastName: companyAdmin.lastName,
-      email: companyAdmin.email,
-      role: 'COMPANY_ADMIN',
-      password: companyAdmin.password
+      firstName, lastName, email, role, password
     };
 
     const company = {
@@ -30,7 +27,7 @@ class CompanyController extends Controller {
 
     const AlreadyExistPromises = [
       companyFacade.userSchema().find({ email: user.email }),
-      companyFacade.find({ companyName: company.companyName })
+      companyFacade.find(companyName)
     ];
 
     Promise.all(AlreadyExistPromises).then(exists => exists).then((exists) => {
@@ -52,20 +49,25 @@ class CompanyController extends Controller {
   }
 
   registerCompanyRep(req, res, next) {
-    
-    //Create companyAdmin Object
-    const companyAdmin = (({ firstName, lastName, email }) => ({ firstName, lastName, email }))(req.body);
-    companyAdmin.role = "COMPANY_ADMIN";
-    console.log(companyAdmin);
-    
-    //Get the company admin who created the user
-    const decodedToken = jwt.verify(req.headers.authorization, jwtSecret);
-    console.log(decodedToken);
 
-    const mongoUserQuery = {'email': 'company_admin@admin.nu'};
-    companyFacade.userSchema().findOne(mongoUserQuery).then((docs)=> {
-      companyFacade.find({'admin': docs._id}).then((docs)=> {return res.status(201).json({ error: false })})
-    });
+    const decodedToken = jwt.verify(req.headers.authorization, jwtSecret);
+    const  {
+      firstName, lastName, email, password
+    } = req.body;
+    const role = 'COMPANY_REP';
+
+    userFacade.create({
+      firstName, lastName, email, password, role
+    }).then((repDoc) => {
+      companyFacade.userSchema().findOne( { email: decodedToken.email }).then((companyAdminDoc) => {
+        companyFacade.findOne({ admin: companyAdminDoc }).then((companyDoc) => {
+          companyDoc.reps.push(repDoc);
+          companyDoc.save();
+            return res.status(201).json({ error: false, message: 'company rep ' + repDoc.email + ' created' });
+        }).catch(e => console.error(e));
+      }).catch(e => console.error(e));
+    }).catch(e => console.error(e));
+
 
   }
 

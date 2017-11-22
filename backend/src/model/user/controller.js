@@ -9,13 +9,13 @@ class UserController extends Controller {
   login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
 
-    userFacade.findOne({email: req.body.email}).then((doc) => {
+    userFacade.findOne({ email }).then((doc) => {
 
-      if (!doc)  {
-          return res.status(401).json({error: true, message: 'Invalid username or password'});
+      if (!doc || doc === undefined || doc.errors !== undefined )  {
+          return res.status(401).json({ error: true, message: 'Invalid username or password' });
       }
 
-      doc.comparePassword(req.body.password, function(error, match) {
+      doc.comparePassword(password, function(error, match) {
           if (error) {
               return res.status(500).json({error: true, message: 'Invalid username or password'});
           }
@@ -38,16 +38,21 @@ class UserController extends Controller {
   }
 
   register(req, res, next) {
-    const {email, password, role, firstname: firstName, lastname: lastName} = req.body
+    const {
+      email, password, firstName, lastName
+    } = req.body;
+    const role = 'USER';
 
-    if (!email || !password || !role) return res.status(400).json({error: true})
+    if (!email || !password) return res.status(400).json({ error: true });
 
     userFacade
-      .create({ email, role, password, firstName, lastName})
-      .then(userDocument => {
-        return res.status(201)
-          .json({error: false, token: jwt.sign({email, role}, jwtSecret)})
+      .create({
+        email, password, firstName, lastName, role
       })
+      .then((userDocument) => {
+        if (userDocument === undefined || userDocument.errors !== undefined) return res.status(400).json({ error: true });
+        return res.status(201).json({ error: false, token: jwt.sign({ email, role }, jwtSecret) });
+      });
   }
 
   authorize(req, res, next) {
@@ -88,22 +93,24 @@ function checkRole(req, res, next, decoded) {
 
     if (decoded.role === 'COMPANY_USER') return res.status(403).json({error: true, message: 'Forbidden'});
 
-    if (decoded.role === 'COMPANY_ADMIN' && req.url === "/api/company/" + companyId){
+    if (decoded.role === 'COMPANY_ADMIN' && req.url === "/api/company/register/rep"){
 
-        companyFacade.findOne({ _id: companyId }).then((doc) => {
-            if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
+      // todo why check for this ID on querystring when we required a token?
+      // if admin is looked up here then it and company should be sent on?
+        // companyFacade.findOne({ _id: companyId }).then((doc) => {
+        //     if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
 
             userFacade.findOne({ email: decoded.email }).then((user) => {
                 if (!user) return res.status(401).json({error: true, message: 'Invalid token'});
 
-                if (user._id.toString() !== doc.admin.toString()) {
+                if (user.role !== 'COMPANY_ADMIN') {
                     return res.status(403).json({error: true, message: 'Forbidden. Company admin only'});
                 }
 
                 return next();
             }).catch((error) => res.status(500).json({error: true, message: 'Error: Cant find the given admin' + error}));
 
-        }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
+        // }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
     }else {
         return res.status(403).json({error: true, message: 'Forbidden. There was no valid role found for the given request.'});
     }

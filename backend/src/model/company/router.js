@@ -16,6 +16,6 @@ router.route('/register')
 
 
 router.route('/register/rep')
-  .post((...args) => controller.registerRep(...args));
+  .post((...args) => controller.registerCompanyRep(...args));
 
 module.exports = router;
