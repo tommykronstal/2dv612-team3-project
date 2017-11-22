@@ -9,6 +9,7 @@ services:
      - backend
     volumes:
      - ./app/src:/usr/src/app/src
+    command: npm start
 
   storybook:
     build: ./app

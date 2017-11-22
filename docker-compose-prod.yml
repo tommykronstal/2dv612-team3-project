@@ -1,21 +1,36 @@
 version: '2'
 services:
 
-  app:
-    build: ./app
+  webserver:
+    build: ./nginx
+    restart: always
     ports:
-     - "3000:3000"
+     - "443:443"
+     - "80:80"
+    volumes:
+     - static-files:/var/www/src
     links:
      - backend
+
+  app:
+    build:
+      context: ./app
+      args:
+       - NODE_ENV=production
+    depends_on:
+      - webserver
+    volumes:
+     - static-files:/usr/src/app/build
     environment:
      - NODE_ENV=production
-    command: npm run serve
 
   backend:
     build: ./backend
     ports:
       - "4000:4000"
     links:
+      - mongo
+    depends_on:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
@@ -27,3 +42,6 @@ services:
       - "27017:27017"
     volumes:
       - ./data/db:/data/db
+
+volumes:
+  static-files:
