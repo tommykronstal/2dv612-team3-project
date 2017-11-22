@@ -59,14 +59,18 @@ class CompanyController extends Controller {
     userFacade.create({
       firstName, lastName, email, password, role
     }).then((repDoc) => {
-      companyFacade.userSchema().findOne( { email: decodedToken.email }).then((companyAdminDoc) => {
-        companyFacade.findOne({ admin: companyAdminDoc }).then((companyDoc) => {
-          companyDoc.reps.push(repDoc);
-          companyDoc.save();
-            return res.status(201).json({ error: false, message: 'company rep ' + repDoc.email + ' created' });
-        }).catch(e => console.error(e));
+      companyFacade.userSchema().findOne( { email: decodedToken.email }).then((companyAdminDoc) => { // find the logged in users doc
+        if (!companyAdminDoc) return res.status(400).json({ error: true, message: `Could not find company admin user ${decodedToken.email}` });
+        companyFacade.findOne({ admin: companyAdminDoc }).then((companyDoc) => { // need to update the existing company doc with new rep
+          if (!companyDoc) return res.status(400).json({ error: true, message: `Could not find company for admin ${decodedToken.email}` });
+          companyDoc.reps.push(repDoc); // save the new rep to array of reps on company
+          companyDoc.save(); // if saved isn't called the object id ref on previous line wont persist
+          return res.status(201).json({ error: false, message: `company rep ${repDoc.email} created` });
+        }).catch(e => console.error(e)); // todo not sure what errors we could get
       }).catch(e => console.error(e));
-    }).catch(e => console.error(e));
+    }).catch((e) => {
+      if (e.code === 11000) return res.status(400).json({ error: true, message: 'User already exists' });
+    });
   }
 
 }
