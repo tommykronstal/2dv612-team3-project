@@ -4,72 +4,73 @@ const jwtSecret = 'keyboardcat'; // TODO move elsewhere
 
 const Controller = require('../../lib/controller');
 const companyFacade = require('./facade');
+const userFacade = require('../user/facade');
 
 class CompanyController extends Controller {
 
   registerCompany(req, res, next) {
-    const { companyName, ...companyAdmin } = req.body;
-    if (!companyName || !companyAdmin) return res.status(400).json({ error: true, message: 'Missing company details' }); // todo should probably be an error type instead?
-    if (!companyAdmin.email || !companyAdmin.password) return res.status(400).json({ error: true, message: 'Missing company rep details' });
+    const {
+      companyName, firstName, lastName, email, password
+    } = req.body;
 
-    let user = {
-      firstName: companyAdmin.firstName,
-      lastName: companyAdmin.lastName,
-      email: companyAdmin.email,
-      role: 'COMPANY_ADMIN',
-      password: companyAdmin.password
+    if (!companyName) return res.status(400).json({ error: true, message: 'Missing company details' }); // todo should probably be an error type instead?
+    if (!email || !password) return res.status(400).json({ error: true, message: 'Missing company rep details' });
+
+    const role = 'COMPANY_ADMIN';
+    const user = {
+      firstName, lastName, email, role, password
     };
 
-    let company = {
-      companyName: companyName
-    }
+    const company = {
+      companyName
+    };
 
     const AlreadyExistPromises = [
-      companyFacade.userSchema().find({'email': user.email}),
-      companyFacade.find({'companyName': company.companyName})
+      companyFacade.userSchema().find({ email: user.email }),
+      companyFacade.find({name: company.companyName})
     ];
 
-    Promise.all(AlreadyExistPromises).then((exists) => {
-      return exists
-    }).then((exists) => {
-      if(exists[0].length === 0 && exists[1].length === 0 ){
+    Promise.all(AlreadyExistPromises).then(exists => exists).then((exists) => {
+      if (exists[0].length === 0 && exists[1].length === 0 ) {
         companyFacade.userSchema().create(user)
-        .then((userDoc) =>{
-          company.admin = userDoc
-          companyFacade.create(company)
-          .then((companyDoc) => {
-            return res.status(201).json({ error: false })
-          })
-        })
-      }
-      else if(exists[0].length > 0 && exists[1].length === 0) {
-        return res.status(400).json({ error: true, message: 'User already exists'})
-      }
-      else if(exists[0].length > 0 && exists[1].length > 0) {
-        return res.status(400).json({ error: true, message: 'User & Company already exists'})
-      }
-      else {
-        return res.status(400).json({ error: true, message: 'Company already exists'})
+          .then((userDoc) => {
+            company.admin = userDoc;
+            companyFacade.create(company)
+              .then(companyDoc => res.status(201).json({ error: false }));
+          });
+      } else if (exists[0].length > 0 && exists[1].length === 0) {
+        return res.status(400).json({ error: true, message: 'User already exists' });
+      } else if (exists[0].length > 0 && exists[1].length > 0) {
+        return res.status(400).json({ error: true, message: 'User & Company already exists' });
+      } else {
+        return res.status(400).json({ error: true, message: 'Company already exists' });
       }
     }).catch(err => next(err));
   }
 
   registerCompanyRep(req, res, next) {
-    
-    //Create companyAdmin Object
-    const companyAdmin = (({ firstName, lastName, email }) => ({ firstName, lastName, email }))(req.body);
-    companyAdmin.role = "COMPANY_ADMIN";
-    console.log(companyAdmin);
-    
-    //Get the company admin who created the user
+
     const decodedToken = jwt.verify(req.headers.authorization, jwtSecret);
-    console.log(decodedToken);
+    const  {
+      firstName, lastName, email, password
+    } = req.body;
+    const role = 'COMPANY_REP';
 
-    const mongoUserQuery = {'email': 'company_admin@admin.nu'};
-    companyFacade.userSchema().findOne(mongoUserQuery).then((docs)=> {
-      companyFacade.find({'admin': docs._id}).then((docs)=> {return res.status(201).json({ error: false })})
+    userFacade.create({
+      firstName, lastName, email, password, role
+    }).then((repDoc) => {
+      companyFacade.userSchema().findOne( { email: decodedToken.email }).then((companyAdminDoc) => { // find the logged in users doc
+        if (!companyAdminDoc) return res.status(400).json({ error: true, message: `Could not find company admin user ${decodedToken.email}` });
+        companyFacade.findOne({ admin: companyAdminDoc }).then((companyDoc) => { // need to update the existing company doc with new rep
+          if (!companyDoc) return res.status(400).json({ error: true, message: `Could not find company for admin ${decodedToken.email}` });
+          companyDoc.reps.push(repDoc); // save the new rep to array of reps on company
+          companyDoc.save(); // if saved isn't called the object id ref on previous line wont persist
+          return res.status(201).json({ error: false, message: `company rep ${repDoc.email} created` });
+        }).catch(e => console.error(e)); // todo not sure what errors we could get
+      }).catch(e => console.error(e));
+    }).catch((e) => {
+      if (e.code === 11000) return res.status(400).json({ error: true, message: 'User already exists' });
     });
-
   }
 }
 

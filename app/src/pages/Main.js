@@ -10,7 +10,7 @@ const Main = props => {
     return <Redirect to='/admin' />
   case USER_TYPES.COMPANY_ADMIN: 
     return <Redirect to='/company/admin' />  
-  case USER_TYPES.COMPANY_USER: 
+  case USER_TYPES.COMPANY_REP: 
     return <Redirect to='/company/user' />
   case USER_TYPES.USER: 
     return <Redirect to='/user' />  
