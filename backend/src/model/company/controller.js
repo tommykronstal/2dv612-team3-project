@@ -27,7 +27,7 @@ class CompanyController extends Controller {
 
     const AlreadyExistPromises = [
       companyFacade.userSchema().find({ email: user.email }),
-      companyFacade.find(companyName)
+      companyFacade.find({name: company.companyName})
     ];
 
     Promise.all(AlreadyExistPromises).then(exists => exists).then((exists) => {
