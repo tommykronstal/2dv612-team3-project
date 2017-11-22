@@ -13,7 +13,7 @@ const AddCompanyRep = props => (
   <Content>
     <form onSubmit={event => { 
       event.preventDefault() 
-      props.addCompanyRep()
+      props.addCompanyRep(props.companyId)
     }}>
       <Title>Add a Company Representative</Title>
       <Input
@@ -52,14 +52,15 @@ const AddCompanyRep = props => (
 )
 
 export default connect(
-  ({loading, form}) => ({
+  ({loading, form, auth}) => ({
     loading, 
+    companyId: auth.companyId,
     form: form[ADD_COMPANY_REP] || {}
   }),
   dispatch => ({
-    addCompanyRep: () => dispatch(submitForm(
+    addCompanyRep: companyId => dispatch(submitForm(
       ADD_COMPANY_REP, 
-      '/api/company/rep/register', 
+      `/api/company/${companyId}`, 
       _ => setStatus('Company representative Created')
     )),
     updateField: ({target}) => dispatch(updateField(ADD_COMPANY_REP, target.name, target.value))   

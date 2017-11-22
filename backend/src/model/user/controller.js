@@ -22,17 +22,15 @@ class UserController extends Controller {
 
         if (match) {
           const role = doc.role;
-          const userDetailsToHash = JSON.stringify({ email, role });
-          const token = jwt.sign(userDetailsToHash, jwtSecret);
-          let id = '';
 
-          if (role === "COMPANY_ADMIN") {
+          if (role === 'COMPANY_ADMIN') {
             companyFacade.findOne({ admin: doc._id }).then((companyDoc) => {
-              id = companyDoc._id;
-              return res.json({ token, error: false, id: companyDoc.id });
+              const token = jwt.sign(JSON.stringify({ email, role, companyId: companyDoc._id }), jwtSecret);
 
+              return res.json({ token, error: false });
             });
           } else {
+            const token = jwt.sign(JSON.stringify({ email, role }), jwtSecret);
             // Everything went ok, logging in!
             return res.json({ token, error: false });
           }

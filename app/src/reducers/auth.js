@@ -19,7 +19,8 @@ export default (state = defaultState, action) => {
       isAuthenticated: true,
       jwt: action.token,
       email: action.payload.email,
-      role: action.payload.role
+      role: action.payload.role,
+      companyId: action.payload.companyId
     }
   case LOGOUT:
     return {
