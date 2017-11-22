@@ -14,7 +14,7 @@ import RegisterConsumer from '../pages/RegisterConsumer'
 
 const AdminRoute = ProtectedRoute(USER_TYPES.ADMIN)
 const CompanyAdminRoute = ProtectedRoute(USER_TYPES.COMPANY_ADMIN)
-const CompanyUserRoute = ProtectedRoute(USER_TYPES.COMPANY_USER)
+const CompanyUserRoute = ProtectedRoute(USER_TYPES.COMPANY_REP)
 const UserRoute = ProtectedRoute(USER_TYPES.USER)
 
 /**

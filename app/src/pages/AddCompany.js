@@ -66,7 +66,7 @@ export default connect(
   dispatch => ({
     addCompany: () => dispatch(submitForm(
       ADD_COMPANY,
-      '/api/company/register',
+      '/api/company',
       _ => setStatus('Company Created'),
       true
     )),

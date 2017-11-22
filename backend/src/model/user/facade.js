@@ -3,7 +3,4 @@ const userSchema = require('./schema');
 
 class UserFacade extends Facade {}
 
-
-
-
 module.exports = new UserFacade(userSchema);
