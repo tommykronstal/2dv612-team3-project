@@ -5,7 +5,7 @@ import {Redirect} from 'react-router-dom'
 import CenteredForm from '../components/common/CenteredForm'
 import Loading from '../components/common/Loading'
 
-class Logout extends Component {
+export class Logout extends Component {
 
   componentWillMount() {
     this.props.logout()
@@ -22,10 +22,12 @@ class Logout extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    logout: _ => dispatch(logout()),
-  }
-}
+export const mapStateToProps = state => ({
+  auth: state.auth
+})
 
-export default connect(({auth}) => ({auth}), mapDispatchToProps)(Logout)
+export const mapDispatchToProps = dispatch => ({
+  logout: _ => dispatch(logout()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)

@@ -1,15 +1,12 @@
-import React, {Component} from 'react'
-import CenteredForm from '../components/common/CenteredForm'
+import React from 'react'
 import Title from '../components/common/Title'
 import Input from '../components/common/Input'
 import Content from '../components/common/Content'
 import Button from '../components/common/Button'
 import {connect} from 'react-redux'
-import types from '../userTypes'
 import {REGISTER_CONSUMER} from '../formTypes'
 import {submitForm, updateField} from '../actions/form'
 import {setUserToLoggedIn} from '../actions/auth'
-import {setStatus} from '../actions/status'
 import {Redirect} from 'react-router-dom'
 
 const RegisterConsumer = ({
@@ -20,7 +17,7 @@ const RegisterConsumer = ({
   auth: {isAuthenticated},
 }) =>
   isAuthenticated ? (
-    <Redirect to="/" />
+    <Redirect to='/' />
   ) : (
     <Content>
       <form
@@ -31,30 +28,30 @@ const RegisterConsumer = ({
       >
         <Title>Register</Title>
         <Input
-          type="email"
-          label="E-mail"
-          name="email"
+          type='email'
+          label='E-mail'
+          name='email'
           value={email}
           onChange={updateField}
         />
         <Input
-          type="text"
-          label="Firstname"
-          name="firstname"
+          type='text'
+          label='Firstname'
+          name='firstname'
           value={firstname}
           onChange={updateField}
         />
         <Input
-          type="text"
-          label="Lastname"
-          name="lastname"
+          type='text'
+          label='Lastname'
+          name='lastname'
           value={lastname}
           onChange={updateField}
         />
         <Input
-          type="password"
-          label="Pasword"
-          name="password"
+          type='password'
+          label='Pasword'
+          name='password'
           value={password}
           onChange={updateField}
         />
@@ -78,8 +75,7 @@ export default connect(
           REGISTER_CONSUMER,
           '/api/user/register',
           setUserToLoggedIn,
-          false,
-          types.USER,
+          false
         ),
       ),
     updateField: ({target: {value, name}}) =>
