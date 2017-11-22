@@ -37,7 +37,8 @@
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "serve -s build -p 3000"
   },
   "jest-junit": {
     "output": "src/test-report.xml"
