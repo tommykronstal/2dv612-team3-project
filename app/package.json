@@ -26,6 +26,7 @@
     "eslint-config-beanloop": "^0.1.0",
     "jest": "^21.2.1",
     "jest-cli": "^21.2.1",
+    "jest-junit": "^3.3.0",
     "react-scripts": "1.0.17",
     "react-test-renderer": "^16.1.1"
   },
@@ -35,6 +36,10 @@
     "lint": "eslint ./src",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "react-scripts test --env=jsdom",
+    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit",
     "eject": "react-scripts eject"
+  },
+  "jest-junit": {
+    "output": "src/test-report.xml"
   }
 }
