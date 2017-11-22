@@ -10,7 +10,7 @@ import Title from '../components/common/Title'
 import Input from '../components/common/Input'
 import Button from '../components/common/Button'
 
-const Login = ({
+export const Login = ({
   tryLogin,
   updateField,
   form: {email, password},
@@ -18,21 +18,21 @@ const Login = ({
   auth: {isAuthenticated},
 }) =>
   isAuthenticated ? (
-    <Redirect to="/" />
+    <Redirect to='/' />
   ) : (
     <CenteredForm onSubmit={tryLogin}>
       <Title>Login</Title>
       <Input
-        type="email"
-        label="E-mail"
-        name="email"
+        type='email'
+        label='E-mail'
+        name='email'
         value={email}
         onChange={updateField}
       />
       <Input
-        type="password"
-        label="Password"
-        name="password"
+        type='password'
+        label='Password'
+        name='password'
         value={password}
         onChange={updateField}
       />
@@ -42,16 +42,17 @@ const Login = ({
     </CenteredForm>
   )
 
-export default connect(
-  ({auth, loading, form}) => ({
-    auth,
-    loading,
-    form: form[LOGIN] || {},
-  }),
-  dispatch => ({
-    tryLogin: () =>
-      dispatch(submitForm(LOGIN, '/api/user/login', setUserToLoggedIn, false)),
-    updateField: ({target}) =>
-      dispatch(updateField(LOGIN, target.name, target.value)),
-  }),
-)(Login)
+export const mapStateToProps = ({auth, loading, form}) => ({
+  auth,
+  loading,
+  form: form[LOGIN] || {},
+})
+
+export const mapDispatchToProps = dispatch => ({
+  tryLogin: () =>
+    dispatch(submitForm(LOGIN, '/api/user/login', setUserToLoggedIn, false)),
+  updateField: ({target}) =>
+    dispatch(updateField(LOGIN, target.name, target.value)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

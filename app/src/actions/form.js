@@ -1,12 +1,11 @@
 import {CLEAR_FORM, SUBMIT_FORM, UPDATE_FIELD} from './types'
 
-export const submitForm = (form, endpoint, action, tokenRequired = true, role = '') => ({
+export const submitForm = (form, endpoint, action, tokenRequired = true) => ({
   type: SUBMIT_FORM,
   form,
   endpoint,
   action,
-  tokenRequired,
-  role
+  tokenRequired
 })
 
 export const clearForm = form => ({

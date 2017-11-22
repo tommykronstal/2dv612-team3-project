@@ -3,35 +3,17 @@ services:
 
   app:
     build: ./app
-    ports:
-     - "3001:3001"
-    links:
-     - backend
     volumes:
      - ./app/src:/usr/src/app/src
-
-  storybook:
-    build: ./app
-    ports:
-     - "9002:9002"
-    volumes:
-     - ./app/src:/usr/src/app/src
-    command: npm run storybook
+    environment:
+     - CI=true
+    command: npm run test:ci
 
   backend:
     build: ./backend
     volumes:
       - ./backend/src:/usr/src/app/src
-    ports:
-      - "4001:4001"
     environment:
       - MONGO_DB_URI=mongodb://mongo:27018/backend
       - TEST_REPORT_PATH=./src
     command: npm test
-
-  mongo:
-    image: mongo
-    ports:
-      - "27018:27018"
-    volumes:
-      - ./data/db:/data/db

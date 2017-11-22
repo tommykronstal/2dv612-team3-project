@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logout renders correctly 1`] = `
+<div
+  className="sc-bwzfXH fBchqp"
+>
+  <form
+    className="sc-htpNat bcPhuh"
+    onSubmit={[Function]}
+  >
+    <section
+      className="sc-bdVaJa femPbx"
+    >
+      <div>
+        <div
+          className="sc-bxivhb jCzWjx"
+          size={1}
+        />
+        <div
+          className="sc-bxivhb iyclwS"
+          size={1}
+        />
+        <div
+          className="sc-bxivhb eXMUyY"
+          size={1}
+        />
+      </div>
+    </section>
+  </form>
+</div>
+`;

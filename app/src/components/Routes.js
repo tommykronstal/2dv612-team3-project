@@ -24,19 +24,19 @@ const UserRoute = ProtectedRoute(USER_TYPES.USER)
  */
 export const ContentRoutes = () => (
   <Switch>
-    <Route exact path="/" component={Main} />
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/logout" component={Logout} />
+    <Route exact path='/' component={Main} />
+    <Route exact path='/login' component={Login} />
+    <Route exact path='/logout' component={Logout} />
     <AdminRoute
       exact
-      path="/admin"
-      component={() => <Redirect to="/admin/companies" />}
+      path='/admin'
+      component={() => <Redirect to='/admin/companies' />}
     />
-    <AdminRoute exact path="/admin/companies" component={AddCompany} />
-    <CompanyAdminRoute exact path="/company/admin" component={AddCompanyRep} />
-    <CompanyUserRoute exact path="/company/user" component={Welcome} />
-    <UserRoute exact path="/user" component={Welcome} />
-    <Route exact path="/register" component={RegisterConsumer} />
+    <AdminRoute exact path='/admin/companies' component={AddCompany} />
+    <CompanyAdminRoute exact path='/company/admin' component={AddCompanyRep} />
+    <CompanyUserRoute exact path='/company/user' component={Welcome} />
+    <UserRoute exact path='/user' component={Welcome} />
+    <Route exact path='/register' component={RegisterConsumer} />
     <Route component={NotFound} />
   </Switch>
 )

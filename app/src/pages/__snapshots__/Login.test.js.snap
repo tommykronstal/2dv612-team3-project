@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login component renders correctly, initial 1`] = `
+<div
+  className="sc-bwzfXH fBchqp"
+>
+  <form
+    className="sc-htpNat bcPhuh"
+    onSubmit={[Function]}
+  >
+    <section
+      className="sc-bdVaJa femPbx"
+    >
+      <h1
+        className="sc-bxivhb bjAMPF"
+      >
+        Login
+      </h1>
+      <div
+        className="sc-bZQynM inrEaE"
+      >
+        <input
+          className="sc-ifAKCX fDibjL"
+          name="email"
+          onChange={[Function]}
+          type="email"
+          value=""
+        />
+        <label
+          className="sc-EHOje IVybm"
+          value=""
+        >
+          E-mail
+        </label>
+      </div>
+      <div
+        className="sc-bZQynM inrEaE"
+      >
+        <input
+          className="sc-ifAKCX fDibjL"
+          name="password"
+          onChange={[Function]}
+          type="password"
+          value=""
+        />
+        <label
+          className="sc-EHOje IVybm"
+          value=""
+        >
+          Password
+        </label>
+      </div>
+      <button
+        className="sc-htoDjs gyJotO"
+        disabled={undefined}
+        onClick={[Function]}
+      >
+        Login
+      </button>
+    </section>
+  </form>
+</div>
+`;
+
+exports[`Login component renders correctly, with data 1`] = `
+<div
+  className="sc-bwzfXH fBchqp"
+>
+  <form
+    className="sc-htpNat bcPhuh"
+    onSubmit={[Function]}
+  >
+    <section
+      className="sc-bdVaJa femPbx"
+    >
+      <h1
+        className="sc-bxivhb bjAMPF"
+      >
+        Login
+      </h1>
+      <div
+        className="sc-bZQynM inrEaE"
+      >
+        <input
+          className="sc-ifAKCX fDibjL"
+          name="email"
+          onChange={[Function]}
+          type="email"
+          value="woo@woo.com"
+        />
+        <label
+          className="sc-EHOje iRLQDf"
+          value="woo@woo.com"
+        >
+          E-mail
+        </label>
+      </div>
+      <div
+        className="sc-bZQynM inrEaE"
+      >
+        <input
+          className="sc-ifAKCX fDibjL"
+          name="password"
+          onChange={[Function]}
+          type="password"
+          value="aaa"
+        />
+        <label
+          className="sc-EHOje iRLQDf"
+          value="aaa"
+        >
+          Password
+        </label>
+      </div>
+      <button
+        className="sc-htoDjs gyJotO"
+        disabled={undefined}
+        onClick={[Function]}
+      >
+        Login
+      </button>
+    </section>
+  </form>
+</div>
+`;
