@@ -93,7 +93,7 @@ function checkRole(req, res, next, decoded) {
 
     if (decoded.role === 'COMPANY_USER') return res.status(403).json({error: true, message: 'Forbidden'});
 
-    if (decoded.role === 'COMPANY_ADMIN' && req.url === "/api/company/register/rep"){
+    if (decoded.role === 'COMPANY_ADMIN'){
 
       // todo why check for this ID on querystring when we required a token?
       // if admin is looked up here then it and company should be sent on?

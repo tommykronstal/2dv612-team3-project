@@ -23,4 +23,8 @@ Latest news on live deployment. If you do a push to master, Jenkins will make a 
 * have mongodb installed locally and start the mongo daemon with command mongod
 * then npm start in the backend directory and the app should boot
 
-To use debugger in webstorm when running locally select edit configurations top right, press +, select npm, select 'start' as command
+To use debugger in webstorm when running locally:
+* select edit configurations top right, press +, select node. 
+* Ensure that working directory is 
+* set to your/path/to/2dv612-team3-project and that the node interpreter is set to using node 8.9.1
+* Javscript file to backend/index.js . 
