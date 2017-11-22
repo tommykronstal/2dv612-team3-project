@@ -11,29 +11,38 @@ class UserController extends Controller {
 
     userFacade.findOne({ email }).then((doc) => {
 
-      if (!doc || doc === undefined || doc.errors !== undefined )  {
-          return res.status(401).json({ error: true, message: 'Invalid username or password' });
+      if (!doc || doc === undefined || doc.errors !== undefined) {
+        return res.status(401).json({ error: true, message: 'Invalid username or password' });
       }
 
-      doc.comparePassword(password, function(error, match) {
-          if (error) {
-              return res.status(500).json({error: true, message: 'Invalid username or password'});
-          }
+      doc.comparePassword(password, function (error, match) {
+        if (error) {
+          return res.status(500).json({ error: true, message: 'Invalid username or password' });
+        }
 
-          if (match) {
-            const role = doc.role;
-            const userDetailsToHash = JSON.stringify({ email, role });
-            const token = jwt.sign(userDetailsToHash, jwtSecret);
+        if (match) {
+          const role = doc.role;
+          const userDetailsToHash = JSON.stringify({ email, role });
+          const token = jwt.sign(userDetailsToHash, jwtSecret);
+          let id = '';
 
+          if (role === "COMPANY_ADMIN") {
+            companyFacade.findOne({ admin: doc._id }).then((companyDoc) => {
+              id = companyDoc._id;
+              return res.json({ token, error: false, id: companyDoc.id });
+
+            });
+          } else {
             // Everything went ok, logging in!
             return res.json({ token, error: false });
-          } else {
-
-              // Wrong password is provided
-              return res.status(401).json({error: true, message: 'Invalid username or password'});
           }
+        } else {
+
+          // Wrong password is provided
+          return res.status(401).json({ error: true, message: 'Invalid username or password' });
+        }
       });
-  })
+    })
       .catch(() => res.status(500).json({ error: true }));
   }
 
@@ -56,64 +65,73 @@ class UserController extends Controller {
   }
 
   authorize(req, res, next) {
-      if (req.headers.authorization === undefined){
-          return res.status(401).json({error: true, message: 'There was no token in the header'});
-      }
+    if (req.headers.authorization === undefined) {
+      return res.status(401).json({ error: true, message: 'There was no token in the header' });
+    }
 
-      const token = req.headers.authorization;
-      let decoded;
+    const token = req.headers.authorization;
+    let decoded;
 
-      try {
-          decoded = jwt.verify(token, jwtSecret);
-      }catch (e){
-          return res.status(401).json({error: true, name: e.name, message: e.message});
-      }
+    try {
+      decoded = jwt.verify(token, jwtSecret);
+    } catch (e) {
+      return res.status(401).json({ error: true, name: e.name, message: e.message });
+    }
 
-      const mongoUserQuery = {
-          $and: [
-              { 'email': decoded.email },
-              { 'role': decoded.role }
-          ]
-      };
+    const mongoUserQuery = {
+      $and: [
+        { 'email': decoded.email },
+        { 'role': decoded.role }
+      ]
+    };
 
-      userFacade.findOne(mongoUserQuery).then((doc) => {
-          if (!doc) return res.status(401).json({error: true, message: 'Invalid token'});
+    userFacade.findOne(mongoUserQuery).then((doc) => {
+      if (!doc) return res.status(401).json({ error: true, message: 'Invalid token' });
 
-          return checkRole(req, res, next, decoded);
-      }).catch(() => res.status(500).json({error: true}));
+      return checkRole(req, res, next, decoded);
+    }).catch(() => res.status(500).json({ error: true }));
   }
 }
 
 function checkRole(req, res, next, decoded) {
-    const companyId = req.url.substring(13);
+  const companyId = req.url.substring(13);
 
-    if (decoded.role === 'ADMIN') return next();
+  if (decoded.role === 'ADMIN') return next();
 
-    if (decoded.role === 'USER') return res.status(403).json({error: true, message: 'Forbidden'});
+  if (decoded.role === 'USER') return res.status(403).json({ error: true, message: 'Forbidden' });
 
-    if (decoded.role === 'COMPANY_USER') return res.status(403).json({error: true, message: 'Forbidden'});
+  if (decoded.role === 'COMPANY_REP') return res.status(403).json({
+    error: true,
+    message: 'Forbidden'
+  });
 
-    if (decoded.role === 'COMPANY_ADMIN' && req.url === '/api/company/rep/register') {
+  if (decoded.role === 'COMPANY_ADMIN' && req.url === '/api/company/' + companyId) {
 
-      // todo why check for this ID on querystring when we required a token?
-      // if admin is looked up here then it and company should be sent on?
-        // companyFacade.findOne({ _id: companyId }).then((doc) => {
-        //     if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
+    // todo why check for this ID on querystring when we required a token?
+    // if admin is looked up here then it and company should be sent on?
+    // companyFacade.findOne({ _id: companyId }).then((doc) => {
+    //     if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
 
-            userFacade.findOne({ email: decoded.email }).then((user) => {
-                if (!user) return res.status(401).json({error: true, message: 'Invalid token'});
+    userFacade.findOne({ email: decoded.email }).then((user) => {
+      if (!user) return res.status(401).json({ error: true, message: 'Invalid token' });
 
-                if (user.role !== 'COMPANY_ADMIN') {
-                    return res.status(403).json({error: true, message: 'Forbidden. Company admin only'});
-                }
+      if (user.role !== 'COMPANY_ADMIN') {
+        return res.status(403).json({ error: true, message: 'Forbidden. Company admin only' });
+      }
 
-                return next();
-            }).catch((error) => res.status(500).json({error: true, message: 'Error: Cant find the given admin' + error}));
+      return next();
+    }).catch((error) => res.status(500).json({
+      error: true,
+      message: 'Error: Cant find the given admin' + error
+    }));
 
-        // }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
-    }else {
-        return res.status(403).json({error: true, message: 'Forbidden. There was no valid role found for the given request.'});
-    }
+    // }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
+  } else {
+    return res.status(403).json({
+      error: true,
+      message: 'Forbidden. There was no valid role found for the given request.'
+    });
+  }
 }
 
 module.exports = new UserController(userFacade);

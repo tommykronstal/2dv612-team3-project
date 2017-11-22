@@ -72,7 +72,6 @@ class CompanyController extends Controller {
       if (e.code === 11000) return res.status(400).json({ error: true, message: 'User already exists' });
     });
   }
-
 }
 
 module.exports = new CompanyController(companyFacade);
