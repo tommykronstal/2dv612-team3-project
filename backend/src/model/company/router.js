@@ -14,8 +14,8 @@ router.route('/:id')
 router.route('/register')
   .post((...args) => controller.registerCompany(...args));
 
-
 router.route('/register/rep')
   .post((...args) => controller.registerCompanyRep(...args));
+
 
 module.exports = router;

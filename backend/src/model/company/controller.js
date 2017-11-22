@@ -67,8 +67,6 @@ class CompanyController extends Controller {
         }).catch(e => console.error(e));
       }).catch(e => console.error(e));
     }).catch(e => console.error(e));
-
-
   }
 
 }
