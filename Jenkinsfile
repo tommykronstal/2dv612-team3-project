@@ -39,13 +39,13 @@ node {
             }
         }
 
-        node('staging') {
-            stage('Set up staging environment') {
-                unstash 'fullstack'
-                cleanOldBuild()
-                sh 'docker-compose -f docker-compose-debug.yml up -d'
-            }
-        }
+        //node('staging') {
+        //    stage('Set up staging environment') {
+        //        unstash 'fullstack'
+        //        cleanOldBuild()
+        //        sh 'docker-compose -f docker-compose-debug.yml up -d'
+        //    }
+        //}
 
         node {
             notify("Deploy to production?")
