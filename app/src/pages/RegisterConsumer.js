@@ -1,7 +1,7 @@
 import React from 'react'
 import Title from '../components/common/Title'
 import Input from '../components/common/Input'
-import Content from '../components/common/Content'
+import CenteredForm from '../components/common/CenteredForm'
 import Button from '../components/common/Button'
 import {connect} from 'react-redux'
 import {REGISTER_CONSUMER} from '../formTypes'
@@ -19,47 +19,40 @@ export const RegisterConsumer = ({
   isAuthenticated ? (
     <Redirect to='/' />
   ) : (
-    <Content>
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          tryRegister()
-        }}
-      >
-        <Title>Register</Title>
-        <Input
-          type='email'
-          label='E-mail'
-          name='email'
-          value={email}
-          onChange={updateField}
-        />
-        <Input
-          type='text'
-          label='Firstname'
-          name='firstname'
-          value={firstname}
-          onChange={updateField}
-        />
-        <Input
-          type='text'
-          label='Lastname'
-          name='lastname'
-          value={lastname}
-          onChange={updateField}
-        />
-        <Input
-          type='password'
-          label='Pasword'
-          name='password'
-          value={password}
-          onChange={updateField}
-        />
-        <Button primary loading={isLoading}>
-          Register
-        </Button>
-      </form>
-    </Content>
+    <CenteredForm onSubmit={tryRegister}>
+      <Title>Register</Title>
+      <Input
+        type='email'
+        label='E-mail'
+        name='email'
+        value={email}
+        onChange={updateField}
+      />
+      <Input
+        type='text'
+        label='Firstname'
+        name='firstname'
+        value={firstname}
+        onChange={updateField}
+      />
+      <Input
+        type='text'
+        label='Lastname'
+        name='lastname'
+        value={lastname}
+        onChange={updateField}
+      />
+      <Input
+        type='password'
+        label='Pasword'
+        name='password'
+        value={password}
+        onChange={updateField}
+      />
+      <Button primary loading={isLoading}>
+        Register
+      </Button>
+    </CenteredForm>
   )
 
 export const mapStateToProps = ({auth, loading, form}) => ({

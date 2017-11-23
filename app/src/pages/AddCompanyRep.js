@@ -4,51 +4,46 @@ import {connect} from 'react-redux'
 import {ADD_COMPANY_REP} from '../formTypes'
 import {updateField, submitForm} from '../actions/form'
 import { setStatus } from '../actions/status'
-import Content from '../components/common/Content'
+import FormSection from '../components/common/FormSection'
 import Title from '../components/common/Title'
 import Input from '../components/common/Input'
 import Button from '../components/common/Button'
 
 export const AddCompanyRep = props => (
-  <Content>
-    <form onSubmit={event => { 
-      event.preventDefault() 
-      props.addCompanyRep(props.companyId)
-    }}>
-      <Title>Add a Company Representative</Title>
-      <Input
-        value={props.form.firstName}
-        type='text'
-        name='firstName'
-        label='Representatives First Name'
-        onChange={props.updateField}
-      />
-      <Input
-        value={props.form.lastName}
-        type='text'
-        name='lastName'
-        label='Representatives Last Name'
-        onChange={props.updateField}
-      />
-      <Input
-        value={props.form.email}
-        type='email'
-        name='email'
-        label='Representatives E-Mail'
-        onChange={props.updateField}
-      />
-      <Input
-        value={props.form.password}
-        type='password'
-        name='password'
-        label='Password'
-        onChange={props.updateField}
-      />
-      <Button primary loading={props.isLoading}>
-        Add
-      </Button>
-    </form>
-  </Content>
+  <FormSection onSubmit={() => props.addCompanyRep(props.companyId)}>
+    <Title>Add a Company Representative</Title>
+    <Input
+      value={props.form.firstName}
+      type='text'
+      name='firstName'
+      label='Representatives First Name'
+      onChange={props.updateField}
+    />
+    <Input
+      value={props.form.lastName}
+      type='text'
+      name='lastName'
+      label='Representatives Last Name'
+      onChange={props.updateField}
+    />
+    <Input
+      value={props.form.email}
+      type='email'
+      name='email'
+      label='Representatives E-Mail'
+      onChange={props.updateField}
+    />
+    <Input
+      value={props.form.password}
+      type='password'
+      name='password'
+      label='Password'
+      onChange={props.updateField}
+    />
+    <Button primary loading={props.isLoading}>
+      Add
+    </Button>
+  </FormSection>
 )
 
 export const handleResponse = _ => setStatus('Company representative Created')

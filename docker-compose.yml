@@ -17,6 +17,7 @@ services:
      - "9001:9001"
     volumes:
      - ./app/src:/usr/src/app/src
+     - ./app/stories:/usr/src/app/stories
     command: npm run storybook
 
   backend:

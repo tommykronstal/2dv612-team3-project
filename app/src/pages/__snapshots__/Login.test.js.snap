@@ -9,7 +9,7 @@ exports[`Login component renders correctly, initial 1`] = `
     onSubmit={[Function]}
   >
     <section
-      className="sc-bdVaJa femPbx"
+      className="sc-bdVaJa cgbLUC"
     >
       <h1
         className="sc-bxivhb bjAMPF"
@@ -71,7 +71,7 @@ exports[`Login component renders correctly, with data 1`] = `
     onSubmit={[Function]}
   >
     <section
-      className="sc-bdVaJa femPbx"
+      className="sc-bdVaJa cgbLUC"
     >
       <h1
         className="sc-bxivhb bjAMPF"

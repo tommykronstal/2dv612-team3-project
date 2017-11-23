@@ -7,6 +7,7 @@ const Text = styled.p`
   text-align: ${props => props.center ? 'center' : undefined};
   font-size: 1rem;
   line-height: 1.4em;
+  padding-bottom: 1rem;
   color: ${props => props.white ? 'white' : 'rgb(60, 60, 60)'};
 `
 
