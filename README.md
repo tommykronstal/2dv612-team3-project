@@ -8,7 +8,7 @@
 
 # Live server and CI/CD
 
-* Live server: [http://http://194.47.174.40](http://194.47.174.40)
+* Live server: [http://194.47.174.40](http://194.47.174.40)
 
 # run locally
 
