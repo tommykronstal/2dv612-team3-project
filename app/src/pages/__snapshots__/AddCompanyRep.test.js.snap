@@ -1,199 +1,185 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddCompanyRep component renders correctly, initial 1`] = `
-<div
-  className="sc-htpNat iUhXvc"
+<section
+  className="sc-bdVaJa cgbLUC"
 >
-  <div
-    className="sc-bdVaJa IRNZA"
+  <form
+    className="sc-bwzfXH gJIwTT"
+    onSubmit={[Function]}
   >
-    <section
-      className="sc-bwzfXH cKsejz"
+    <h1
+      className="sc-htpNat cfPrNC"
     >
-      <form
-        onSubmit={[Function]}
+      Add a Company Representative
+    </h1>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="firstName"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <label
+        className="sc-ifAKCX crRGrj"
+        value=""
       >
-        <h1
-          className="sc-bxivhb bjAMPF"
-        >
-          Add a Company Representative
-        </h1>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="firstName"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-          <label
-            className="sc-EHOje IVybm"
-            value=""
-          >
-            Representatives First Name
-          </label>
-        </div>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="lastName"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-          <label
-            className="sc-EHOje IVybm"
-            value=""
-          >
-            Representatives Last Name
-          </label>
-        </div>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="email"
-            onChange={[Function]}
-            type="email"
-            value=""
-          />
-          <label
-            className="sc-EHOje IVybm"
-            value=""
-          >
-            Representatives E-Mail
-          </label>
-        </div>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="password"
-            onChange={[Function]}
-            type="password"
-            value=""
-          />
-          <label
-            className="sc-EHOje IVybm"
-            value=""
-          >
-            Password
-          </label>
-        </div>
-        <button
-          className="sc-htoDjs gyJotO"
-          disabled={undefined}
-          onClick={[Function]}
-        >
-          Add
-        </button>
-      </form>
-    </section>
-  </div>
-</div>
+        Representatives First Name
+      </label>
+    </div>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="lastName"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <label
+        className="sc-ifAKCX crRGrj"
+        value=""
+      >
+        Representatives Last Name
+      </label>
+    </div>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="email"
+        onChange={[Function]}
+        type="email"
+        value=""
+      />
+      <label
+        className="sc-ifAKCX crRGrj"
+        value=""
+      >
+        Representatives E-Mail
+      </label>
+    </div>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="password"
+        onChange={[Function]}
+        type="password"
+        value=""
+      />
+      <label
+        className="sc-ifAKCX crRGrj"
+        value=""
+      >
+        Password
+      </label>
+    </div>
+    <button
+      className="sc-gzVnrw jvbcrm"
+      disabled={undefined}
+      onClick={[Function]}
+    >
+      Add
+    </button>
+  </form>
+</section>
 `;
 
 exports[`AddCompanyRep component renders correctly, with data 1`] = `
-<div
-  className="sc-htpNat iUhXvc"
+<section
+  className="sc-bdVaJa cgbLUC"
 >
-  <div
-    className="sc-bdVaJa IRNZA"
+  <form
+    className="sc-bwzfXH gJIwTT"
+    onSubmit={[Function]}
   >
-    <section
-      className="sc-bwzfXH cKsejz"
+    <h1
+      className="sc-htpNat cfPrNC"
     >
-      <form
-        onSubmit={[Function]}
+      Add a Company Representative
+    </h1>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="firstName"
+        onChange={[Function]}
+        type="text"
+        value="kalle"
+      />
+      <label
+        className="sc-ifAKCX bXngpg"
+        value="kalle"
       >
-        <h1
-          className="sc-bxivhb bjAMPF"
-        >
-          Add a Company Representative
-        </h1>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="firstName"
-            onChange={[Function]}
-            type="text"
-            value="kalle"
-          />
-          <label
-            className="sc-EHOje iRLQDf"
-            value="kalle"
-          >
-            Representatives First Name
-          </label>
-        </div>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="lastName"
-            onChange={[Function]}
-            type="text"
-            value="kula"
-          />
-          <label
-            className="sc-EHOje iRLQDf"
-            value="kula"
-          >
-            Representatives Last Name
-          </label>
-        </div>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="email"
-            onChange={[Function]}
-            type="email"
-            value="woo@woo.com"
-          />
-          <label
-            className="sc-EHOje iRLQDf"
-            value="woo@woo.com"
-          >
-            Representatives E-Mail
-          </label>
-        </div>
-        <div
-          className="sc-bZQynM inrEaE"
-        >
-          <input
-            className="sc-ifAKCX fDibjL"
-            name="password"
-            onChange={[Function]}
-            type="password"
-            value="aaa"
-          />
-          <label
-            className="sc-EHOje iRLQDf"
-            value="aaa"
-          >
-            Password
-          </label>
-        </div>
-        <button
-          className="sc-htoDjs gyJotO"
-          disabled={undefined}
-          onClick={[Function]}
-        >
-          Add
-        </button>
-      </form>
-    </section>
-  </div>
-</div>
+        Representatives First Name
+      </label>
+    </div>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="lastName"
+        onChange={[Function]}
+        type="text"
+        value="kula"
+      />
+      <label
+        className="sc-ifAKCX bXngpg"
+        value="kula"
+      >
+        Representatives Last Name
+      </label>
+    </div>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="email"
+        onChange={[Function]}
+        type="email"
+        value="woo@woo.com"
+      />
+      <label
+        className="sc-ifAKCX bXngpg"
+        value="woo@woo.com"
+      >
+        Representatives E-Mail
+      </label>
+    </div>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="password"
+        onChange={[Function]}
+        type="password"
+        value="aaa"
+      />
+      <label
+        className="sc-ifAKCX bXngpg"
+        value="aaa"
+      >
+        Password
+      </label>
+    </div>
+    <button
+      className="sc-gzVnrw jvbcrm"
+      disabled={undefined}
+      onClick={[Function]}
+    >
+      Add
+    </button>
+  </form>
+</section>
 `;

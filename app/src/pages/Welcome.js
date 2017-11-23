@@ -1,15 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-
-import Content from '../components/common/Content'
+import Section from '../components/common/Section'
 import Title from '../components/common/Title'
+import Text from '../components/common/Text'
 
 const Welcome = props => (
-  <Content>
+  <Section>
     <Title>Welcome {props.email}</Title>
-    <Link to='/logout'>Logout</Link>
-  </Content>
+    <Text>Here you can find some stuff.</Text>
+    <Text>/ RTFM </Text>
+  </Section>
 )
 
 export default connect(
