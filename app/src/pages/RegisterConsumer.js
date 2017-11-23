@@ -9,7 +9,7 @@ import {submitForm, updateField} from '../actions/form'
 import {setUserToLoggedIn} from '../actions/auth'
 import {Redirect} from 'react-router-dom'
 
-const RegisterConsumer = ({
+export const RegisterConsumer = ({
   updateField,
   tryRegister,
   loading: {isLoading},
@@ -62,23 +62,24 @@ const RegisterConsumer = ({
     </Content>
   )
 
-export default connect(
-  ({auth, loading, form}) => ({
-    auth,
-    loading,
-    form: form[REGISTER_CONSUMER] || {},
-  }),
-  dispatch => ({
-    tryRegister: () =>
-      dispatch(
-        submitForm(
-          REGISTER_CONSUMER,
-          '/api/user/register',
-          setUserToLoggedIn,
-          false
-        ),
+export const mapStateToProps = ({auth, loading, form}) => ({
+  auth,
+  loading,
+  form: form[REGISTER_CONSUMER] || {},
+}) 
+
+export const mapDispatchToProps = dispatch => ({
+  tryRegister: () =>
+    dispatch(
+      submitForm(
+        REGISTER_CONSUMER,
+        '/api/user/register',
+        setUserToLoggedIn,
+        false
       ),
-    updateField: ({target: {value, name}}) =>
-      dispatch(updateField(REGISTER_CONSUMER, name, value)),
-  }),
-)(RegisterConsumer)
+    ),
+  updateField: ({target: {value, name}}) =>
+    dispatch(updateField(REGISTER_CONSUMER, name, value)),
+}) 
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterConsumer)

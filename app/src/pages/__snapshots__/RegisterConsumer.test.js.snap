@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegisterConsumer component renders correctly, initial 1`] = `
+<div
+  className="sc-bZQynM jUPpol"
+>
+  <div
+    className="sc-ifAKCX cTCzMl"
+  >
+    <section
+      className="sc-EHOje lkrDww"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <h1
+          className="sc-bdVaJa jbqxFm"
+        >
+          Register
+        </h1>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="email"
+            onChange={[Function]}
+            type="email"
+            value=""
+          />
+          <label
+            className="sc-htpNat dJdhXc"
+            value=""
+          >
+            E-mail
+          </label>
+        </div>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="firstname"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-htpNat dJdhXc"
+            value=""
+          >
+            Firstname
+          </label>
+        </div>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="lastname"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-htpNat dJdhXc"
+            value=""
+          >
+            Lastname
+          </label>
+        </div>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+          <label
+            className="sc-htpNat dJdhXc"
+            value=""
+          >
+            Pasword
+          </label>
+        </div>
+        <button
+          className="sc-htoDjs gyJotO"
+          disabled={false}
+          onClick={[Function]}
+        >
+          Register
+        </button>
+      </form>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`RegisterConsumer component renders correctly, with data 1`] = `
+<div
+  className="sc-bZQynM jUPpol"
+>
+  <div
+    className="sc-ifAKCX cTCzMl"
+  >
+    <section
+      className="sc-EHOje lkrDww"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <h1
+          className="sc-bdVaJa jbqxFm"
+        >
+          Register
+        </h1>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="email"
+            onChange={[Function]}
+            type="email"
+            value="woo@woo.com"
+          />
+          <label
+            className="sc-htpNat iOTirm"
+            value="woo@woo.com"
+          >
+            E-mail
+          </label>
+        </div>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="firstname"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-htpNat dJdhXc"
+            value=""
+          >
+            Firstname
+          </label>
+        </div>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="lastname"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-htpNat dJdhXc"
+            value=""
+          >
+            Lastname
+          </label>
+        </div>
+        <div
+          className="sc-bxivhb gZceFu"
+        >
+          <input
+            className="sc-bwzfXH cdlyNt"
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value="aaa"
+          />
+          <label
+            className="sc-htpNat iOTirm"
+            value="aaa"
+          >
+            Pasword
+          </label>
+        </div>
+        <button
+          className="sc-htoDjs kYfdvH"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <div>
+            <div
+              className="sc-gzVnrw iUTliq"
+              size={0.5}
+            />
+            <div
+              className="sc-gzVnrw bpLhQz"
+              size={0.5}
+            />
+            <div
+              className="sc-gzVnrw dOBXYC"
+              size={0.5}
+            />
+          </div>
+        </button>
+      </form>
+    </section>
+  </div>
+</div>
+`;
