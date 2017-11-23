@@ -39,13 +39,11 @@ node {
             }
         }
 
-
-        node('prod') {
-            stage ('Deploy') {
+        node('staging') {
+            stage('Set up staging environment') {
                 unstash 'fullStack'
                 cleanOldBuild()
-                sh 'docker-compose -f docker-compose-prod.yml up -d'
-                slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
+                sh 'docker-compose up -d'
             }
         }
 
@@ -54,7 +52,17 @@ node {
         slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
         currentBuild.result = 'FAILURE'
     }
+}
 
+input "Deploy to production?"
+
+node('prod') {
+    stage ('Deploy') {
+        unstash 'fullStack'
+        cleanOldBuild()
+        sh 'docker-compose -f docker-compose-prod.yml up -d'
+        slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
+    }
 }
 
 def cleanOldBuild() {
