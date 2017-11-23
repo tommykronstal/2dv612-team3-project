@@ -1,0 +1,233 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddCompany component renders correctly, initial 1`] = `
+<div
+  className="sc-htpNat iUhXvc"
+>
+  <div
+    className="sc-bdVaJa IRNZA"
+  >
+    <section
+      className="sc-bwzfXH cKsejz"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <h1
+          className="sc-bxivhb bjAMPF"
+        >
+          Add a New Company
+        </h1>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="companyName"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-EHOje IVybm"
+            value=""
+          >
+            Company name
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="firstName"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-EHOje IVybm"
+            value=""
+          >
+            Administrators First Name
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="lastName"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <label
+            className="sc-EHOje IVybm"
+            value=""
+          >
+            Administrators Last Name
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="email"
+            onChange={[Function]}
+            type="email"
+            value=""
+          />
+          <label
+            className="sc-EHOje IVybm"
+            value=""
+          >
+            Administrators E-Mail
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+          <label
+            className="sc-EHOje IVybm"
+            value=""
+          >
+            Password
+          </label>
+        </div>
+        <button
+          className="sc-htoDjs gyJotO"
+          disabled={undefined}
+          onClick={[Function]}
+        >
+          Add
+        </button>
+      </form>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`AddCompany component renders correctly, with data 1`] = `
+<div
+  className="sc-htpNat iUhXvc"
+>
+  <div
+    className="sc-bdVaJa IRNZA"
+  >
+    <section
+      className="sc-bwzfXH cKsejz"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <h1
+          className="sc-bxivhb bjAMPF"
+        >
+          Add a New Company
+        </h1>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="companyName"
+            onChange={[Function]}
+            type="text"
+            value="company!"
+          />
+          <label
+            className="sc-EHOje iRLQDf"
+            value="company!"
+          >
+            Company name
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="firstName"
+            onChange={[Function]}
+            type="text"
+            value="kalle"
+          />
+          <label
+            className="sc-EHOje iRLQDf"
+            value="kalle"
+          >
+            Administrators First Name
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="lastName"
+            onChange={[Function]}
+            type="text"
+            value="kula"
+          />
+          <label
+            className="sc-EHOje iRLQDf"
+            value="kula"
+          >
+            Administrators Last Name
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="email"
+            onChange={[Function]}
+            type="email"
+            value="woo@woo.com"
+          />
+          <label
+            className="sc-EHOje iRLQDf"
+            value="woo@woo.com"
+          >
+            Administrators E-Mail
+          </label>
+        </div>
+        <div
+          className="sc-bZQynM inrEaE"
+        >
+          <input
+            className="sc-ifAKCX fDibjL"
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value="aaa"
+          />
+          <label
+            className="sc-EHOje iRLQDf"
+            value="aaa"
+          >
+            Password
+          </label>
+        </div>
+        <button
+          className="sc-htoDjs gyJotO"
+          disabled={undefined}
+          onClick={[Function]}
+        >
+          Add
+        </button>
+      </form>
+    </section>
+  </div>
+</div>
+`;

@@ -9,7 +9,7 @@ import Title from '../components/common/Title'
 import Input from '../components/common/Input'
 import Button from '../components/common/Button'
 
-const AddCompanyRep = props => (
+export const AddCompanyRep = props => (
   <Content>
     <form onSubmit={event => { 
       event.preventDefault() 
@@ -44,25 +44,28 @@ const AddCompanyRep = props => (
         label='Password'
         onChange={props.updateField}
       />
-      <Button primary loading={props.loading.isLoading}>
+      <Button primary loading={props.isLoading}>
         Add
       </Button>
     </form>
   </Content>
 )
 
-export default connect(
-  ({loading, form, auth}) => ({
-    loading, 
-    companyId: auth.companyId,
-    form: form[ADD_COMPANY_REP] || {}
-  }),
-  dispatch => ({
-    addCompanyRep: companyId => dispatch(submitForm(
-      ADD_COMPANY_REP, 
-      `/api/company/${companyId}`, 
-      _ => setStatus('Company representative Created')
-    )),
-    updateField: ({target}) => dispatch(updateField(ADD_COMPANY_REP, target.name, target.value))   
-  })
-)(AddCompanyRep)
+export const handleResponse = _ => setStatus('Company representative Created')
+
+export const mapStateToProps = ({loading, auth, form}) => ({
+  isLoading: loading.isLoading, 
+  companyId: auth.companyId,
+  form: form[ADD_COMPANY_REP] || {}
+})
+
+export const mapDispatchToProps = dispatch => ({
+  addCompanyRep: companyId => dispatch(submitForm(
+    ADD_COMPANY_REP, 
+    `/api/company/${companyId}`, 
+    handleResponse
+  )),
+  updateField: ({target}) => dispatch(updateField(ADD_COMPANY_REP, target.name, target.value)) 
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddCompanyRep)
