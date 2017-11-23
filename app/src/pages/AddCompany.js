@@ -9,7 +9,7 @@ import Title from '../components/common/Title'
 import Input from '../components/common/Input'
 import Button from '../components/common/Button'
 
-const AddCompany = props => (
+export const AddCompany = props => (
   <Content>
     <form onSubmit={event => {
       event.preventDefault()
@@ -58,18 +58,20 @@ const AddCompany = props => (
   </Content>
 )
 
-export default connect(
-  ({loading, form}) => ({
-    loading,
-    form: form[ADD_COMPANY] || {}
-  }),
-  dispatch => ({
-    addCompany: () => dispatch(submitForm(
-      ADD_COMPANY,
-      '/api/company',
-      _ => setStatus('Company Created'),
-      true
-    )),
-    updateField: ({target}) => dispatch(updateField(ADD_COMPANY, target.name, target.value))
-  })
-)(AddCompany)
+export const handleResponse = _ => setStatus('Company Created')
+
+export const mapStateToProps = ({loading, form}) => ({
+  loading,
+  form: form[ADD_COMPANY] || {}
+})
+
+export const mapDispatchToProps = dispatch => ({
+  addCompany: () => dispatch(submitForm(
+    ADD_COMPANY,
+    '/api/company',
+    handleResponse
+  )),
+  updateField: ({target}) => dispatch(updateField(ADD_COMPANY, target.name, target.value))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddCompany)

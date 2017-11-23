@@ -1,59 +1,56 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { AddCompanyRep, mapStateToProps, mapDispatchToProps, handleResponse } from './AddCompanyRep'
-import { ADD_COMPANY_REP } from '../formTypes'
+import { AddCompany, mapStateToProps, mapDispatchToProps, handleResponse } from './AddCompany'
+import { ADD_COMPANY } from '../formTypes'
 import { submitForm, updateField } from '../actions/form'
 
-describe('AddCompanyRep', () => {
+describe('AddCompany', () => {
 
   describe('component', () => {
     it('renders correctly, initial', () => {
       const props = {
-        addCompanyRep: jest.fn(),
+        addCompany: jest.fn(),
         updateField: jest.fn(),
         form: {},
-        loading: false,
-        auth: { companyId: '1234' }
+        loading: false
       }
   
-      const tree = renderer.create(<AddCompanyRep {...props} />).toJSON()
+      const tree = renderer.create(<AddCompany {...props} />).toJSON()
   
       expect(tree).toMatchSnapshot()
     })
   
     it('renders correctly, with data', () => {
       const props = {
-        addCompanyRep: jest.fn(),
+        addCompany: jest.fn(),
         updateField: jest.fn(),
-        form: { 
+        form: {
+          companyName: 'company!', 
           firstName: 'kalle',
           lastName: 'kula',
           email: 'woo@woo.com', 
           password: 'aaa' 
         },
-        loading: true,
-        auth: { companyId: '1234' }
+        loading: true
       }
   
-      const tree = renderer.create(<AddCompanyRep {...props} />).toJSON()
+      const tree = renderer.create(<AddCompany {...props} />).toJSON()
   
       expect(tree).toMatchSnapshot()
     })
   })
 
   describe('state', () => {
-    it('should have access to company id, representative form and isLoading state', () => {
+    it('should have access to representative form and loading state', () => {
       const state = {
-        auth: { companyId: '1234' },
         loading: { isLoading: false },
-        form: { [ADD_COMPANY_REP]: {username: 'woooo'}}
+        form: { [ADD_COMPANY]: {username: 'woooo'}}
       }
     
       expect(mapStateToProps(state)).toEqual({ 
-        companyId: state.auth.companyId, 
-        isLoading: state.loading.isLoading, 
-        form: state.form[ADD_COMPANY_REP] 
+        loading: state.loading, 
+        form: state.form[ADD_COMPANY] 
       })
     })
   })
@@ -61,15 +58,14 @@ describe('AddCompanyRep', () => {
   describe('actions', () => {
     it('should be able to dispatch submit form actions', () => {
       const dispatch = jest.fn()
-      const companyId = '1245'
     
       const props = mapDispatchToProps(dispatch)
-      props.addCompanyRep(companyId)
+      props.addCompany()
     
       expect(dispatch).toBeCalledWith(submitForm(
-        ADD_COMPANY_REP, 
-        `/api/company/${companyId}`, 
-        handleResponse,
+        ADD_COMPANY, 
+        '/api/company', 
+        handleResponse
       ))
     })
 
@@ -85,7 +81,7 @@ describe('AddCompanyRep', () => {
       const props = mapDispatchToProps(dispatch)
       props.updateField(event)
     
-      expect(dispatch).toBeCalledWith(updateField(ADD_COMPANY_REP, event.target.name, event.target.value))
+      expect(dispatch).toBeCalledWith(updateField(ADD_COMPANY, event.target.name, event.target.value))
     })
   })
 })
