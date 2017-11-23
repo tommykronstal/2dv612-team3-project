@@ -49,7 +49,7 @@ node {
 
         node {
             notify("Deploy to production?")
-            slackSend channel: '#jenkins', color: 'good', message: "Would you like to deploy ${env.JOB_NAME} build nr ${env.BUILD_NUMBER} to production?", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
+            // slackSend channel: '#jenkins', color: 'good', message: "Would you like to deploy ${env.JOB_NAME} build nr ${env.BUILD_NUMBER} to production?", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
         }
 
         node('prod') {
