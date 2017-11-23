@@ -12,6 +12,7 @@ node {
         stage ('Cleaning previous build') {
             sh 'docker-compose stop'
             sh 'docker-compose rm -f'
+            sh 'docker network prune -f'
         }
 
         stage ('Build services') {
