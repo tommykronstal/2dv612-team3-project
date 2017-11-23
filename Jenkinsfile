@@ -37,11 +37,14 @@ node {
             junit '**/backend/src/test-report*.xml'
         }
 
-
-        stage ('Deploy') {
-            sh 'docker-compose -f docker-compose-prod.yml up -d'
-            slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: ${env.SLACK_TOKEN}
+        node('prod') {
+            stage ('Deploy') {
+                unstash 'fullStack'
+                sh 'docker-compose -f docker-compose-prod.yml up -d'
+                slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: ${env.SLACK_TOKEN}
+                }
         }
+
 
     } catch (err) {
         slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: ${env.SLACK_TOKEN}
