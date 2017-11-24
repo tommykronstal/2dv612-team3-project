@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {updateField} from '../actions/form'
 import {ADD_PRODUCT} from '../formTypes'
 import {fetchCategories} from '../actions/categories'
-
+import Button from '../components/common/Button'
 import Content from '../components/common/Content'
 import Dropdown from '../components/common/Dropdown'
 import Input from '../components/common/Input'
@@ -27,18 +27,22 @@ class AddProduct extends Component {
           <p>Spinner...</p>
         ) : (
           <div>
-            <Dropdown
-              name="category"
-              onClick={this.props.updateField}
-              options={categories}
-            />
-            <Input
-              value={productName}
-              type="text"
-              name="productName"
-              label="Name of Product"
-              onChange={this.props.updateField}
-            />
+            {/* this will be repalced with the dispatch function that will send the information to backend */}
+            <form onClick={() => {}}>
+              <Dropdown
+                name="category"
+                onClick={this.props.updateField}
+                options={categories}
+              />
+              <Input
+                value={productName}
+                type="text"
+                name="productName"
+                label="Product Name"
+                onChange={this.props.updateField}
+              />
+              <Button primary>Save Product</Button>
+            </form>
           </div>
         )}
       </Content>
@@ -46,7 +50,11 @@ class AddProduct extends Component {
   }
 }
 
-const mapStateToProps = ({categories: {categories}, form}) => ({
+const mapStateToProps = ({
+  loading: {isLoading},
+  categories: {categories},
+  form,
+}) => ({
   categories,
   form: form[ADD_PRODUCT] || {},
 })

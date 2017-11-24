@@ -8,13 +8,7 @@ export function* watchCategoriesActions() {
 }
 
 export function* fetchCategories() {
-
-  // TODO: Fetch categories from API and not use mock
-  // mocking categories
   const categories = [{category: 'Vitvaror'}, {category: 'Elektronik'}]
-
-  yield delay(1000)
-
+  yield delay(500)
   yield put({type: SET_CATEGORIES, categories})
-
 }
