@@ -88,9 +88,9 @@ export const ContentRoutes = () => (
     <Route exact path='/login' component={Login} />
     <Route exact path='/logout' component={Logout} />
     <AdminRoute path='/admin' component={AdminRoutes} />
-    <CompanyAdminRoute exact path='/company/admin' component={CompanyAdminRoutes} />
-    <CompanyUserRoute exact path='/company/user' component={CompanyUserRoutes} />
-    <UserRoute exact path='/user' component={UserRoutes} />
+    <CompanyAdminRoute path='/company/admin' component={CompanyAdminRoutes} />
+    <CompanyUserRoute path='/company/user' component={CompanyUserRoutes} />
+    <UserRoute path='/user' component={UserRoutes} />
     <Route exact path='/register' component={RegisterConsumer} />
     <Route component={NotFound} />
   </Switch>
