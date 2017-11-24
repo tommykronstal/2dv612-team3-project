@@ -51,12 +51,12 @@ const CompanyUserRoutes = ({ match }) => (
   <NavigationContainer>
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
-      <NavigationLink exact={true} to={`${match.url}/material`} >Add Product</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/product`} >Add Product</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>
       <Route exact path={match.url} component={Welcome} />
-      <Route exact path={`${match.url}/material`} component={AddProduct}/>
+      <Route exact path={`${match.url}/product`} component={AddProduct}/>
       <Route component={NotFound} />
     </Switch>
   </NavigationContainer>
