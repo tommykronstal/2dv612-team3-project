@@ -50,10 +50,12 @@ const CompanyUserRoutes = ({ match }) => (
   <NavigationContainer>
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/material`} >Add Product</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>
       <Route exact path={match.url} component={Welcome} />
+      <Route exact path={`${match.url}/material`} component={() => <div>Add new product</div>}/>
       <Route component={NotFound} />
     </Switch>
   </NavigationContainer>
@@ -77,11 +79,7 @@ const CompanyAdminRoute = ProtectedRoute(USER_TYPES.COMPANY_ADMIN)
 const CompanyUserRoute = ProtectedRoute(USER_TYPES.COMPANY_REP)
 const UserRoute = ProtectedRoute(USER_TYPES.USER)
 
-/**
- * Main Content routes
- * if we want any more endpoints such as /manuals or w/e
- * we can just add another route
- */
+
 export const ContentRoutes = () => (
   <Switch>
     <Route exact path='/' component={Main} />
