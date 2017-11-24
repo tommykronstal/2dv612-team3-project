@@ -10,6 +10,7 @@ import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
 import AddCompanyRep from '../pages/AddCompanyRep'
 import NotFound from '../pages/NotFound'
+import AddProduct from '../pages/AddProduct'
 import RegisterConsumer from '../pages/RegisterConsumer'
 import NavigationContainer from './common/NavigationContainer'
 import NavigationBar from './common/NavigationBar'
@@ -55,7 +56,7 @@ const CompanyUserRoutes = ({ match }) => (
     </NavigationBar>
     <Switch>
       <Route exact path={match.url} component={Welcome} />
-      <Route exact path={`${match.url}/material`} component={() => <div>Add new product</div>}/>
+      <Route exact path={`${match.url}/material`} component={AddProduct}/>
       <Route component={NotFound} />
     </Switch>
   </NavigationContainer>
