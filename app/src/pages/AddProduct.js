@@ -11,12 +11,26 @@ import Input from '../components/common/Input'
 
 class AddProduct extends Component {
   componentDidMount() {
-    const {categories} = this.props
+    const {categories, form: {category}} = this.props
 
     // Only fetching categories if they are not previously fetched
     if (!categories.length) {
-      this.props.fetchCategories()
+      this.props.fetchCategories({form: ADD_PRODUCT, field: 'category'})
     }
+  }
+
+  tryRegisterProduct = (e) => {
+    e.preventDefault()
+
+    const {productName, category} = this.props.form
+    if (!productName) return
+
+    /**
+     * TODO: dispatch submit for data here
+     *       try to figure if there is a posibility
+     *       to redirect when the request is done.
+     */
+
   }
 
   render() {
@@ -27,8 +41,7 @@ class AddProduct extends Component {
           <p>Spinner...</p>
         ) : (
           <div>
-            {/* this will be repalced with the dispatch function that will send the information to backend */}
-            <form onClick={() => {}}>
+            <form onSubmit={e => this.tryRegisterProduct(e)}>
               <Dropdown
                 name="category"
                 onClick={this.props.updateField}
@@ -62,7 +75,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => ({
   updateField: ({target}) =>
     dispatch(updateField(ADD_PRODUCT, target.name, target.value)),
-  fetchCategories: () => dispatch(fetchCategories()),
+
+  fetchCategories: (updateConfig) => dispatch(fetchCategories(updateConfig)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProduct)
