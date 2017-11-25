@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 
 const productSchema = new Schema({
-  title: { type: String, required: true },
-  body: { type: String }
+  name: { type: String, required: true },
+  category: { type: String, required: true },
+  material_reference: { type: String, required: true }
 });
 
 
