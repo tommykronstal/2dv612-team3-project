@@ -4,7 +4,7 @@ const router = new Router();
 const user = require('./model/user/router');
 const company = require('./model/company/router');
 const controller = require('./model/user/controller');
-const product = require('./,model/product/router');
+const product = require('./model/product/router');
 
 router.route('/api').get((req, res) => {
   res.json({message: 'Welcome to backend API!'})
