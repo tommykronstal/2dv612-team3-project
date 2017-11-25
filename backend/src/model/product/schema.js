@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 
 const productSchema = new Schema({
-  name: { type: String, required: true },
-  category: { type: String, required: true },
-  material_reference: { type: String, required: true }
+  articleID: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
+  category: { type: String, required: true },  
+  materials:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }]
 });
 
 
