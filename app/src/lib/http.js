@@ -19,12 +19,5 @@ const setMethod = method => async (url, {headers, ...remaining} = {}) => {
   return result
 }
 
-// import {post} from '[REPLACE_WITH_PATH]/http'
 export const get = setMethod('get')
-
-// import {post} from '[REPLACE_WITH_PATH]/http'
 export const post = setMethod('post')
-
-/**
- * can export more functions here if we need for example put, patch, etc...
- */
