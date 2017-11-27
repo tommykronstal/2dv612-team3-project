@@ -1,13 +1,24 @@
 import React, {Component} from 'react'
 import {get} from '../lib/http'
 import {connect} from 'react-redux'
-import {updateField} from '../actions/form'
+import {updateField, submitForm} from '../actions/form'
 import {ADD_PRODUCT} from '../formTypes'
 import {fetchCategories} from '../actions/categories'
 import Button from '../components/common/Button'
 import Content from '../components/common/Content'
 import Dropdown from '../components/common/Dropdown'
 import Input from '../components/common/Input'
+import {setStatus} from '../actions/status'
+import Spinner from 'react-spinkit'
+import styled from 'styled-components'
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+`
 
 class AddProduct extends Component {
   componentDidMount() {
@@ -19,29 +30,26 @@ class AddProduct extends Component {
     }
   }
 
-  tryRegisterProduct = (e) => {
+  storeProduct = e => {
     e.preventDefault()
 
-    const {productName, category} = this.props.form
+    const {productName} = this.props.form
     if (!productName) return
 
-    /**
-     * TODO: dispatch submit for data here
-     *       try to figure if there is a posibility
-     *       to redirect when the request is done.
-     */
-
+    this.props.tryRegisterProduct()
   }
 
   render() {
     const {categories, form: {productName}} = this.props
     return (
-      <Content>
+      <Content style={{minHeight: '100%;'}}>
         {!categories.length ? (
-          <p>Spinner...</p>
+          <SpinnerContainer>
+            <Spinner name="wave" fadeIn='none' color={'#6ea0dc'}/>
+          </SpinnerContainer>
         ) : (
           <div>
-            <form onSubmit={e => this.tryRegisterProduct(e)}>
+            <form onSubmit={e => this.storeProduct(e)}>
               <Dropdown
                 name="category"
                 onClick={this.props.updateField}
@@ -76,7 +84,16 @@ const mapDispatchToProps = dispatch => ({
   updateField: ({target}) =>
     dispatch(updateField(ADD_PRODUCT, target.name, target.value)),
 
-  fetchCategories: (updateConfig) => dispatch(fetchCategories(updateConfig)),
+  fetchCategories: updateConfig => dispatch(fetchCategories(updateConfig)),
+  tryRegisterProduct: () =>
+    dispatch(
+      submitForm(
+        ADD_PRODUCT,
+        '/api/product',
+        () => setStatus('Product Created.'),
+        true,
+      ),
+    ),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProduct)
