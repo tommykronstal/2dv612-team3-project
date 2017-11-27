@@ -15,6 +15,7 @@ import RegisterConsumer from '../pages/RegisterConsumer'
 import NavigationContainer from './common/NavigationContainer'
 import NavigationBar from './common/NavigationBar'
 import NavigationLink from './common/NavigationLink'
+import UpdateProduct from '../pages/UpdateProduct'
 
 
 const AdminRoutes = ({ match }) => (
@@ -52,11 +53,13 @@ const CompanyUserRoutes = ({ match }) => (
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/product`} >Add Product</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/product/test`} >Update Product</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>
       <Route exact path={match.url} component={Welcome} />
       <Route exact path={`${match.url}/product`} component={AddProduct}/>
+      <Route exact path={`${match.url}/product/test`} component={UpdateProduct} />
       <Route component={NotFound} />
     </Switch>
   </NavigationContainer>
