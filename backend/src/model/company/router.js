@@ -2,7 +2,7 @@ const controller = require('./controller');
 const Router = require('express').Router;
 const router = new Router();
 const multer = require('multer');
-const UPLOAD_PATH = './uploads';
+const UPLOAD_PATH = './src/filesystem/uploads';
 const upload = multer({ dest: `${UPLOAD_PATH}/` }); // multer configuration
 
 router.route('/')
