@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {get} from '../lib/http'
 import {connect} from 'react-redux'
 import {updateField, submitForm} from '../actions/form'
 import {ADD_PRODUCT} from '../formTypes'
@@ -22,7 +21,7 @@ const SpinnerContainer = styled.div`
 
 class AddProduct extends Component {
   componentDidMount() {
-    const {categories, form: {category}} = this.props
+    const {categories} = this.props
 
     // Only fetching categories if they are not previously fetched
     if (!categories.length) {

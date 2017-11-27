@@ -1,8 +1,6 @@
-import {get} from '../lib/http'
 import {FETCH_CATEGORIES, SET_CATEGORIES, UPDATE_FIELD} from '../actions/types'
 import {put, takeEvery} from 'redux-saga/effects'
 import {delay} from 'redux-saga'
-import { ADD_PRODUCT } from '../formTypes';
 
 export function* watchCategoriesActions() {
   yield takeEvery(FETCH_CATEGORIES, fetchCategories)
