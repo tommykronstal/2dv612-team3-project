@@ -1,5 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { MemoryRouter } from 'react-router'
 
 import { Login, mapStateToProps, mapDispatchToProps } from './Login'
 import { setUserToLoggedIn } from '../actions/auth'
@@ -18,7 +19,7 @@ describe('Login', () => {
         auth: { isAuthenticated: false }
       }
   
-      const tree = renderer.create(<Login {...props} />).toJSON()
+      const tree = renderer.create(<MemoryRouter><Login {...props} /></MemoryRouter>).toJSON()
   
       expect(tree).toMatchSnapshot()
     })
@@ -32,7 +33,7 @@ describe('Login', () => {
         auth: { isAuthenticated: false }
       }
   
-      const tree = renderer.create(<Login {...props} />).toJSON()
+      const tree = renderer.create(<MemoryRouter><Login {...props} /></MemoryRouter>).toJSON()
   
       expect(tree).toMatchSnapshot()
     })

@@ -57,6 +57,13 @@ exports[`Login component renders correctly, initial 1`] = `
       >
         Login
       </button>
+      <a
+        className="sc-dnqmqq exxrCE"
+        href="/register"
+        onClick={[Function]}
+      >
+        Register
+      </a>
     </section>
   </form>
 </div>
@@ -132,6 +139,13 @@ exports[`Login component renders correctly, with data 1`] = `
           />
         </div>
       </button>
+      <a
+        className="sc-dnqmqq exxrCE"
+        href="/register"
+        onClick={[Function]}
+      >
+        Register
+      </a>
     </section>
   </form>
 </div>
