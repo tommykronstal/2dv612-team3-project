@@ -10,7 +10,7 @@ router.route('/product')
     .get((...args) => controller.find(...args))
     //.post((...args) => controller.create(...args));
 
-router.route('/company/:companyid/product/:productid')
+router.route('/company/:companyid/product/:id')
   .put((...args) => controller.update(...args))
   .get((...args) => controller.findById(...args))
   .delete((...args) => controller.remove(...args));
