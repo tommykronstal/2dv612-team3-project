@@ -1,4 +1,4 @@
-const setMethod = method => async (url, {headers, isJsonPayload = true, ...remaining} = {}) => {
+const setMethod = method => async (url, {headers = {}, isJsonPayload = true, ...remaining}) => {
   const response = await fetch(url, {
     method,
     headers: {
