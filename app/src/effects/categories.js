@@ -8,6 +8,8 @@ export function* watchCategoriesActions() {
 
 export function* fetchCategories({updateConfig: {form, field}}) {
   const categories = [{category: 'Vitvaror'}, {category: 'Elektronik'}]
+
+  // mock delay just to display spinner
   yield delay(500)
   yield put({type: SET_CATEGORIES, categories})
 
