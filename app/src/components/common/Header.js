@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import logo from './logo.svg'
 import Wrapper from './Wrapper'
 import NavigationToggle from './NavigationToggle'
@@ -33,7 +34,7 @@ export default props => (
   <Header>
     <HeaderWrapper>
       <NavigationToggle show={!props.isAuthenticated} menuActive={props.menuActive} toggleNavigation={props.toggleNavigation} />
-      <Img src={logo} />
+      <Link to='/'><Img src={logo} /></Link>
       <Div/>
     </HeaderWrapper>
   </Header>
