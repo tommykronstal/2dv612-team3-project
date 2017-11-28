@@ -9,6 +9,8 @@ export function* watchFormActions() {
 }
 
 export function* formRequest({endpoint, form, action, tokenRequired}) {
+  yield put({type: TOGGLE_LOADING})
+
 
   const {token, payload} = yield select(state => ({
     token: state.auth.jwt,
@@ -17,24 +19,24 @@ export function* formRequest({endpoint, form, action, tokenRequired}) {
     },
   }))
 
-  yield put({type: TOGGLE_LOADING})
   const tokenHeader = {...(token && tokenRequired && {Authorization: token})}
 
   if (form === UPDATE_PRODUCT) {
-    return yield sendProductFile(endpoint, token, payload, tokenHeader, action, form)
+    yield sendProductFile(endpoint, token, payload, tokenHeader, action, form)
+    return
   }
 
   const response = yield call(post, endpoint, {
     headers: {
       ...tokenHeader,
     },
-    body: payload
+    body: JSON.stringify(payload)
   })
 
   yield handleResponse(response, form, action)
 }
 
-function *handleResponse(response, form, action) {
+function* handleResponse(response, form, action) {
   if (response.status === 200 || response.status === 201) {
     if (action) {
       yield put(action(response))
@@ -48,10 +50,16 @@ function *handleResponse(response, form, action) {
   yield put({type: TOGGLE_LOADING})
 }
 
-function *sendProductFile(endpoint, token, payload, tokenHeader = {}, action, form) {
+
+/**
+ * Used to send data as a form.
+ * Need to send it like this since original function to submit forms
+ * assumes that it's JSON. (Maybe needs some tweaking in the future...)
+ */
+function* sendProductFile(endpoint, token, payload, tokenHeader = {}, action, form) {
   const formData = new FormData()
   formData.append('pdf', payload.productFile)
-  formData.append('name', payload.productName)
+  formData.append('productName', payload.productName)
 
   const response = yield call(post, endpoint, {
     headers: {
