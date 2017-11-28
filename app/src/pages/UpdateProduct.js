@@ -32,6 +32,7 @@ class UpdateProduct extends Component {
 	}
 
 	render() {
+		console.log(this.props.auth)
 		const {
 			form: {productName, productFile},
 			loading: {isLoading},
@@ -79,7 +80,7 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(
 			submitForm(
 				UPDATE_PRODUCT,
-				`api/company/${companyId}/product/${productId}/prodcut`,
+				`/api/company/${companyId}/product/${productId}/material`,
 				() => setStatus('Product updated'),
 				true
 			)
@@ -89,9 +90,10 @@ const mapDispatchToProps = dispatch => ({
 	dispatch,
 })
 
-const mapStateToProps = ({loading, form}) => ({
+const mapStateToProps = ({loading, form, auth}) => ({
 	loading,
 	form: form[UPDATE_PRODUCT] || {},
+	auth
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProduct)
