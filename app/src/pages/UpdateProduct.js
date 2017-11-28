@@ -32,7 +32,6 @@ class UpdateProduct extends Component {
 	}
 
 	render() {
-		console.log(this.props.auth)
 		const {
 			form: {productName, productFile},
 			loading: {isLoading},
