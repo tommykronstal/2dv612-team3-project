@@ -72,6 +72,14 @@ class CompanyController extends Controller {
       if (e.code === 11000) return res.status(400).json({ error: true, message: 'User already exists' });
     });
   }
+
+
+  uploadFile(req, res, next) {
+      // TODO: Add a new document in mongo { productid: req.params.productid }
+      res.status(200).json({payload: req.file, message: "You uploaded " + req.file.originalname + " to company with id " + req.params.companyid + " and to product with id " + req.params.productid});
+
+  }
+
 }
 
 module.exports = new CompanyController(companyFacade);
