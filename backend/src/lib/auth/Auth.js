@@ -54,13 +54,13 @@ function checkRole(req, res, next, decoded) {
 
                 if (doc.reps.indexOf(user._id.toString()) === -1){
                     console.log("Company rep match!");
-                    return res.status(403).json({ error: true, message: 'Forbidden. Company admin ID does not match the User ID' });
+                    return res.status(403).json({ error: true, message: 'Forbidden. Company rep ID does not match the User ID' });
                 }
 
                 return next();
             }).catch((error) => res.status(500).json({
                 error: true,
-                message: 'Error: Cant find the given admin' + error
+                message: 'Error: Cant find the given representative' + error
             }));
 
         }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
