@@ -3,6 +3,7 @@ const userFacade = require('../../model/user/facade');
 
 const jwt = require('jsonwebtoken');
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
+let decoded;
 
 class Authorization {
 
@@ -12,7 +13,6 @@ class Authorization {
         }
 
         const token = req.headers.authorization;
-        let decoded;
 
         try {
             decoded = jwt.verify(token, jwtSecret);
@@ -30,12 +30,12 @@ class Authorization {
         userFacade.findOne(mongoUserQuery).then((doc) => {
             if (!doc) return res.status(401).json({ error: true, message: 'Invalid token' });
 
-            return checkRole(req, res, next, decoded);
+            return checkRole(req, res, next);
         }).catch(() => res.status(500).json({ error: true }));
     }
 }
 
-function checkRole(req, res, next, decoded) {
+function checkRole(req, res, next) {
     const companyId = req.url.substring(13, 37);
     const productId = req.url.substring(46);
 
