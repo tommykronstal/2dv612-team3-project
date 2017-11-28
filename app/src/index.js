@@ -31,6 +31,24 @@ injectGlobal`
     margin: 0;
     padding: 0;
   }
+
+  .fade-enter {
+    transform: scale(0);
+  }
+
+  .fade-enter.fade-enter-active {
+    transform: scale(1);
+    transition: transform 400ms;
+  }
+
+  .fade-exit {
+    transform: scale(1);
+  }
+
+  .fade-exit.fade-exit-active {
+    transform: scale(0);
+    transition: transform 400ms;
+  }
 `
 
 // Init effects/sagas
