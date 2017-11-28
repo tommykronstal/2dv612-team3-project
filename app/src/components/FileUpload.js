@@ -17,8 +17,10 @@ class FileUpload extends Component {
 			fr.onloadend = () => {
 				this.props.onFileReady(file)
 			}
+			fr.readAsDataURL(file)
+		} else {
+			this.props.onFileReady('')
 		}
-		fr.readAsDataURL(file)
 	}
 
 	render() {
