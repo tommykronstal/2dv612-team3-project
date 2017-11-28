@@ -4,6 +4,8 @@ const router = new Router();
 const user = require('./model/user/router');
 const company = require('./model/company/router');
 const product = require('./model/product/router');
+const category = require('./model/category/router');
+
 const auth = require('./lib/auth/Auth');
 
 router.route('/api').get((req, res) => {
@@ -18,6 +20,7 @@ router.route('*').all(function (req, res, next) {
 
 router.use('/api/user', user);
 router.use('/api/company', company);
-router.use('/api/product', product);
+router.use('/api/admin/category', category);
+router.use('/api/', product);
 
 module.exports = router;
