@@ -3,8 +3,11 @@ const Schema = mongoose.Schema;
 
 
 const materialSchema = new Schema({
-  title: { type: String, required: true },
-  body: { type: String }
+  originalName: { type: String, required: true },
+  filename: {type: String},
+  path: { type: String },
+  size: {type: Number},
+  mimetype: {type: String}
 });
 
 
