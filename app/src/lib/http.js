@@ -1,13 +1,9 @@
-const getHeaders = () => ({
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-})
-
-const setMethod = method => async (url, {headers, ...remaining} = {}) => {
+const setMethod = method => async (url, {headers, isJsonPayload = true, ...remaining} = {}) => {
   const response = await fetch(url, {
     method,
     headers: {
-      ...getHeaders(),
+      Accept: 'application/json',
+      ...isJsonPayload && {'Content-Type': 'application/json'},
       ...headers,
     },
     ...remaining,
@@ -15,7 +11,6 @@ const setMethod = method => async (url, {headers, ...remaining} = {}) => {
 
   const result = await response.json()
   result.status = response.status
-
   return result
 }
 
