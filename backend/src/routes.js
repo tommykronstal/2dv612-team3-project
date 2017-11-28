@@ -3,9 +3,10 @@ const router = new Router();
 
 const user = require('./model/user/router');
 const company = require('./model/company/router');
-const controller = require('./model/user/controller');
 const product = require('./model/product/router');
 const category = require('./model/category/router');
+
+const auth = require('./lib/auth/Auth');
 
 router.route('/api').get((req, res) => {
   res.json({message: 'Welcome to backend API!'})
@@ -13,8 +14,8 @@ router.route('/api').get((req, res) => {
 
 router.route('*').all(function (req, res, next) {
     if (req.url === '/api/user/login') return next();
-    if (req.url === '/api/user/register' && req.body.role === 'USER') return next();
-    controller.authorize(req, res, next);
+    if ((req.url === '/api/user/register' || req.url === '/api/product') && req.body.role === 'USER') return next();
+    auth.authorize(req, res, next);
 });
 
 router.use('/api/user', user);
