@@ -41,7 +41,7 @@ class AddProduct extends Component {
   render() {
     const {categories, form: {productName}} = this.props
     return (
-      <Content style={{minHeight: '100%;'}}>
+      <Content>
         {!categories.length ? (
           <SpinnerContainer>
             <Spinner name="wave" fadeIn='none' color={'#6ea0dc'}/>
