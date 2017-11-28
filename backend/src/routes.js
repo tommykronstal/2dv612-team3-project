@@ -18,6 +18,6 @@ router.route('*').all(function (req, res, next) {
 
 router.use('/api/user', user);
 router.use('/api/company', company);
-router.use('/api/product', product);
+router.use('/api/', product);
 
 module.exports = router;
