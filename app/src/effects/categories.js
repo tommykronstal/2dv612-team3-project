@@ -19,10 +19,13 @@ export function* fetchCategories({updateConfig: {form, field}}) {
    * uses a dropdown for a category and
    * this dropdown should have a default value
    */
-  yield put({
-    type: UPDATE_FIELD,
-    form: form,
-    field: field,
-    value: categories[0].category
-  })
+  
+  if (form === UPDATE_FIELD) {
+    yield put({
+      type: UPDATE_FIELD,
+      form: form,
+      field: field,
+      value: categories[0].category
+    })
+  }
 }
