@@ -41,8 +41,6 @@ class AddProduct extends Component {
   render() {
     const {categories, form: {name, category}, isLoading} = this.props
 
-    console.log(this.props.form)
-
     return (
       <Content>
         {isLoading ? (
@@ -56,6 +54,7 @@ class AddProduct extends Component {
                 name="category"
                 onClick={this.props.updateField}
                 options={categories.map(({ _id, categoryName}) => ({ key: _id, value: categoryName }))}
+                value={category}
               />
               <Input
                 value={name}

@@ -23,6 +23,12 @@ class FileUpload extends Component {
 		}
 	}
 
+	componentWillUpdate(nextProps) {
+		if(!nextProps.value) {
+			this.refs.fileRef.value = '' // \o/
+		}
+	}
+ 
 	render() {
 		return (
 			<UploadContainer>

@@ -26,16 +26,12 @@ export function* formRequest({endpoint, form, action, tokenRequired, update}) {
     return
   }
 
-  console.log(payload)
-
   const response = yield call(update ? httpPut :  post, endpoint, {
     headers: {
       ...tokenHeader,
     },
     body: JSON.stringify(payload)
   })
-
-  console.log('response', response)
 
   yield handleResponse(response, form, action)
 }

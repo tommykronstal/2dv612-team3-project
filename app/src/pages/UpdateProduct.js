@@ -33,16 +33,19 @@ class UpdateProduct extends Component {
 
 	render() {
 		const {
-			form: {name, productFile},
+			form: {name, pdf},
 			loading: {isLoading},
 			updateField: _updateField,
 		} = this.props
+
+		console.log()
+
 		return (
 			<Content>
 				<form
 					onSubmit={e => this.handleUpload(e)}
 					onChange={() => {
-						if (name && productFile && this.state.displayWarning) {
+						if (name && pdf && this.state.displayWarning) {
 							this.setState(() => ({displayWarning: false}))
 						}
 					}}
@@ -51,6 +54,7 @@ class UpdateProduct extends Component {
 						accepting="application/pdf"
 						warningMessage="Please provide a PDF."
 						onFileReady={this.onFileReady}
+						value={pdf}
 					/>
 
 					<Input

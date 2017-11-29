@@ -16,9 +16,9 @@ const DropDownItem = styled.option`
   padding: 8px;
 `
 
-export default ({options, name, onClick, width, height}) => (
-  <Dropdown className="styled-select" name={name} onChange={e => onClick(e)}>
-    <option disabled selected value>Select a category</option>
+export default ({options, name, onClick, width, height, value}) => (
+  <Dropdown className="styled-select" name={name} value={value || 'default'} onChange={e => onClick(e)}>
+    <option disabled value='default'>Select a category</option>
     {options.map(({key, value}) => (
       <DropDownItem key={key} value={key}>
         {value}
