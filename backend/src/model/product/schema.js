@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
   name: { type: String, required: true, unique: true }, 
   materials:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }],
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' } //todo: category should be required, add when category is complete
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }
 });
 
 
