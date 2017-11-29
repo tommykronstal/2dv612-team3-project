@@ -79,8 +79,9 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(
 			submitForm(
 				UPDATE_PRODUCT,
-				`/api/company/${companyId}/product/${productId}/material`,
+				`/api/company/${companyId}/product/${productId}`,
 				() => setStatus('Product updated'),
+				true,
 				true
 			)
 		),

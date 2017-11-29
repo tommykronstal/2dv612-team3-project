@@ -17,10 +17,11 @@ const DropDownItem = styled.option`
 `
 
 export default ({options, name, onClick, width, height}) => (
-  <Dropdown className="styled-select" name={name} onClick={e => onClick(e)}>
-    {options.map(({category}, i) => (
-      <DropDownItem key={i} value={category}>
-        {category}
+  <Dropdown className="styled-select" name={name} onChange={e => onClick(e)}>
+    <option disabled selected value>Select a category</option>
+    {options.map(({key, value}) => (
+      <DropDownItem key={key} value={key}>
+        {value}
       </DropDownItem>
     ))}
   </Dropdown>

@@ -43,6 +43,8 @@ function checkRole(req, res, next) {
 
     if (decoded.role === 'USER') return res.status(403).json({ error: true, message: 'Forbidden' });
 
+    if (decoded.role && req.url === '/api/category') return next(); // \o/
+
     if (decoded.role === 'COMPANY_REP' && (req.url === "/api/company/" + companyId + "/product"
             || req.url === "/api/company/" + companyId + "/product/" + productId)) {
 

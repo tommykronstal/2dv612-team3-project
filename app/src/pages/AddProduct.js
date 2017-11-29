@@ -39,10 +39,13 @@ class AddProduct extends Component {
   }
 
   render() {
-    const {categories, form: {name}} = this.props
+    const {categories, form: {name, category}, isLoading} = this.props
+
+    console.log(this.props.form)
+
     return (
       <Content>
-        {!categories.length ? (
+        {isLoading ? (
           <SpinnerContainer>
             <Spinner name="wave" fadeIn='none' color={'#6ea0dc'}/>
           </SpinnerContainer>
@@ -52,7 +55,7 @@ class AddProduct extends Component {
               <Dropdown
                 name="category"
                 onClick={this.props.updateField}
-                options={categories}
+                options={categories.map(({ _id, categoryName}) => ({ key: _id, value: categoryName }))}
               />
               <Input
                 value={name}
@@ -61,7 +64,7 @@ class AddProduct extends Component {
                 label="Product Name"
                 onChange={this.props.updateField}
               />
-              <Button disabled={this.props.isLoading} primary>Save Product</Button>
+              <Button disabled={this.props.isLoading || !category} primary>Save Product</Button>
             </form>
           </div>
         )}
