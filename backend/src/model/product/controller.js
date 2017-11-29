@@ -12,6 +12,8 @@ class ProductController extends Controller {
   create(req, res, next) {
     let company;
 
+
+
     companyFacade
       .findById(req.param("companyid"))
       .then(compDoc => {
@@ -25,6 +27,15 @@ class ProductController extends Controller {
       .then(compDoc => {
         res.status(201).json(compDoc.products);
       });
+  }
+
+  update(req, res, next) {
+    let product;
+
+    productFacade.findById(req.param("id")).then(doc => {
+      product = doc;
+      return materialFace.create(req,body);
+    });
   }
 }
 
