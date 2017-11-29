@@ -25,6 +25,7 @@ class CompanyController extends Controller {
       companyName
     };
 
+    console.log("Creating Company" + req.body);
     const AlreadyExistPromises = [
       companyFacade.userSchema().find({ email: user.email }),
       companyFacade.find({name: company.companyName})
