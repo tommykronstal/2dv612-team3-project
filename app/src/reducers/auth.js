@@ -8,7 +8,8 @@ const defaultState = {
   isAuthenticated: !!token,
   jwt: token,
   email: data.email,
-  role: data.role
+  role: data.role,
+  companyId: data.companyId
 }
 
 export default (state = defaultState, action) => {
@@ -27,7 +28,8 @@ export default (state = defaultState, action) => {
       isAuthenticated: false,
       jwt: null,
       email: null,
-      role: null
+      role: null,
+      companyId: null
     }
   default:
     return state

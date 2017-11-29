@@ -14,5 +14,9 @@ export const CLEAR_FORM = 'CLEAR_FORM'
 export const SUBMIT_FORM = 'SUBMIT_FORM'
 export const UPDATE_FIELD = 'UPDATE_FIELD'
 
+
+// categories
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
+export const SET_CATEGORIES = 'SET_CATEGORIES'
 // NAVIGATION
 export const TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION'

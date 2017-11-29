@@ -12,10 +12,12 @@ import AddCompany from '../pages/AddCompany'
 import AddCompanyRep from '../pages/AddCompanyRep'
 import AddCategory from '../pages/AddCategory'
 import NotFound from '../pages/NotFound'
+import AddProduct from '../pages/AddProduct'
 import RegisterConsumer from '../pages/RegisterConsumer'
 import NavigationContainer from '../containers/NavigationContainer'
 import NavigationBar from './common/NavigationBar'
 import NavigationLink from './common/NavigationLink'
+import UpdateProduct from '../pages/UpdateProduct'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -63,8 +65,16 @@ const CompanyUserRoutes = ({ match, location }) => (
   <NavigationContainer>
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/product`} >Add Product</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/product/ADD_ME`} >Update Product</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
+    <Switch>
+      <Route exact path={match.url} component={Welcome} />
+      <Route exact path={`${match.url}/product`} component={AddProduct}/>
+      <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
+      <Route component={NotFound} />
+    </Switch>
     <TransitionGroup>
       <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
         <Switch>
@@ -98,11 +108,7 @@ const CompanyAdminRoute = ProtectedRoute(USER_TYPES.COMPANY_ADMIN)
 const CompanyUserRoute = ProtectedRoute(USER_TYPES.COMPANY_REP)
 const UserRoute = ProtectedRoute(USER_TYPES.USER)
 
-/**
- * Main Content routes
- * if we want any more endpoints such as /manuals or w/e
- * we can just add another route
- */
+
 export const ContentRoutes = () => (
   <Switch>
     <Route exact path='/' component={Main} />

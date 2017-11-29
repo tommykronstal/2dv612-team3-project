@@ -74,20 +74,6 @@ class CompanyController extends Controller {
       if (e.code === 11000) return res.status(400).json({ error: true, message: 'User already exists' });
     });
   }
-
-
-  uploadFile(req, res, next) {
-    const {
-        originalname, size, filename, path, mimetype
-      } = req.file;
-      const name = req.body.name;
-      
-      materialFacade.create({
-        originalname, size, name, path, filename, mimetype
-      }).then((doc) => {
-        res.status(201).json({error: false, message: 'Uploaded ' + req.file.originalname});
-      }).catch((e) => { return res.status(400).json({error: true, message: 'Failed to upload.'}) }); 
-  }
 }
 
 module.exports = new CompanyController(companyFacade);

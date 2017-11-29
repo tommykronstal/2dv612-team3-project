@@ -3,6 +3,7 @@ const productFacade = require("./facade");
 const companyFacade = require("../company/facade");
 const materialFacade = require("../material/facade");
 
+
 class ProductController extends Controller {
   findForCompany(req, res, next) {
     companyFacade.findById(req.param("companyid")).then(doc => {
@@ -25,17 +26,25 @@ class ProductController extends Controller {
       })
       .then(compDoc => {
         res.status(201).json(compDoc.products);
-      });
+      })
+      .catch((e) => { return res.status(400).json({error: true, message: 'Could not create product.'}) });
   }
 
   update(req, res, next) {
     let product;
 
+    const {
+      originalname, size, filename, path, mimetype
+    } = req.file;
+    const name = req.body.name;
+
     productFacade
       .findById(req.param("id"))
       .then(doc => {
         product = doc;
-        return materialFacade.create(req.body);
+        return materialFacade.create({
+          originalname, size, name, path, filename, mimetype
+        });
       })
       .then(materialDoc => {
         product.materials.push(materialDoc);
@@ -43,7 +52,8 @@ class ProductController extends Controller {
       })
       .then(prodDoc => {
         res.status(201).json(prodDoc);
-      });
+      })
+      .catch((e) => { return res.status(400).json({error: true, message: 'Failed to upload.'}) });
   }
 }
 
