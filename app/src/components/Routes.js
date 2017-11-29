@@ -66,7 +66,7 @@ const CompanyUserRoutes = ({ match, location }) => (
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/product`} >Add Product</NavigationLink>
-      <NavigationLink exact={true} to={`${match.url}/product/5a1e972180e4530056e67686`} >Update Product</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/product/ADD_ME`} >Update Product</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>

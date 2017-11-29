@@ -11,14 +11,16 @@ describe('submitForm', () => {
       form: MY_FORM, 
       endpoint: '/a/b',
       action: () => {},
-      tokenRequired: false
+      tokenRequired: false,
+      update: true
     }
 
     expect(submitForm(
       expected.form, 
       expected.endpoint, 
       expected.action, 
-      expected.tokenRequired
+      expected.tokenRequired,
+      expected.update
     )).toEqual(expected)
   })
 
@@ -28,7 +30,8 @@ describe('submitForm', () => {
       form: MY_FORM, 
       endpoint: '/a/b',
       action: () => {},
-      tokenRequired: true
+      tokenRequired: true,
+      update: false
     }
 
     expect(submitForm(
