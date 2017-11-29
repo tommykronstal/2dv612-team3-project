@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const materialSchema = new Schema({
   name: {type: String},
-  originalName: { type: String, required: true },
+  originalname: { type: String, required: true },
   filename: {type: String},
   path: { type: String },
   size: {type: Number},
@@ -12,4 +12,4 @@ const materialSchema = new Schema({
 });
 
 
-module.exports =  materialSchema;
+module.exports = mongoose.model('Material', materialSchema);

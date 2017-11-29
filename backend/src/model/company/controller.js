@@ -5,6 +5,7 @@ const jwtSecret = 'keyboardcat'; // TODO move elsewhere
 const Controller = require('../../lib/controller');
 const companyFacade = require('./facade');
 const userFacade = require('../user/facade');
+const materialFacade = require('../material/facade');
 
 class CompanyController extends Controller {
 
@@ -72,6 +73,20 @@ class CompanyController extends Controller {
     }).catch((e) => {
       if (e.code === 11000) return res.status(400).json({ error: true, message: 'User already exists' });
     });
+  }
+
+
+  uploadFile(req, res, next) {
+    const {
+        originalname, size, filename, path, mimetype
+      } = req.file;
+      const name = req.body.name;
+      
+      materialFacade.create({
+        originalname, size, name, path, filename, mimetype
+      }).then((doc) => {
+        res.status(201).json({error: false, message: 'Uploaded ' + req.file.originalname});
+      }).catch((e) => { return res.status(400).json({error: true, message: 'Failed to upload.'}) }); 
   }
 }
 
