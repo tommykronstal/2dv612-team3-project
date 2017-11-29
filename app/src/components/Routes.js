@@ -9,6 +9,7 @@ import Main from '../pages/Main'
 import Welcome from '../pages/Welcome'
 import AddCompany from '../pages/AddCompany'
 import AddCompanyRep from '../pages/AddCompanyRep'
+import AddCategory from '../pages/AddCategory'
 import NotFound from '../pages/NotFound'
 import RegisterConsumer from '../pages/RegisterConsumer'
 import NavigationContainer from './common/NavigationContainer'
@@ -21,11 +22,13 @@ const AdminRoutes = ({ match }) => (
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/companies`}>Add Company</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/categories`}>Add Category</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>
       <Route exact path={match.url} component={Welcome} />
       <Route exact path={`${match.url}/companies`} component={AddCompany} />
+      <Route exact path={`${match.url}/categories`} component={AddCategory} />
       <Route component={NotFound} />
     </Switch>
   </NavigationContainer>
