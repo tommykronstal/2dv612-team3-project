@@ -15,12 +15,12 @@ class UpdateProduct extends Component {
 	handleUpload = e => {
 		e.preventDefault()
 		const {
-			form: {productName, productFile},
-			companyId = 10,
-			productId = 50,
+			form: {name, pdf},
+			companyId,
+			match: { params: { productId }}
 		} = this.props
 
-		if (!productName || !productFile) {
+		if (!name || !pdf) {
 			return this.setState(() => ({displayWarning: true}))
 		}
 
@@ -28,12 +28,12 @@ class UpdateProduct extends Component {
 	}
 
 	onFileReady = file => {
-		this.props.dispatch(updateField(UPDATE_PRODUCT, 'productFile', file))
+		this.props.dispatch(updateField(UPDATE_PRODUCT, 'pdf', file))
 	}
 
 	render() {
 		const {
-			form: {productName, productFile},
+			form: {name, productFile},
 			loading: {isLoading},
 			updateField: _updateField,
 		} = this.props
@@ -42,7 +42,7 @@ class UpdateProduct extends Component {
 				<form
 					onSubmit={e => this.handleUpload(e)}
 					onChange={() => {
-						if (productName && productFile && this.state.displayWarning) {
+						if (name && productFile && this.state.displayWarning) {
 							this.setState(() => ({displayWarning: false}))
 						}
 					}}
@@ -61,8 +61,8 @@ class UpdateProduct extends Component {
 						}
 						type="text"
 						label="Material Name"
-						name="productName"
-						value={productName}
+						name="name"
+						value={name}
 						onChange={_updateField}
 					/>
 					<Button primary loading={isLoading}>
@@ -92,7 +92,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = ({loading, form, auth}) => ({
 	loading,
 	form: form[UPDATE_PRODUCT] || {},
-	auth
+	companyId: auth.companyId
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProduct)

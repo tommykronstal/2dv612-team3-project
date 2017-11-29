@@ -62,8 +62,12 @@ function* handleResponse(response, form, action) {
  */
 function* sendProductFile(endpoint, token, payload, tokenHeader = {}, action, form) {
   const formData = new FormData()
-  formData.append('pdf', payload.productFile)
-  formData.append('productName', payload.productName)
+
+  console.log(payload)
+
+  for( let key in payload) {
+    formData.append(key, payload[key])
+  }
 
   const response = yield call(post, endpoint, {
     headers: {
