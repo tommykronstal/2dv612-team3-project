@@ -41,9 +41,13 @@ function checkRole(req, res, next) {
 
     if (decoded.role === 'ADMIN') return next();
 
+    //Let any user get all categories
+    if ((decoded.role === 'USER' || decoded.role === 'COMPANY_REP' || decoded.role === 'COMPANY_ADMIN')
+            && (req.url === '/api/category') && req.method === 'GET') return next();
+
     if (decoded.role === 'USER') return res.status(403).json({ error: true, message: 'Forbidden' });
 
-    if (decoded.role && req.url === '/api/category') return next(); // \o/
+    //if (decoded.role && req.url === '/api/category') return next(); // \o/
 
     if (decoded.role === 'COMPANY_REP' && (req.url === "/api/company/" + companyId + "/product"
             || req.url === "/api/company/" + companyId + "/product/" + productId)) {
