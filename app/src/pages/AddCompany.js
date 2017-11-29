@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {ADD_COMPANY} from '../formTypes'
 import {updateField, submitForm} from '../actions/form'
-import { setStatus } from '../actions/status'
+import {setStatus} from '../actions/status'
 import FormSection from '../components/common/FormSection'
 import Title from '../components/common/Title'
 import Input from '../components/common/Input'
@@ -55,7 +55,7 @@ export const AddCompany = props => (
 
 export const handleResponse = _ => setStatus('Company Created')
 
-export const mapStateToProps = ({loading, form}) => ({
+export const mapStateToProps = ({ loading, form }) => ({
   loading,
   form: form[ADD_COMPANY] || {}
 })
@@ -66,7 +66,7 @@ export const mapDispatchToProps = dispatch => ({
     '/api/company',
     handleResponse
   )),
-  updateField: ({target}) => dispatch(updateField(ADD_COMPANY, target.name, target.value))
+  updateField: ({ target }) => dispatch(updateField(ADD_COMPANY, target.name, target.value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCompany)
