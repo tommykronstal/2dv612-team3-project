@@ -43,6 +43,7 @@ node {
             stage('Set up staging environment') {
                 unstash 'fullStack'
                 cleanOldBuild()
+                sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
             }
         }
@@ -54,12 +55,13 @@ node {
     }
 }
 
-input "Deploy to production?"
+//input "Deploy to production?"
 
 node('prod') {
     stage ('Deploy') {
         unstash 'fullStack'
         cleanOldBuild()
+        sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
         slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }

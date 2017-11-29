@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddCategory component renders correctly, initial 1`] = `
+<section
+  className="sc-bdVaJa cgbLUC"
+>
+  <form
+    className="sc-bwzfXH gJIwTT"
+    onSubmit={[Function]}
+  >
+    <h1
+      className="sc-htpNat cfPrNC"
+    >
+      Add a new category
+    </h1>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="categoryName"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <label
+        className="sc-ifAKCX crRGrj"
+        value=""
+      >
+        Category Name
+      </label>
+    </div>
+    <button
+      className="sc-gzVnrw jvbcrm"
+      disabled={undefined}
+      onClick={[Function]}
+    >
+      Add
+    </button>
+  </form>
+</section>
+`;
+
+exports[`AddCategory component renders correctly, with data 1`] = `
+<section
+  className="sc-bdVaJa cgbLUC"
+>
+  <form
+    className="sc-bwzfXH gJIwTT"
+    onSubmit={[Function]}
+  >
+    <h1
+      className="sc-htpNat cfPrNC"
+    >
+      Add a new category
+    </h1>
+    <div
+      className="sc-EHOje cprGDq"
+    >
+      <input
+        className="sc-bxivhb hkzSDr"
+        name="categoryName"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <label
+        className="sc-ifAKCX crRGrj"
+        value=""
+      >
+        Category Name
+      </label>
+    </div>
+    <button
+      className="sc-gzVnrw jvbcrm"
+      disabled={undefined}
+      onClick={[Function]}
+    >
+      Add
+    </button>
+  </form>
+</section>
+`;
