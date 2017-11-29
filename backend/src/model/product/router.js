@@ -7,8 +7,7 @@ router.route('/company/:companyid/product')
   .post((...args) => controller.create(...args));
 
 router.route('/product')
-    .get((...args) => controller.find(...args))
-    //.post((...args) => controller.create(...args));
+  .get((...args) => controller.find(...args));
 
 router.route('/company/:companyid/product/:id')
   .put((...args) => controller.update(...args))

@@ -20,7 +20,8 @@ router.route('*').all(function (req, res, next) {
 
 router.use('/api/user', user);
 router.use('/api/company', company);
-router.use('/api/admin/category', category);
+router.use('/api/admin/category', category.admin);
+router.use('/api/category', category.user);
 router.use('/api/', product);
 
 module.exports = router;

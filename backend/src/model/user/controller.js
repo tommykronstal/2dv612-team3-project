@@ -22,6 +22,7 @@ class UserController extends Controller {
 
         if (match) {
           const role = doc.role;
+
           // const token = jwt.sign(JSON.stringify({ email, role }), jwtSecret);
           if (role === 'COMPANY_ADMIN' || role === "COMPANY_REP") {
             companyFacade.getCompanyID(doc).then((companyId) => {
@@ -30,8 +31,8 @@ class UserController extends Controller {
             }).catch(e => res.status(401).json(e))
 
           } else {
-            const token = jwt.sign(JSON.stringify({ email, role }), jwtSecret);
             // Everything went ok, logging in!
+            const token = jwt.sign(JSON.stringify({ email, role }), jwtSecret);
             return res.json({ token, error: false });
           }
         } else {
