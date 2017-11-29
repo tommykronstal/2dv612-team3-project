@@ -43,7 +43,7 @@ node {
             stage('Set up staging environment') {
                 unstash 'fullStack'
                 cleanOldBuild()
-                sh 'docker-compose up -d'
+                sh 'docker-compose up --build -d'
             }
         }
 
