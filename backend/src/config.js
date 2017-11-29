@@ -10,7 +10,7 @@ const config = {
       firstName: 'Admin',
       lastName: '',
       email: 'admin@admin.nu',
-      password: process.env.ADMIN_PASSWORD || '8fhsW-tqm',
+      password: process.env.ADMIN_PASSWORD || 'admin',
       role: 'ADMIN',
   }
 };
