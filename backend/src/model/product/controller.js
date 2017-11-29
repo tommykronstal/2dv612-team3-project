@@ -1,6 +1,7 @@
 const Controller = require("../../lib/controller");
 const productFacade = require("./facade");
 const companyFacade = require("../company/facade");
+const materialFacade = require("../material/facade");
 
 class ProductController extends Controller {
   findForCompany(req, res, next) {
