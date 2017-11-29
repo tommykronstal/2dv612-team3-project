@@ -35,7 +35,7 @@ export const mapStateToProps = ({ loading, form }) => ({
 export const mapDispatchToProps = dispatch => ({
   addCategory: () => dispatch(submitForm(
     ADD_CATEGORY,
-    '/api/category',
+    '/api/admin/category',
     handleResponse
   )),
   updateField: ({ target }) => dispatch(updateField(ADD_CATEGORY, target.name, target.value))
