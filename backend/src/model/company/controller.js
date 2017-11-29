@@ -5,6 +5,7 @@ const jwtSecret = 'keyboardcat'; // TODO move elsewhere
 const Controller = require('../../lib/controller');
 const companyFacade = require('./facade');
 const userFacade = require('../user/facade');
+const materialFacade = require('../material/facade');
 
 class CompanyController extends Controller {
 
@@ -75,11 +76,17 @@ class CompanyController extends Controller {
 
 
   uploadFile(req, res, next) {
-      // TODO: Add a new document in mongo { productid: req.params.productid }
-      res.status(200).json({payload: req.file, message: "You uploaded " + req.file.originalname + " to company with id " + req.params.companyid + " and to product with id " + req.params.productid});
-
+    const {
+        originalname, size, filename, path, mimetype
+      } = req.file;
+      const name = req.body.name;
+      
+      materialFacade.create({
+        originalname, size, name, path, filename, mimetype
+      }).then((doc) => {
+        res.status(201).json({error: false, message: 'Uploaded ' + req.file.originalname});
+      }).catch((e) => { return res.status(400).json({error: true, message: 'Failed to upload.'}) }); 
   }
-
 }
 
 module.exports = new CompanyController(companyFacade);

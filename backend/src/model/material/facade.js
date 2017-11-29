@@ -3,4 +3,4 @@ const materialSchema = require('./schema');
 
 class MaterialFacade extends Facade {}
 
-module.exports = new MaterialFacade('Material', materialSchema);
+module.exports = new MaterialFacade(materialSchema);
