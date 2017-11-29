@@ -40,7 +40,7 @@ class AddProduct extends Component {
 
   render() {
     const {categories, form: {productName}} = this.props
-    console.log(this.props)
+    console.log('this.props.', this.props)
     return (
       <Content>
         {!categories.length ? (

@@ -33,6 +33,8 @@ export function* formRequest({endpoint, form, action, tokenRequired}) {
     body: JSON.stringify(payload)
   })
 
+  console.log('response', response)
+
   yield handleResponse(response, form, action)
 }
 
