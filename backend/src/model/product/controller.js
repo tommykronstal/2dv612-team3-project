@@ -1,6 +1,7 @@
 const Controller = require("../../lib/controller");
 const productFacade = require("./facade");
 const companyFacade = require("../company/facade");
+const materialFacade = require("../material/facade");
 
 class ProductController extends Controller {
   findForCompany(req, res, next) {
@@ -11,8 +12,6 @@ class ProductController extends Controller {
 
   create(req, res, next) {
     let company;
-
-
 
     companyFacade
       .findById(req.param("companyid"))
@@ -32,10 +31,19 @@ class ProductController extends Controller {
   update(req, res, next) {
     let product;
 
-    productFacade.findById(req.param("id")).then(doc => {
-      product = doc;
-      return materialFace.create(req,body);
-    });
+    productFacade
+      .findById(req.param("id"))
+      .then(doc => {
+        product = doc;
+        return materialFacade.create(req.body);
+      })
+      .then(materialDoc => {
+        product.materials.push(materialDoc);
+        return product.save();
+      })
+      .then(prodDoc => {
+        res.status(201).json(prodDoc);
+      });
   }
 }
 
