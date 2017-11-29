@@ -40,6 +40,7 @@ class AddProduct extends Component {
 
   render() {
     const {categories, form: {productName}} = this.props
+    console.log(this.props)
     return (
       <Content>
         {!categories.length ? (
@@ -61,7 +62,7 @@ class AddProduct extends Component {
                 label="Product Name"
                 onChange={this.props.updateField}
               />
-              <Button primary>Save Product</Button>
+              <Button disabled={this.props.isLoading} primary>Save Product</Button>
             </form>
           </div>
         )}
@@ -74,9 +75,12 @@ const mapStateToProps = ({
   loading: {isLoading},
   categories: {categories},
   form,
+  auth
 }) => ({
   categories,
   form: form[ADD_PRODUCT] || {},
+  auth,
+  isLoading
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -5,7 +5,6 @@ const initialState = {
 }
 
 export default function navigation (state = initialState, action = {}) {
-  console.log(action, state)
   switch (action.type) {
   case TOGGLE_NAVIGATION:
     return {
