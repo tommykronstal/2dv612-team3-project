@@ -105,16 +105,14 @@ function checkRole(req, res, next, decoded) {
 
   if (decoded.role === 'COMPANY_ADMIN' && req.url === '/api/company/' + companyId) {
 
-    // todo why check for this ID on querystring when we required a token?
-    // if admin is looked up here then it and company should be sent on?
-    // companyFacade.findOne({ _id: companyId }).then((doc) => {
-    //     if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
+    companyFacade.findOne({ _id: companyId }).then((doc) => {
+      if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
 
     userFacade.findOne({ email: decoded.email }).then((user) => {
       if (!user) return res.status(401).json({ error: true, message: 'Invalid token' });
 
-      if (user.role !== 'COMPANY_ADMIN') {
-        return res.status(403).json({ error: true, message: 'Forbidden. Company admin only' });
+      if (user._id.toString() !== doc.admin.toString()) {
+          return res.status(403).json({ error: true, message: 'Forbidden. Company admin ID does not match the User ID' });
       }
 
       return next();
@@ -123,7 +121,7 @@ function checkRole(req, res, next, decoded) {
       message: 'Error: Cant find the given admin' + error
     }));
 
-    // }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
+    }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
   } else {
     return res.status(403).json({
       error: true,
