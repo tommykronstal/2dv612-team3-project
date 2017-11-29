@@ -32,15 +32,14 @@ class AddProduct extends Component {
   storeProduct = e => {
     e.preventDefault()
 
-    const {productName} = this.props.form
-    if (!productName) return
+    const {name} = this.props.form
+    if (!name) return
 
-    this.props.tryRegisterProduct()
+    this.props.tryRegisterProduct(this.props.companyId)
   }
 
   render() {
-    const {categories, form: {productName}} = this.props
-    console.log('this.props.', this.props)
+    const {categories, form: {name}} = this.props
     return (
       <Content>
         {!categories.length ? (
@@ -56,9 +55,9 @@ class AddProduct extends Component {
                 options={categories}
               />
               <Input
-                value={productName}
+                value={name}
                 type="text"
-                name="productName"
+                name="name"
                 label="Product Name"
                 onChange={this.props.updateField}
               />
@@ -79,7 +78,7 @@ const mapStateToProps = ({
 }) => ({
   categories,
   form: form[ADD_PRODUCT] || {},
-  auth,
+  companyId: auth.companyId,
   isLoading
 })
 
@@ -88,11 +87,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateField(ADD_PRODUCT, target.name, target.value)),
 
   fetchCategories: updateConfig => dispatch(fetchCategories(updateConfig)),
-  tryRegisterProduct: () =>
+  tryRegisterProduct: companyId =>
     dispatch(
       submitForm(
         ADD_PRODUCT,
-        '/api/product',
+        `/api/company/${companyId}/product`,
         () => setStatus('Product Created.'),
         true,
       ),

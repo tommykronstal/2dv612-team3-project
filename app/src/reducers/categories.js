@@ -9,7 +9,7 @@ export default (state = defaultState, action) => {
     case SET_CATEGORIES:
       return {
         ...state,
-        categories: [...state.categories, ...action.categories],
+        categories: [...action.categories],
       }
     default:
       return state

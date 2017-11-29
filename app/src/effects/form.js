@@ -26,6 +26,8 @@ export function* formRequest({endpoint, form, action, tokenRequired}) {
     return
   }
 
+  console.log(payload)
+
   const response = yield call(post, endpoint, {
     headers: {
       ...tokenHeader,
