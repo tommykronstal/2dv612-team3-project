@@ -31,6 +31,7 @@
     "jest": "^21.2.1",
     "jest-cli": "^21.2.1",
     "jest-junit": "^3.3.0",
+    "pact": "^4.2.1",
     "react-test-renderer": "^16.1.1"
   },
   "scripts": {
@@ -38,8 +39,8 @@
     "build": "if-env NODE_ENV=production && react-scripts build || echo \"skip build in dev environment\"",
     "lint": "eslint ./src",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "test": "react-scripts test --env=jsdom",
-    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit",
+    "test": "react-scripts test --env=node --runInBand",
+    "test:ci": "react-scripts test --env=node --runInBand --testResultsProcessor ./node_modules/jest-junit",
     "eject": "react-scripts eject"
   },
   "jest-junit": {

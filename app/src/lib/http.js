@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch'
+
 const setMethod = method => async (url, {headers = {}, isJsonPayload = true, ...remaining}) => {
   const response = await fetch(url, {
     method,
