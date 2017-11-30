@@ -1,0 +1,31 @@
+version: '2'
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/src:/usr/src/app/src
+    ports:
+      - "4000:4000"
+    links:
+      - mongo
+    environment:
+      - MONGO_DB_URI=mongodb://mongo:27017/backend
+    command: npm start
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+
+  pactverifier:
+    image: dius/pact-provider-verifier-docker
+    links:
+      - backend
+    volumes:
+      - ./app/__pacts__/pacts:/tmp/pacts
+    environment:
+      - pact_urls=/tmp/pacts/frontend-backend.json
+      - provider_base_url=http://backend:4000
+  

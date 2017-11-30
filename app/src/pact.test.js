@@ -1,57 +1,29 @@
-import Pact from 'pact';
-import wrapper from '@pact-foundation/pact-node';
-import path from 'path';
+import Pact from 'pact'
+import path from 'path'
 import {get} from './lib/http'
-import fetch from 'isomorphic-fetch'
 
-const PACT_SERVER_PORT = 12340;
-const PACT_SPECIFICATION_VERSION = 2;
-
-const mockEventsService = wrapper.createServer({
-  port: PACT_SERVER_PORT,
-  spec: PACT_SPECIFICATION_VERSION,
-  log: path.resolve(process.cwd(), '../pact/logs', 'events-service-pact-integration.log'),
-  dir: path.resolve(process.cwd(), '../pact/pacts')
-});
 
 describe('set up pact', () => {
+  const PACT_SERVER_PORT = 12400
+  const PACT_SPECIFICATION_VERSION = 2
+  const PACT_HOST = 'http://localhost:' + PACT_SERVER_PORT
 
-  var provider;
+  const provider = Pact({
+    consumer: 'Frontend',
+    provider: 'Backend',
+    port: PACT_SERVER_PORT,
+    spec: PACT_SPECIFICATION_VERSION,
+    log: path.resolve(process.cwd(), './__pacts__/logs', 'pact-integration.log'),
+    dir: path.resolve(process.cwd(), './__pacts__/pacts')
+  })
 
-  beforeEach((done) => {
-    mockEventsService.start().then(() => {
-      
-      provider = Pact({ consumer: 'Events Frontend', provider: 'Events Service', port: 12340 })
-      done();
-    }).catch((err) => catchAndContinue(err, done));
-  });
+  beforeAll(() => provider.setup())
+  afterAll(() => provider.finalize())
 
-  afterAll(() => {
-    wrapper.removeAllServers();
-  });
+  describe('returns a welcome message', () => {
 
-  afterEach((done) => {
-    mockEventsService.delete().then(() => {
-      done();
-    })
-    .catch((err) => catchAndContinue(err, done));
-  });
-
-  function catchAndContinue(err, done) {
-    console.log("ERROR", err)
-    fail(err);
-    done();
-  }
-
-
-  describe('returns the expected result when the events service returns a list of events', () => {
-    //const expectedResult = eventsClientFixtures.getEvents.TWO_EVENTS;
-    //const eventsClient = new EventsClient({host: `http://localhost:${PACT_SERVER_PORT}`});
-  
-    beforeEach(async() => {
-      
-      await provider.addInteraction({
-        uponReceiving: 'a request for testing',
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'a request for getting welcome message',
         withRequest: {
           method: 'GET',
           path: '/api',
@@ -59,30 +31,19 @@ describe('set up pact', () => {
         },
         willRespondWith: {
           status: 200,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
           body: {message: 'Welcome to backend API!'}
         }
-      });
-    });
-  
-    afterEach(async() => {
-      //await provider.finalize();
-    });
-  
-    it('returns a list of events', async () => {
-      //const response = await fetch('http://localhost:12340/api', {headers: { 'Accept': 'application/json' }});
-      //const result = await response.json()
-      //console.log(result)
+      })
+    )
     
-      //expect(result).toEqual({message: 'Welcome to backend API!'});
-      //provider.verify(result);
-    });
-  });
+    it('returns a list of events', async () => {
+      const result = await get(PACT_HOST + '/api', {headers: { 'Accept': 'application/json' }})
+    
+      expect(result).toEqual({message: 'Welcome to backend API!', status: 200})
+    })
 
-
+    it('successfully verifies', () => provider.verify())
+  })
 
 })
-
-
-
-

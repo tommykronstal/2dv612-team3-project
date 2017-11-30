@@ -23,7 +23,6 @@
     "styled-components": "^2.2.3"
   },
   "devDependencies": {
-    "@pact-foundation/pact-node": "^6.0.0",
     "@storybook/addon-backgrounds": "^3.0.0",
     "@storybook/addon-centered": "^3.2.14",
     "@storybook/react": "^3.2.14",
@@ -40,8 +39,8 @@
     "build": "if-env NODE_ENV=production && react-scripts build || echo \"skip build in dev environment\"",
     "lint": "eslint ./src",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "test": "react-scripts test --env=jsdom",
-    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit",
+    "test": "react-scripts test --env=node --runInBand",
+    "test:ci": "react-scripts test --env=node --runInBand --testResultsProcessor ./node_modules/jest-junit",
     "eject": "react-scripts eject"
   },
   "jest-junit": {
