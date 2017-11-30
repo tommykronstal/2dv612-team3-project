@@ -8,11 +8,11 @@ node {
             }
 
             stage ('archive') {
-                stash 'fullStack'
+                stash includes: '*.yml, /app, /backend, nginx, *.json, yarn.lock, /pact', name: 'fullStack'
             }
-
+            
             stage ('Cleaning previous build') {
-                cleanOldBuild()
+                cleanOldBuild("docker-compose.yml")
             }
 
             stage ('Build services') {
@@ -24,7 +24,7 @@ node {
                 },
                 failFast: true
             }
-
+            
             stage ('Unit tests') {
 
                 parallel frontendTest: {
@@ -34,17 +34,17 @@ node {
                 },
                 failFast: true
                 
-                //cleanOldBuild()
-                //sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+                cleanOldBuild("docker-compose-pact.yml")
+                sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
                 sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
-                junit '**/backend/src/test-report*.xml'
+                junit "**/backend/src/test-report*.xml"
             }
         }
 
         node('staging') {
             stage('Set up staging environment') {
                 unstash 'fullStack'
-                cleanOldBuild()
+                cleanOldBuild("docker-compose.yml")
                 sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
             }
@@ -62,7 +62,7 @@ node {
 node('prod') {
     stage ('Deploy') {
         unstash 'fullStack'
-        cleanOldBuild()
+        cleanOldBuild("docker-compose-prod.yml")
         sh 'docker-compose -f docker-compose-prod.yml down'
         sh 'docker volume rm 2dv612pipeline_static-files --force'
         sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
@@ -71,8 +71,7 @@ node('prod') {
     }
 }
 
-def cleanOldBuild() {
-    sh 'docker stop $(docker ps -a -q)'
-    sh 'docker rm $(docker ps -a -q)'
+def cleanOldBuild(df) {
+    sh "docker-compose -f ${df} stop"
     sh 'docker network prune -f'
 }
