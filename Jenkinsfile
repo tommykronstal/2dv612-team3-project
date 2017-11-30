@@ -8,7 +8,7 @@ node {
             }
 
             stage ('archive') {
-                stash excludes: '/data', name: 'fullStack'
+                stash includes: '*.yml, /app, /backend', name: 'fullStack'
             }
             
             stage ('Cleaning previous build') {
