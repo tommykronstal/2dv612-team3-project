@@ -34,6 +34,7 @@ node {
                 },
                 failFast: true
                 
+                sh 'docker network prune -f' 
                 sh 'docker-compose -f docker-compose-pact.yml up --build'
                 sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
                 junit '**/backend/src/test-report*.xml'
