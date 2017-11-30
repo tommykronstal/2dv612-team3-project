@@ -8,11 +8,11 @@ node {
             }
 
             stage ('archive') {
-                //stash 'fullStack'
+                stash 'fullStack'
             }
 
             stage ('Cleaning previous build') {
-                cleanOldBuild()
+                cleanOldBuild("docker-compose.yml")
             }
 
             stage ('Build services') {
@@ -34,7 +34,7 @@ node {
                 },
                 failFast: true
                 
-                cleanOldBuild()
+                cleanOldBuild("docker-compose-pact.yml")
                 sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
                 sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
                 junit '**/backend/src/test-report*.xml'
@@ -43,10 +43,10 @@ node {
 
         node('staging') {
             stage('Set up staging environment') {
-                //unstash 'fullStack'
-                //cleanOldBuild()
-                //sh 'docker-compose build --no-cache'
-                //sh 'docker-compose up -d'
+                unstash 'fullStack'
+                cleanOldBuild("docker-compose.yml")
+                sh 'docker-compose build --no-cache'
+                sh 'docker-compose up -d'
             }
         }
 
@@ -61,18 +61,17 @@ node {
 
 node('prod') {
     stage ('Deploy') {
-        //unstash 'fullStack'
-        //cleanOldBuild()
-        //sh 'docker-compose -f docker-compose-prod.yml down'
-        //sh 'docker volume rm 2dv612pipeline_static-files --force'
-        //sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
-        //sh 'docker-compose -f docker-compose-prod.yml up -d'
-        //slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
+        unstash 'fullStack'
+        cleanOldBuild("docker-compose-prod.yml")
+        sh 'docker-compose -f docker-compose-prod.yml down'
+        sh 'docker volume rm 2dv612pipeline_static-files --force'
+        sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
+        sh 'docker-compose -f docker-compose-prod.yml up -d'
+        slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }
 }
 
-def cleanOldBuild() {
-    sh 'docker stop $(docker ps -a -q)'
-    sh 'docker rm $(docker ps -a -q)'
+def cleanOldBuild(df) {
+    sh 'docker-compose -f ${df} down'
     sh 'docker network prune -f'
 }
