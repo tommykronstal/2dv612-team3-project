@@ -11,6 +11,7 @@
 * Live server: [http://194.47.174.40](http://194.47.174.40)
 * Staging server frontend: [http://194.47.174.56:3000](http://194.47.174.56:3000)
 * Staging server backend: [http://194.47.174.56:4000](http://194.47.174.56:4000)
+* Jenkins build server: [http://194.47.174.37:8080](http://194.47.174.37:8080)
 
 # run locally
 
