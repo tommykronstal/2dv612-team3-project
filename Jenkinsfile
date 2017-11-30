@@ -8,7 +8,7 @@ node {
             }
 
             stage ('archive') {
-                stash 'fullStack2'
+                stash includes '*.yml', name: 'fullStack'
             }
             
             stage ('Cleaning previous build') {
@@ -43,7 +43,7 @@ node {
 
         node('staging') {
             stage('Set up staging environment') {
-                unstash 'fullStack2'
+                unstash 'fullStack'
                 //cleanOldBuild("docker-compose.yml")
                 //sh 'docker-compose build --no-cache'
                 //sh 'docker-compose up -d'
