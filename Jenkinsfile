@@ -52,7 +52,7 @@ node {
 
 
     } catch (err) {
-        //slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
+        slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
         currentBuild.result = 'FAILURE'
     }
 }
