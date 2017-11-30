@@ -6,7 +6,7 @@ import Text from '../components/common/Text'
 
 const Welcome = props => (
   <Section>
-    <Title>Welcome {props.email}</Title>
+    <Title>Welcome {props.firstName}</Title>
     <Text>Here you can find some stuff.</Text>
     <Text>/ RTFM </Text>
   </Section>
