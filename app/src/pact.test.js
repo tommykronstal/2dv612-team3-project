@@ -21,7 +21,7 @@ describe('set up pact', () => {
   afterAll(() => provider.finalize())
 
   describe('returns a welcome message', () => {
-    const expected = {message: 'Welcome to backend API'}
+    const expected = {message: 'Welcome to backend API!'}
 
     beforeAll(() => provider.addInteraction({
         uponReceiving: 'a request for getting welcome message',
