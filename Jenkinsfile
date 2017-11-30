@@ -35,7 +35,7 @@ node {
                 failFast: true
                 
                 cleanOldBuild()
-                sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+                //sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
                 sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
                 junit '**/backend/src/test-report*.xml'
             }
