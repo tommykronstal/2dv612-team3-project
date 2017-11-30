@@ -34,6 +34,7 @@ services:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
+      - ADMIN_PASSWORD=$ADMIN_PASSWORD
     command: npm start
 
   mongo:
