@@ -72,6 +72,6 @@ node('prod') {
 }
 
 def cleanOldBuild(df) {
-    sh 'docker-compose -f ${df} stop'
+    sh "docker-compose -f ${df} stop"
     sh 'docker network prune -f'
 }
