@@ -9,10 +9,11 @@ import { fetchProducts } from '../actions/products'
 
 const List = styled.ul`
 padding: 0;
+border-bottom: 1px solid rgb(240,240,240);
 `
 const Item = styled.li`
 list-style-type: none;
-padding: 0.8rem;
+padding: 0.8rem 0;
 border-top: 1px solid rgb(240,240,240);
 color: 
 `

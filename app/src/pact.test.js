@@ -21,6 +21,7 @@ describe('set up pact', () => {
   afterAll(() => provider.finalize())
 
   describe('returns a welcome message', () => {
+    const expected = {message: 'Welcome to backend API'}
 
     beforeAll(() => provider.addInteraction({
         uponReceiving: 'a request for getting welcome message',
@@ -32,7 +33,7 @@ describe('set up pact', () => {
         willRespondWith: {
           status: 200,
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: {message: 'Welcome to backend API!'}
+          body: expected
         }
       })
     )
@@ -40,7 +41,7 @@ describe('set up pact', () => {
     it('returns a list of events', async () => {
       const result = await get(PACT_HOST + '/api', {headers: { 'Accept': 'application/json' }})
     
-      expect(result).toEqual({message: 'Welcome to backend API!', status: 200})
+      expect(result).toEqual({...expected, status: 200})
     })
 
     it('successfully verifies', () => provider.verify())
