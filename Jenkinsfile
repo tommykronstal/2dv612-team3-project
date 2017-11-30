@@ -9,7 +9,7 @@ node {
 
             stage ('archive') {
                 stash 'fullStack'
-                unstash 'fullStack'
+                //unstash 'fullStack'
             }
             /*
             stage ('Cleaning previous build') {
@@ -58,7 +58,7 @@ node {
     }
 }
 
-input "Deploy to production?"
+//input "Deploy to production?"
 
 node('prod') {
     stage ('Deploy') {
