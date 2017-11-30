@@ -9,23 +9,22 @@ node {
 
             stage ('archive') {
                 stash 'fullStack'
-                //unstash 'fullStack'
             }
-            /*
+            
             stage ('Cleaning previous build') {
                 cleanOldBuild("docker-compose.yml")
             }
 
             stage ('Build services') {
 
-                parallel buildFrontend: {
-                    sh 'docker-compose build --no-cache app'
-                }, buildBackend: {
-                    sh 'docker-compose build --no-cache backend'
-                },
-                failFast: true
+                //parallel buildFrontend: {
+                //    sh 'docker-compose build --no-cache app'
+                //}, buildBackend: {
+                //    sh 'docker-compose build --no-cache backend'
+                //},
+                //failFast: true
             }
-            */
+            
             stage ('Unit tests') {
 
                 //parallel frontendTest: {
@@ -44,7 +43,7 @@ node {
 
         node('staging') {
             stage('Set up staging environment') {
-                //unstash 'fullStack'
+                unstash 'fullStack'
                 //cleanOldBuild("docker-compose.yml")
                 //sh 'docker-compose build --no-cache'
                 //sh 'docker-compose up -d'
