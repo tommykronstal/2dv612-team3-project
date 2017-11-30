@@ -35,7 +35,7 @@ node {
                 failFast: true
                 
                 cleanOldBuild()
-                //sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+                sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
                 sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
                 junit '**/backend/src/test-report*.xml'
             }
@@ -72,7 +72,7 @@ node('prod') {
 }
 
 def cleanOldBuild() {
-    sh 'docker-compose stop'
-    sh 'docker-compose rm -f'
+    sh 'docker stop $(docker ps -a -q)'
+    sh 'docker rm $(docker ps -a -q)'
     sh 'docker network prune -f'
 }
