@@ -9,8 +9,9 @@ node {
 
             stage ('archive') {
                 stash 'fullStack'
+                unstash 'fullStack'
             }
-
+            /*
             stage ('Cleaning previous build') {
                 cleanOldBuild("docker-compose.yml")
             }
@@ -24,20 +25,20 @@ node {
                 },
                 failFast: true
             }
-
+            */
             stage ('Unit tests') {
 
-                parallel frontendTest: {
-                    sh 'docker-compose -f docker-compose-test.yml up app'
-                }, backendTest: {
-                    sh 'docker-compose -f docker-compose-test.yml up backend'
-                },
-                failFast: true
+                //parallel frontendTest: {
+                    //sh 'docker-compose -f docker-compose-test.yml up app'
+                //}, backendTest: {
+                //    sh 'docker-compose -f docker-compose-test.yml up backend'
+                //},
+                //failFast: true
                 
-                cleanOldBuild("docker-compose-pact.yml")
-                sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
-                sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
-                junit '**/backend/src/test-report*.xml'
+                //cleanOldBuild("docker-compose-pact.yml")
+                //sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+                //sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
+                //junit "**/backend/src/test-report*.xml"
             }
         }
 
