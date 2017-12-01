@@ -21,7 +21,11 @@ const Button = styled.button`
 	background: rgb(110, 160, 220);
 	color: white;
   user-select: none;
-  cursor: ${props => props.disabled ? 'wait' : 'pointer'};
+  cursor: ${props => props.loading ? 'wait' : 'pointer'};
+
+  ${props => props.disabled && !props.loading && css`
+		background: rgb(240,240,240);
+	`}
 
   :not([disabled]):active {
     background: ${props => props.primary ? 'rgb(100, 150, 200)' : 'rgba(110, 160, 220, 0.1)'};
@@ -39,7 +43,8 @@ export default props => (
   <Button
     primary={props.primary}
     onClick={event => props.onClick && props.onClick(event)}
-    disabled={props.loading}
+    disabled={props.loading || props.disabled}
+    loading={props.loading}
   >
     {props.loading ? <Loading small white={props.primary} /> : props.children}
   </Button>

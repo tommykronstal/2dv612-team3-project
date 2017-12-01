@@ -12,7 +12,9 @@ export function* fetchProducts() {
 
   const { token, companyId } = yield select(state => ({ token: state.auth.jwt, companyId: state.auth.companyId }))
 
-  const products = yield call(get, `/api/company/${companyId}/product`, { headers: { Authorization: token }})
+  const endpoint = companyId ?  `/api/company/${companyId}/product` : '/api/product'
+
+  const products = yield call(get, endpoint, { headers: { Authorization: token }})
 
   yield put({type: SET_PRODUCTS, products})
   

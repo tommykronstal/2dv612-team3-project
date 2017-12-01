@@ -51,8 +51,8 @@ exports[`Login component renders correctly, initial 1`] = `
         </label>
       </div>
       <button
-        className="sc-htoDjs gyJotO"
-        disabled={false}
+        className="sc-htoDjs fvWSKr"
+        disabled={undefined}
         onClick={[Function]}
       >
         Login
@@ -120,7 +120,7 @@ exports[`Login component renders correctly, with data 1`] = `
         </label>
       </div>
       <button
-        className="sc-htoDjs kYfdvH"
+        className="sc-htoDjs gQlSJQ"
         disabled={true}
         onClick={[Function]}
       >
