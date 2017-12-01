@@ -1,3 +1,4 @@
+'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
@@ -35,15 +36,13 @@ userSchema.pre('save', function(next) {
 });
 
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, function(err, res) {
-        if (err) {
-            return callback(err);
-        }
-
-        callback(null, res);
+      if (err) return reject(err);
+      return resolve(res);
     });
+  })
 };
 
 module.exports = mongoose.model('User', userSchema);

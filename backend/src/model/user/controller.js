@@ -6,43 +6,46 @@ const companyFacade = require('../company/facade');
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
 
 class UserController extends Controller {
-  login(req, res, next) {
+   async login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
 
-    userFacade.findOne({ email }).then((doc) => {
-
+    try {
+      const doc = await userFacade.findOne({ email });
       if (!doc || doc === undefined || doc.errors !== undefined) {
         return res.status(401).json({ error: true, message: 'Invalid username or password' });
       }
 
-      doc.comparePassword(password, function (error, match) {
-        if (error) {
-          return res.status(500).json({ error: true, message: 'Invalid username or password' });
-        }
+      const match = await doc.comparePassword(password);
+      if (match === ) throw new Exception("invalid password");
+      const role = doc.role;
+      const firstName = doc.firstName;
 
-        if (match) {
-          const role = doc.role;
-          const firstName = doc.firstName;
+      if (role === 'COMPANY_ADMIN' || role === "COMPANY_REP") {
+        const html = await companyFacade.getCompanyID(doc);
+        const companyId = companyFacade.getCompanyID(doc);
+        const token = jwt.sign(JSON.stringify({
+          firstName,
+          email,
+          role,
+          companyId
+        }), jwtSecret);
+        return res.json({ token, error: false });
 
-          if (role === 'COMPANY_ADMIN' || role === "COMPANY_REP") {
-            companyFacade.getCompanyID(doc).then((companyId) => {
-              const token = jwt.sign(JSON.stringify({ firstName, email, role, companyId }), jwtSecret);
-              return res.json({ token,  error: false });
-            }).catch(e => res.status(401).json(e))
+      } else {
+        // Everything went ok, logging in!
+        const token = jwt.sign(JSON.stringify({ firstName, email, role }), jwtSecret);
+        return res.json({ token, error: false });
+      }
 
-          } else {
-            // Everything went ok, logging in!
-            const token = jwt.sign(JSON.stringify({ firstName, email, role }), jwtSecret);
-            return res.json({ token, error: false });
-          }
-        } else {
 
-          // Wrong password is provided
-          return res.status(401).json({ error: true, message: 'Invalid username or password' });
-        }
-      });
-    })
-      .catch(() => res.status(500).json({ error: true }));
+    } catch (e) {
+      // .catch(() => res.status(500).json({ error: true })); top error in first findOne
+      //   return res.status(500).json({ error: true, message: 'Invalid username or password' });
+      //           return res.status(401).json({ error: true, message: 'Invalid username or password' }); if no match
+      // .catch(e => res.status(401).json(e)) cant get the companyId
+
+
+    }
   }
 
   register(req, res, next) {
@@ -107,22 +110,28 @@ function checkRole(req, res, next, decoded) {
   if (decoded.role === 'COMPANY_ADMIN' && req.url === '/api/company/' + companyId) {
 
     companyFacade.findOne({ _id: companyId }).then((doc) => {
-      if (!doc) return res.status(401).json({error: true, message: 'Invalid Company ID'});
+      if (!doc) return res.status(401).json({ error: true, message: 'Invalid Company ID' });
 
-    userFacade.findOne({ email: decoded.email }).then((user) => {
-      if (!user) return res.status(401).json({ error: true, message: 'Invalid token' });
+      userFacade.findOne({ email: decoded.email }).then((user) => {
+        if (!user) return res.status(401).json({ error: true, message: 'Invalid token' });
 
-      if (user._id.toString() !== doc.admin.toString()) {
-          return res.status(403).json({ error: true, message: 'Forbidden. Company admin ID does not match the User ID' });
-      }
+        if (user._id.toString() !== doc.admin.toString()) {
+          return res.status(403).json({
+            error: true,
+            message: 'Forbidden. Company admin ID does not match the User ID'
+          });
+        }
 
-      return next();
-    }).catch((error) => res.status(500).json({
+        return next();
+      }).catch((error) => res.status(500).json({
+        error: true,
+        message: 'Error: Cant find the given admin' + error
+      }));
+
+    }).catch(() => res.status(500).json({
       error: true,
-      message: 'Error: Cant find the given admin' + error
+      message: 'Error: Cant find the given company'
     }));
-
-    }).catch(() => res.status(500).json({error: true, message: 'Error: Cant find the given company'}));
   } else {
     return res.status(403).json({
       error: true,
