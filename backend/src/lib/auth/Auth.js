@@ -43,7 +43,7 @@ function checkRole(req, res, next) {
 
     //Let any user get all categories
     if ((decoded.role === 'USER' || decoded.role === 'COMPANY_REP' || decoded.role === 'COMPANY_ADMIN')
-            && (req.url === '/api/category') && req.method === 'GET') return next();
+            && (req.url === '/api/category' || req.url === '/api/product') && req.method === 'GET') return next();
 
     if (decoded.role === 'USER') return res.status(403).json({ error: true, message: 'Forbidden' });
 

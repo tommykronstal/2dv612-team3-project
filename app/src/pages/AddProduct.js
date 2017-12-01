@@ -4,19 +4,15 @@ import {updateField, submitForm} from '../actions/form'
 import {ADD_PRODUCT} from '../formTypes'
 import {fetchCategories} from '../actions/categories'
 import Button from '../components/common/Button'
-import Content from '../components/common/Content'
 import Dropdown from '../components/common/Dropdown'
 import Input from '../components/common/Input'
+import Loading from '../components/common/Loading'
+import FormSection from '../components/common/FormSection'
 import {setStatus} from '../actions/status'
-import Spinner from 'react-spinkit'
 import styled from 'styled-components'
 
 const SpinnerContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
+  margin: 10rem auto;
 `
 
 class AddProduct extends Component {
@@ -30,10 +26,8 @@ class AddProduct extends Component {
   }
 
   storeProduct = e => {
-    e.preventDefault()
-
     const {name} = this.props.form
-    if (!name) return
+    if (!name || this.props.isLoading) return
 
     this.props.tryRegisterProduct(this.props.companyId)
   }
@@ -41,33 +35,31 @@ class AddProduct extends Component {
   render() {
     const {categories, form: {name, category}, isLoading} = this.props
 
-    return (
-      <Content>
+     return (
+      <FormSection onSubmit={e => this.storeProduct(e)}>
         {isLoading ? (
           <SpinnerContainer>
-            <Spinner name="wave" fadeIn='none' color={'#6ea0dc'}/>
+            <Loading />
           </SpinnerContainer>
         ) : (
           <div>
-            <form onSubmit={e => this.storeProduct(e)}>
-              <Dropdown
-                name="category"
-                onClick={this.props.updateField}
-                options={categories.map(({ _id, categoryName}) => ({ key: _id, value: categoryName }))}
-                value={category}
-              />
-              <Input
-                value={name}
-                type="text"
-                name="name"
-                label="Product Name"
-                onChange={this.props.updateField}
-              />
-              <Button disabled={this.props.isLoading || !category} primary>Save Product</Button>
-            </form>
+            <Dropdown
+              name="category"
+              onClick={this.props.updateField}
+              options={categories.map(({ _id, categoryName}) => ({ key: _id, value: categoryName }))}
+              value={category}
+            />
+            <Input
+              value={name}
+              type="text"
+              name="name"
+              label="Product Name"
+              onChange={this.props.updateField}
+            />
+            <Button disabled={!(category && name)} loading={isLoading} primary>Save Product</Button>
           </div>
         )}
-      </Content>
+      </FormSection>
     )
   }
 }

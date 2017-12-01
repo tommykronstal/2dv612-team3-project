@@ -19,6 +19,7 @@ import NavigationBar from './common/NavigationBar'
 import NavigationLink from './common/NavigationLink'
 import UpdateProduct from '../pages/UpdateProduct'
 import ListCompanyProducts from '../pages/ListCompanyProducts'
+import ListAllProducts from '../pages/ListAllProducts'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -92,12 +93,14 @@ const UserRoutes = ({ match, location }) => (
   <NavigationContainer>
     <NavigationBar>
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
+      <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <TransitionGroup>
       <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
         <Switch>
           <Route exact path={match.url} component={Welcome} />
+          <Route exact path={`${match.url}/products`} component={ListAllProducts} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>

@@ -31,7 +31,7 @@ exports[`AddCategory component renders correctly, initial 1`] = `
       </label>
     </div>
     <button
-      className="sc-gzVnrw jvbcrm"
+      className="sc-gzVnrw jmsTpF"
       disabled={undefined}
       onClick={[Function]}
     >
@@ -72,7 +72,7 @@ exports[`AddCategory component renders correctly, with data 1`] = `
       </label>
     </div>
     <button
-      className="sc-gzVnrw jvbcrm"
+      className="sc-gzVnrw jmsTpF"
       disabled={undefined}
       onClick={[Function]}
     >
