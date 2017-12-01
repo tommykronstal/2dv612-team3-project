@@ -8,62 +8,52 @@ const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or r
 class UserController extends Controller {
    async login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
+     if (!email || !password) return res.status(400).json({ error: true, message: "username or password missing"});
 
     try {
-      const doc = await userFacade.findOne({ email });
-      if (!doc || doc === undefined || doc.errors !== undefined) {
-        return res.status(401).json({ error: true, message: 'Invalid username or password' });
-      }
-
-      const match = await doc.comparePassword(password);
-      if (match === ) throw new Exception("invalid password");
+      const doc = await userFacade.findOneLogin({ email });
+      await doc.comparePassword(password);
       const role = doc.role;
       const firstName = doc.firstName;
 
       if (role === 'COMPANY_ADMIN' || role === "COMPANY_REP") {
-        const html = await companyFacade.getCompanyID(doc);
-        const companyId = companyFacade.getCompanyID(doc);
-        const token = jwt.sign(JSON.stringify({
-          firstName,
-          email,
-          role,
-          companyId
-        }), jwtSecret);
+        const companyId = await companyFacade.getCompanyID(doc);
+        const token = jwt.sign(JSON.stringify({ firstName, email, role, companyId }), jwtSecret);
         return res.json({ token, error: false });
 
-      } else {
-        // Everything went ok, logging in!
+      } else { // Everything went ok, logging in!
         const token = jwt.sign(JSON.stringify({ firstName, email, role }), jwtSecret);
         return res.json({ token, error: false });
       }
 
-
     } catch (e) {
+      // todo error handling here
+      console.error(e);
+      return next(e); // problem === Andras
+                      // true
       // .catch(() => res.status(500).json({ error: true })); top error in first findOne
       //   return res.status(500).json({ error: true, message: 'Invalid username or password' });
       //           return res.status(401).json({ error: true, message: 'Invalid username or password' }); if no match
       // .catch(e => res.status(401).json(e)) cant get the companyId
-
-
+      //         return res.status(401).json({ error: true, message: 'Invalid username or password' });
     }
   }
 
-  register(req, res, next) {
+  async register(req, res, next) {
     const {
       email, password, firstName, lastName
     } = req.body;
     const role = 'USER';
+    try {
+      if (!email || !password) return res.status(400).json({ error: true });
+      const userDocument = await userFacade.createUser({ email, password, firstName, lastName, role });
+      return res.status(201).json({ error: false, token: jwt.sign({ email, role }, jwtSecret) });
+    } catch (e) {
+      console.error(e);
+      return next(e);
+    }
 
-    if (!email || !password) return res.status(400).json({ error: true });
 
-    userFacade
-      .create({
-        email, password, firstName, lastName, role
-      })
-      .then((userDocument) => {
-        if (userDocument === undefined || userDocument.errors !== undefined) return res.status(400).json({ error: true });
-        return res.status(201).json({ error: false, token: jwt.sign({ email, role }, jwtSecret) });
-      });
   }
 
   authorize(req, res, next) {

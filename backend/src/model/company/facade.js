@@ -33,8 +33,17 @@ class CompanyFacade extends Facade {
       })
 
     })
-
   }
+
+  registerCompany(...args) {
+    return new Promise (async (resolve, reject) => {
+      const user = await userSchema.find(...args);
+      if (!(exists[0].length === 0 && exists[1].length === 0)) reject({error: true, message: 'user already exists'});
+
+    });
+  }
+
+
 }
 
 module.exports = new CompanyFacade(companySchema);
