@@ -23,8 +23,7 @@ class UserFacade extends Facade {
         return resolve(userDocument[0])
         //todo why does the base facade save return an array?
       }).catch(e => {
-        console.log(e);
-          if (e.code === 11000) return reject({message: "User already exists", statusCode: 409});
+        if (e.code === 11000) return reject({message: "User already exists", statusCode: 409});
         return reject({message: "createUser failed", statusCode: 500})
       })
     })

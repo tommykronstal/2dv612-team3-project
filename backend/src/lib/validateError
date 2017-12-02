@@ -1,0 +1,14 @@
+"use strict";
+
+function validateError(err) {
+    if (err.name === "CastError") {
+        err.statusCode = 400;
+        err.message = "The given input was not valid.";
+    }
+
+    if (err.name === "ValidationError") {
+        err.statusCode = 402;
+    }
+}
+
+module.exports = validateError;
