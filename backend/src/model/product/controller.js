@@ -27,7 +27,7 @@ class ProductController extends Controller {
       .then(compDoc => {
         res.status(201).json(compDoc.products);
       })
-      .catch((e) => { return res.status(400).json({error: true, message: 'Could not create product.'}) });
+      .catch((e) => { return next({message: 'Could not create product.', statusCode: 400}) });
   }
 
   update(req, res, next) {
@@ -53,7 +53,7 @@ class ProductController extends Controller {
       .then(prodDoc => {
         res.status(201).json(prodDoc);
       })
-      .catch((e) => { return res.status(400).json({error: true, message: 'Failed to upload.'}) });
+      .catch((e) => { return next({error: true, message: 'Failed to upload.', statusCode: 400}) });
   }
 }
 
