@@ -9,7 +9,7 @@ class UserFacade extends Facade {
         if (!doc || doc === undefined || doc.errors !== undefined) return reject({ message: 'No such user found', statusCode: 404 });
         return resolve(doc);
       }).catch(e => {
-        return reject({message: e.message, statusCode: 500});
+        return reject({message: "Find one user failed.", statusCode: 500});
       })
 
     });
