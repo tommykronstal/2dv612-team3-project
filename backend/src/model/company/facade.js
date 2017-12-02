@@ -26,15 +26,24 @@ class CompanyFacade extends Facade {
     return new Promise((resolve, reject) => {
       let query = doc.role === "COMPANY_ADMIN" ? { admin: doc._id } : { reps: doc._id };
       this.findOne(query).then((doc) => {
-        if (doc === null) reject({error: true, message: `could not find a company for user`});
+        if (doc === null) reject({message: `could not find a company for the given user`, statusCode: 404});
         resolve(doc._id);
       }).catch(e => {
-        reject({ error: true, message: 'error finding company for user'})
+        reject({message: 'error finding company for user', statusCode: 500})
       })
 
     })
-
   }
+
+  registerCompany(...args) {
+    return new Promise (async (resolve, reject) => {
+      const user = await userSchema.find(...args);
+      if (!(exists[0].length === 0 && exists[1].length === 0)) reject({error: true, message: 'user already exists', statusCode: 400});
+
+    });
+  }
+
+
 }
 
 module.exports = new CompanyFacade(companySchema);

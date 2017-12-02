@@ -4,7 +4,7 @@ class Facade {
   }
 
   create(body) {
-    const schema = new this.Schema(body);
+    const schema = new this.Schema(body); // todo if there is an error here no promise is returned and there is an unhandled rejection error.
     return schema.save();
   }
 
