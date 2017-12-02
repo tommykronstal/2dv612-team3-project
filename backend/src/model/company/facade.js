@@ -26,7 +26,7 @@ class CompanyFacade extends Facade {
     return new Promise((resolve, reject) => {
       let query = doc.role === "COMPANY_ADMIN" ? { admin: doc._id } : { reps: doc._id };
       this.findOne(query).then((doc) => {
-        if (doc === null) reject({message: `could not find a company for user`, statusCode: 404});
+        if (doc === null) reject({message: `could not find a company for the given user`, statusCode: 404});
         resolve(doc._id);
       }).catch(e => {
         reject({message: 'error finding company for user', statusCode: 500})

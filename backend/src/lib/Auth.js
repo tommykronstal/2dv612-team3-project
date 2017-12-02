@@ -17,37 +17,37 @@ class Authorization {
         try {
             decoded = await jwt.verify(token, jwtSecret);
 
-            const mongoUserQuery = {
+            const mongoGetUserQuery = {
                 $and: [
                     { 'email': decoded.email },
                     { 'role': decoded.role }
                 ]
             };
 
-            const user = await userFacade.findOne(mongoUserQuery);
+            const user = await userFacade.findOne(mongoGetUserQuery);
             if (!user) return next({ error: true, message: 'Invalid token', statusCode: 401});
 
-            return checkRolePretty(req, res, next);
+            //Let any user get all categories and products
+            if ((req.url.indexOf('/api/category') > - 1 || req.url.indexOf('/api/product') > - 1) && req.method === 'GET') return next();
+            
+            return checkRole(req, res, next);
         } catch(e) {
             return next(e);
         }
     }
 }
 
-async function checkRolePretty(req, res, next) {
-    const companyId = req.url.substring(13, 37);
+async function checkRole(req, res, next) {
+    const companyId = req.url.substring(13, 37) || "default";
     const productId = req.url.substring(46);
     let company;
     let user;
 
     if (decoded.role === 'ADMIN') return next();
 
-    //Let any user get all categories and products
-    if ((req.url.indexOf('/api/category') > - 1 || req.url.indexOf('/api/product') > - 1) && req.method === 'GET') return next();
-
     if (decoded.role === 'USER') return next({ message: 'Forbidden', statusCode: 403});
 
-    if (decoded.role === 'COMPANY_REP' || decoded.role === 'COMPANY_ADMIN'){
+    if ((decoded.role === 'COMPANY_REP' || decoded.role === 'COMPANY_ADMIN') && (req.url.indexOf('/api/company/' + companyId) > -1 )){
         try {
             //Get the Company provided in the url
             company = await companyFacade.findOne({ _id: companyId });
@@ -72,7 +72,7 @@ async function checkRolePretty(req, res, next) {
             return next();
         }else if (decoded.role === 'COMPANY_ADMIN' && req.url === '/api/company/' + companyId) {
             //Check if the user is a admin in the company provided by the url
-            if (user._id.toString() !== doc.admin.toString()){
+            if (user._id.toString() !== company.admin.toString()){
                 return next({ message: 'Forbidden. Company admin ID does not match the User ID', statusCode: 403 });
             }
 
