@@ -8,7 +8,6 @@ let decoded;
 class Authorization {
 
     async authorize(req, res, next) {
-        console.log();
         if (req.headers.authorization === undefined) {
             return next({message: 'There was no token in the header', statusCode: 401 });
         }
@@ -38,6 +37,8 @@ class Authorization {
 async function checkRolePretty(req, res, next) {
     const companyId = req.url.substring(13, 37);
     const productId = req.url.substring(46);
+    let company;
+    let user;
 
     if (decoded.role === 'ADMIN') return next();
 
@@ -47,8 +48,6 @@ async function checkRolePretty(req, res, next) {
     if (decoded.role === 'USER') return next({ message: 'Forbidden', statusCode: 403});
 
     if (decoded.role === 'COMPANY_REP' || decoded.role === 'COMPANY_ADMIN'){
-        let company;
-        let user;
         try {
             //Get the Company provided in the url
             company = await companyFacade.findOne({ _id: companyId });

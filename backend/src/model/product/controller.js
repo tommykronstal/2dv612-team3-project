@@ -53,7 +53,7 @@ class ProductController extends Controller {
       .then(prodDoc => {
         res.status(201).json(prodDoc);
       })
-      .catch((e) => { return next({error: true, message: 'Failed to upload.', statusCode: 400}) });
+      .catch((e) => { return next({message: 'Failed to upload.', statusCode: 400}) });
   }
 }
 

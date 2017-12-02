@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+ * Please put any unhandled Errors in here and assign them a statusCode
+ * Optional change the message of the error.
+ * @param err
+ */
 function validateError(err) {
     if (err.name === "CastError") {
         err.statusCode = 400;
