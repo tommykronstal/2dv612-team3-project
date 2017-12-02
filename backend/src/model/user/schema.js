@@ -39,8 +39,9 @@ userSchema.pre('save', function(next) {
 userSchema.methods.comparePassword = function(candidatePassword) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, function(err, res) {
+        console.log("Bcrypt error: " , res);
       if (err) return reject(err);
-      if (!res) return reject(res);
+      if (!res) return reject({message: "The provided password did not match", statusCode: 403});
       return resolve(res);
     });
   })
