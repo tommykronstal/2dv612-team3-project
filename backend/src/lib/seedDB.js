@@ -1,5 +1,6 @@
 const userFacade = require("../model/user/facade");
 const companyFacade = require("../model/company/facade");
+const categoryFacade = require("../model/category/facade");
 
 exports.admin = function(adminAccount) {
   userFacade
@@ -24,18 +25,25 @@ exports.companies = function(companies) {
     {
       name: "Philips",
       reps: 3,
-      products: 100,
+      productsPerCategory: 30,
+      categories: ['TV', 'VCR'],
       materialsPerProduct: 3
     },
     {
       name: "Samsung",
       reps: 2,
-      products: 50,
+      productsPerCategory: 50,
+      categories: ['TV', 'VCR', 'Mobile Phone'],
       materialsPerProduct: 2
     }
   ];
-
-  companies.map(company => createCompany(company));
+  
+  // Get all unique categories
+  const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
+  // Create categories
+  categories.map(x => createCategory(x));
+  
+  companies.map(x => createCompany(x));
 };
 
 const createCompany = company => {
@@ -66,6 +74,10 @@ const createCompany = company => {
       mongoCompany.reps = reps;
       return mongoCompany.save();
     })
+    .then(() => createCategories(company))
+    .then(() => createProducts(company))
+    .then(products => mongoCompany.companies = companies)
+    
 };
 
 createCompanyReps = company => {
@@ -87,3 +99,15 @@ createCompanyReps = company => {
     }).catch(e => reject(e));
   });
 };
+
+createProducts = company => {
+    console.log('Create Products')
+};
+
+createCategories = company => {
+    console.log('Create Categories')
+}
+
+createCategory = (category) => {
+    categoryFacade.create({'categoryName': category})
+}
