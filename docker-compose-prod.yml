@@ -2,7 +2,10 @@ version: '2'
 services:
 
   webserver:
-    build: ./nginx
+    build:
+      context: ./nginx
+      args:
+        configfile: site.conf
     restart: always
     ports:
      - "443:443"
