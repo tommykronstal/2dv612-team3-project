@@ -40,7 +40,13 @@ class materialRatingContoller extends Controller {
             res.status(201).json(matDoc);
           })
           .catch((e) => { return next({message: 'Could not rate material.', statusCode: 400}) });
-    }    
+    }
+
+
+    updateRating(req, res, next) {
+      
+
+    }
 }
 
 module.exports = new materialRatingContoller(materialRatingFacade);
