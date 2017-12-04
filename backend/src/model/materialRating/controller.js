@@ -2,6 +2,9 @@ const Controller = require('../../lib/controller');
 const materialRatingFacade = require('./facade');
 const materialFacade = require("../material/facade");
 
+const ratingMin = 1;
+const ratingMax = 5;
+
 class materialRatingContoller extends Controller {
 
     findForMaterial(req, res, next) {
@@ -13,10 +16,10 @@ class materialRatingContoller extends Controller {
 
     async createRating(req,res, next) {
       //Some error handling
-      if(req.body.rating > 5)
-        return next ({message: 'Rating cannot be higher than 5.', statusCode: 400});
-      if(req.body.rating < 1)
-        return next ({message: 'Rating cannot be lower than 1.', statusCode: 400});
+      if(req.body.rating > ratingMax)
+        return next ({message: 'Rating cannot be higher than ' + ratingMax, statusCode: 400});
+      if(req.body.rating < ratingMin)
+        return next ({message: 'Rating cannot be lower than ' + ratingMin, statusCode: 400});
 
       try {
         let matDoc = await materialFacade.findById(req.param("materialid"));        
