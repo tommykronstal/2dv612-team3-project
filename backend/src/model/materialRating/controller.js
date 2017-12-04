@@ -18,10 +18,7 @@ class materialRatingContoller extends Controller {
           .findById(req.param("materialid"))
           .then(matDoc => {
             material = matDoc;
-
-
-            console.log("test: ", materialFacade.findById(req.param("materialid").rating.body.userid));
-
+            
             //Some error handling
             if(req.body.rating > 5)
               return next ({message: 'Rating cannot be higher than 5.', statusCode: 400});
