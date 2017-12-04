@@ -8,5 +8,6 @@ const materialRatingSchema = new Schema({
   rating: { type: Number, required: true }
 });
 
+materialRatingSchema.index({userid: 1, materialid: 1}, {unique: true});
 
 module.exports =  mongoose.model('Rating', materialRatingSchema);
