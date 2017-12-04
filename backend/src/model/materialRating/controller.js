@@ -28,8 +28,13 @@ class materialRatingContoller extends Controller {
             return materialRatingFacade.create(req.body);
           })
           .then(matDoc => {
-            material.rating.push(matDoc);
-            return material.save();
+            //Make sure that matDoc is not undefined, if it is a null object will be added as rating = not good!
+            if(matDock != undefined) {
+              material.rating.push(matDoc);
+              return material.save();
+            }
+            else
+              return next ({message: 'Something went wrong.', statusCode: 400});
           })
           .then(matDoc => {
             res.status(201).json(matDoc);
