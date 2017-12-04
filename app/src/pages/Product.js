@@ -13,7 +13,7 @@ class Product extends Component {
 		const {match: {params: {productId}}} = this.props
 		this.props.tryFetchProduct(productId)
 	}
-	
+
 	render() {
 		const {isLoading} = this.props
 		const {product} = this.props
@@ -25,20 +25,16 @@ class Product extends Component {
 					</Content>
 				) : (
 					<Content>
-						<div className="product-name-container">
-							<Headline>{product.name}</Headline>
-						</div>
-						<div className="materials-container">
-							{product.materials.length ? (
-								product.materials.map((material, i) => <Material {...material} key={i} />)
-							) : (
-								<div>
-									<Headline>
-										There are currently no materials stored for this product.
-									</Headline>
-								</div>
-							)}
-						</div>
+						<Headline>{product.name}</Headline>
+						{product.materials.length ? (
+							product.materials.map((material, i) => (
+								<Material {...material} key={i} />
+							))
+						) : (
+							<Headline>
+								There are currently no materials stored for this product.
+							</Headline>
+						)}
 					</Content>
 				)}
 			</div>
@@ -56,5 +52,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product)
-
-// {product.materials.length ? <p>material..</p> : <p>No material</p>}
