@@ -18,7 +18,7 @@ class materialRatingContoller extends Controller {
           .findById(req.param("materialid"))
           .then(matDoc => {
             material = matDoc;
-            
+
             //Some error handling
             if(req.body.rating > 5)
               return next ({message: 'Rating cannot be higher than 5.', statusCode: 400});
@@ -40,12 +40,6 @@ class materialRatingContoller extends Controller {
             res.status(201).json(matDoc);
           })
           .catch((e) => { return next({message: 'Could not rate material.', statusCode: 400}) });
-    }
-
-    //TODO!
-    updateRating(req, res, next) {
-      console.log("From updateRating: I was called!!!!!");
-
     }
 }
 
