@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import Link from './common/Link'
+// import {Link} from 'react-router-dom'
 import Text from './common/Text'
 
 /**
@@ -34,7 +35,7 @@ export default ({name, originalname, mimetype, ...props}) => {
 				<StyledText>{name}</StyledText>
 				<StyledText color="#9E9E9E">{type}</StyledText>
 			</ColumnContainer>
-			<Link to="">View</Link>
+			<Link to='/'>View Material</Link>
 		</MaterialContainer>
 	)
 }

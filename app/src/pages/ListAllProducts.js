@@ -6,13 +6,15 @@ import List from '../components/common/List'
 import Item from '../components/common/ListItem'
 import {fetchProducts} from '../actions/products'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import Link from '../components/common/Link'
 
 const ProductInforContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px solid rgb(240,240,240);
 `
+
 class ListAllProducts extends Component {
   componentDidMount() {
     this.props.fetchProducts()

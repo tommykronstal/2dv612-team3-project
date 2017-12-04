@@ -40,7 +40,7 @@ class Product extends Component {
 							))
 						) : (
 							<StyledHeadline>
-								There are currently no materials stored for this product.
+								There are currently no available materials for this product.
 							</StyledHeadline>
 						)}
 					</Content>
