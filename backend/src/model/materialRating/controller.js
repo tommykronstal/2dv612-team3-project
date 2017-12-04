@@ -23,7 +23,7 @@ class materialRatingContoller extends Controller {
         let rating = await materialRatingFacade.findOne({userid: req.body.userid, materialid: req.body.materialid });
 
         if(rating) {
-          rating.rating = req.body.rating;
+          rating.rating = await req.body.rating;
           await rating.save();
         }
         else {
@@ -32,7 +32,7 @@ class materialRatingContoller extends Controller {
         }
         
         await matDoc.save();
-
+        matDoc = await materialFacade.findById(req.param("materialid"));
         return res.status(201).json(matDoc);
       } catch (e) {
         return next({message: 'Could not rate material.', statusCode: 400});
