@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 
 const materialRatingSchema = new Schema({
-  userId: { type: String, unique: true, required: true },
-  materialId: { type: String, unique: true, required: true },
+  userid: { type: String, unique: true, required: true },
+  materialid: { type: mongoose.Schema.Types.ObjectId, ref: 'Material', unique: true, required: true },
   rating: { type: int, required: true }
 });
 

@@ -4,7 +4,7 @@ const materialFacade = require("../material/facade");
 
 class materialRatingContoller extends Controller {
     findForMaterial(req, res, next) {
-        materialFacade.findById(req.param("originalname")).then(doc => {
+        materialFacade.findById(req.param("materialid")).then(doc => {
           res.status(200).json(doc.material);
         });
     }
@@ -13,7 +13,7 @@ class materialRatingContoller extends Controller {
         let material;
     
         materialFacade
-          .findById(req.param("originalname"))
+          .findById(req.param("materialid"))
           .then(matDoc => {
             material = matDoc;
             return materialRatingFacade.create(req.body);
