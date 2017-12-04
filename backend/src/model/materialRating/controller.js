@@ -23,8 +23,6 @@ class materialRatingContoller extends Controller {
         let rating = await materialRatingFacade.findOne({userid: req.body.userid, materialid: req.body.materialid });
 
         if(rating) {
-          console.log("rating :", rating.rating);
-          console.log("req: ", req.body.rating);
           rating.rating = req.body.rating;
           await rating.save();
         }
