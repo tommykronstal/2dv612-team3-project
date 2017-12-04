@@ -21,6 +21,7 @@ services:
       - webserver
     volumes:
      - static-files:/usr/src/app/build
+     - ../filesystem:/usr/src/app/upload
     environment:
      - NODE_ENV=production
 
@@ -36,6 +37,8 @@ services:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
       - ADMIN_PASSWORD=$ADMIN_PASSWORD
     command: npm start
+    volumes:
+    - ../fileserver:./src/filesystem/uploads
 
   mongo:
     image: mongo
