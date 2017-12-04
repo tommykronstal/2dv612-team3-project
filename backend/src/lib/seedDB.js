@@ -2,9 +2,11 @@ const userFacade = require("../model/user/facade");
 const companyFacade = require("../model/company/facade");
 const categoryFacade = require("../model/category/facade");
 
-exports.admin = function(adminAccount) {
+exports.admin = function (adminAccount) {
   userFacade
-    .findOne({ firstName: adminAccount.firstName })
+    .findOne({
+      firstName: adminAccount.firstName
+    })
     .then(doc => {
       if (!doc) {
         userFacade
@@ -20,9 +22,8 @@ exports.admin = function(adminAccount) {
 
 const companies = ["Philips", "Samsung", "Cresent"];
 
-exports.companies = function(companies) {
-  companies = [
-    {
+exports.companies = function (companies) {
+  companies = [{
       name: "Philips",
       reps: 3,
       productsPerCategory: 30,
@@ -37,12 +38,12 @@ exports.companies = function(companies) {
       materialsPerProduct: 2
     }
   ];
-  
+
   // Get all unique categories
   const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
   // Create categories
   categories.map(x => createCategory(x));
-  // Create companies and with products and material
+  // Create companies
   companies.map(x => createCompany(x));
 };
 
@@ -75,12 +76,12 @@ const createCompany = company => {
       return mongoCompany.save();
     })
     .then(() => createProducts(company))
-    //.then(products => mongoCompany.companies = companies)
-    
+  // .then(products => mongoCompany.companies = companies)
+
 };
 
 const createCompanyReps = company => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const promises = [];
     for (let i = 0; i < company.reps; i++) {
       const companyRep = {
@@ -100,14 +101,24 @@ const createCompanyReps = company => {
 };
 
 const createProducts = company => {
-    console.log('----------------------------\nthis is where we create products\n----------------------------')
-    //company.category.map((company) => createProductsForCategory(company))
+  console.log('----------------------------\nthis is where we create products\n----------------------------')
+  const prodArr = [];
+  var i;
+  for (i = 0; i < company.categories.length; i++) {
+    // get category 
+    categoryFacade.findOne({'categoryName':company.categories[i]})
+    .then((category) => {
+      console.log(category)
+      for (j = 0; j < company.productsPerCategory; j++) {
+        prodArr.push({'productName':company.name + " " + category.categoryName +" "+ j, 'category': category._id});
+      }
+      console.log(prodArr);
+    })
+  }
 };
 
 const createCategory = (category) => {
-    categoryFacade.create({'categoryName': category})
-}
-
-const createProductsForCategory = () => {
-
+  categoryFacade.create({
+    'categoryName': category
+  })
 }
