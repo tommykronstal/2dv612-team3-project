@@ -55,6 +55,25 @@ class ProductController extends Controller {
       })
       .catch((e) => { return next({message: 'Failed to upload.', statusCode: 400}) });
   }
+
+  findByIdIncludeCompany(req,res,next){
+    console.log(req.param('id'))
+    productFacade.findById(req.param('id')).then((doc) => {
+      console.log(doc);
+      return companyFacade.findOne({ 'products': { $elemMatch: {name: 'blabla'} } })
+      .then((doc2)=>{
+        console.log(doc2)
+        res.status(200).json(doc2);})
+       
+    // companyFacade.findOne({ 'products': { $elemMatch: { '_id': req.param("id")} } })
+     
+    })
+ 
+
+  
+   }
 }
+
+
 
 module.exports = new ProductController(productFacade);

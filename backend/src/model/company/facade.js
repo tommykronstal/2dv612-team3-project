@@ -22,6 +22,13 @@ class CompanyFacade extends Facade {
       .exec();
   }
 
+  findOne(...args) {
+    return this.Schema
+      .findOne(...args)
+      .populate('products')
+      .exec();
+  }
+
   getCompanyID(doc) {
     return new Promise((resolve, reject) => {
       let query = doc.role === "COMPANY_ADMIN" ? { admin: doc._id } : { reps: doc._id };
