@@ -6,11 +6,12 @@ import Text from './common/Text'
 
 /**
  * Ignoring predefined padding
- * set from original component
+ * set from original styled component
  */
 const StyledText = styled(Text)`
 	color: ${props => (props.color ? props.color : 'initial')};
 	padding-bottom: 0px !important;
+	text-align: start;
 `
 
 const MaterialContainer = styled.div`
