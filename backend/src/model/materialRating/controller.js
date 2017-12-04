@@ -17,7 +17,7 @@ class materialRatingContoller extends Controller {
         materialFacade
           .findById(req.param("id"))
           .then(matDoc => {
-            material = matDoc;
+            material.rating = matDoc;
             return materialRatingFacade.create(req.body);
           })
           .then(matDoc => {
