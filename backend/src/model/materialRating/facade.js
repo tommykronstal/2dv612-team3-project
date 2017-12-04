@@ -1,6 +1,6 @@
 const Facade = require('../../lib/facade');
-const newModelSchema = require('./schema');
+const materialRatingSchema = require('./schema');
 
-class NewModelFacade extends Facade {}
+class materialRatingFacade extends Facade {}
 
-module.exports = new NewModelFacade('NewModel', newModelSchema);
+module.exports = new materialRatingFacade(materialRatingSchema);
