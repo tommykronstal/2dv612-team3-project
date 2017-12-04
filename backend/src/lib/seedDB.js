@@ -1,6 +1,7 @@
 const userFacade = require("../model/user/facade");
 const companyFacade = require("../model/company/facade");
 const categoryFacade = require("../model/category/facade");
+const productFacade = require("../model/product/facade");
 
 exports.admin = function (adminAccount) {
   userFacade
@@ -76,7 +77,10 @@ const createCompany = company => {
       return mongoCompany.save();
     })
     .then(() => createProducts(company))
-  // .then(products => mongoCompany.companies = companies)
+    .then(products => {
+      mongoCompany.products = products
+      mongoCompany.save()
+    })
 
 };
 
@@ -101,7 +105,7 @@ const createCompanyReps = company => {
 };
 
 const createProducts = company => {
-  console.log('----------------------------\nthis is where we create products\n----------------------------')
+  return new Promise(function (resolve, reject) {
   const prodArr = [];
   var i;
   for (i = 0; i < company.categories.length; i++) {
@@ -110,11 +114,14 @@ const createProducts = company => {
     .then((category) => {
       console.log(category)
       for (j = 0; j < company.productsPerCategory; j++) {
-        prodArr.push({'productName':company.name + " " + category.categoryName +" "+ j, 'category': category._id});
+        prodArr.push(productFacade.create({'name':company.name + " " + category.categoryName +" "+ j, 'category': category._id}));
       }
-      console.log(prodArr);
+      Promise.all(prodArr).then((docs) => {
+        return resolve(docs);
+      }).catch(e => reject(e));
     })
   }
+})
 };
 
 const createCategory = (category) => {
