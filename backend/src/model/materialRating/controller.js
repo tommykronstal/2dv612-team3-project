@@ -11,36 +11,35 @@ class materialRatingContoller extends Controller {
         .catch((e) => { return next({message: 'Could not find material.', statusCode: 400}) });
     }
 
-    createRating(req, res, next) {
-        let material;
+    async createRating(req,res, next) {
+      //Some error handling
+      if(req.body.rating > 5)
+        return next ({message: 'Rating cannot be higher than 5.', statusCode: 400});
+      if(req.body.rating < 1)
+        return next ({message: 'Rating cannot be lower than 1.', statusCode: 400});
 
-        materialFacade
-          .findById(req.param("materialid"))
-          .then(matDoc => {
-            material = matDoc;
+      try {
+        let matDoc = await materialFacade.findById(req.param("materialid"));        
+        let rating = await materialRatingFacade.findOne({userid: req.body.userid, materialid: req.body.materialid });
 
-            //Some error handling
-            if(req.body.rating > 5)
-              return next ({message: 'Rating cannot be higher than 5.', statusCode: 400});
-            if(req.body.rating < 1)
-              return next ({message: 'Rating cannot be lower than 1.', statusCode: 400});
+        if(rating) {
+          console.log("rating :", rating.rating);
+          console.log("req: ", req.body.rating);
+          rating.rating = req.body.rating;
+          await rating.save();
+        }
+        else {
+          rating = await materialRatingFacade.create(req.body);
+          matDoc.rating.push(rating);          
+        }
+        
+        await matDoc.save();
 
-            return materialRatingFacade.create(req.body);
-          })
-          .then(matDoc => {
-            //Make sure that matDoc is not undefined, if it is a null object will be added as rating = not good!
-            if(matDock != undefined) {
-              material.rating.push(matDoc);
-              return material.save();
-            }
-            else
-              return next ({message: 'Something went wrong.', statusCode: 400});
-          })
-          .then(matDoc => {
-            res.status(201).json(matDoc);
-          })
-          .catch((e) => { return next({message: 'Could not rate material.', statusCode: 400}) });
-    }    
+        return res.status(201).json(matDoc);
+      } catch (e) {
+        return next({message: 'Could not rate material.', statusCode: 400});
+      }
+    }
 }
 
 module.exports = new materialRatingContoller(materialRatingFacade);
