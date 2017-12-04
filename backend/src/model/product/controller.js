@@ -3,6 +3,7 @@ const productFacade = require("./facade");
 const companyFacade = require("../company/facade");
 const materialFacade = require("../material/facade");
 
+const mongoose = require('mongoose');
 
 class ProductController extends Controller {
   findForCompany(req, res, next) {
@@ -55,6 +56,19 @@ class ProductController extends Controller {
       })
       .catch((e) => { return next({message: 'Failed to upload.', statusCode: 400}) });
   }
+
+  findByIdIncludeCompany(req,res,next){
+    let product;
+    productFacade.findById(req.param('id')).then((doc) => {
+      product = JSON.parse(JSON.stringify(doc));
+      return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
+      .then((doc)=>{
+        product.companyName = doc.companyName;
+        res.status(200).json(product);})
+    }).catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
+   }
 }
+
+
 
 module.exports = new ProductController(productFacade);
