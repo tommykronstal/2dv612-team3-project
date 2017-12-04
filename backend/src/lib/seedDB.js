@@ -2,6 +2,7 @@ const userFacade = require("../model/user/facade");
 const companyFacade = require("../model/company/facade");
 const categoryFacade = require("../model/category/facade");
 const productFacade = require("../model/product/facade");
+const materialFacde = require("../model/material/facade");
 
 exports.admin = function (adminAccount) {
   userFacade
@@ -27,14 +28,14 @@ exports.companies = function (companies) {
   companies = [{
       name: "Philips",
       reps: 3,
-      productsPerCategory: 30,
+      productsPerCategory: 3,
       categories: ['TV', 'VCR'],
       materialsPerProduct: 3
     },
     {
       name: "Samsung",
       reps: 2,
-      productsPerCategory: 50,
+      productsPerCategory: 5,
       categories: ['TV', 'VCR', 'Mobile Phone'],
       materialsPerProduct: 2
     }
@@ -46,6 +47,7 @@ exports.companies = function (companies) {
   categories.map(x => createCategory(x));
   // Create companies
   companies.map(x => createCompany(x));
+
 };
 
 const createCompany = company => {
@@ -110,19 +112,24 @@ const createProducts = company => {
   var i;
   for (i = 0; i < company.categories.length; i++) {
     // get category 
-    categoryFacade.findOne({'categoryName':company.categories[i]})
+    categoryFacade.findOne({'categoryName': company.categories[i]})
     .then((category) => {
-      console.log(category)
       for (j = 0; j < company.productsPerCategory; j++) {
         prodArr.push(productFacade.create({'name':company.name + " " + category.categoryName +" "+ j, 'category': category._id}));
       }
-      Promise.all(prodArr).then((docs) => {
-        return resolve(docs);
-      }).catch(e => reject(e));
+      return prodArr;
+    }).then((arrDoc) => {
+        Promise.all(arrDoc).then((docs) => {
+            return resolve(docs);
+        }).catch(e => reject(e));
     })
   }
 })
 };
+
+const createMaterial  = (material) => {
+    materialFacde.create(material);
+}
 
 const createCategory = (category) => {
   categoryFacade.create({
