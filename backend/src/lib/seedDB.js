@@ -42,7 +42,7 @@ exports.companies = function(companies) {
   const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
   // Create categories
   categories.map(x => createCategory(x));
-  
+  // Create companies and with products and material
   companies.map(x => createCompany(x));
 };
 
@@ -74,13 +74,12 @@ const createCompany = company => {
       mongoCompany.reps = reps;
       return mongoCompany.save();
     })
-    .then(() => createCategories(company))
     .then(() => createProducts(company))
-    .then(products => mongoCompany.companies = companies)
+    //.then(products => mongoCompany.companies = companies)
     
 };
 
-createCompanyReps = company => {
+const createCompanyReps = company => {
   return new Promise(function(resolve, reject) {
     const promises = [];
     for (let i = 0; i < company.reps; i++) {
@@ -100,14 +99,15 @@ createCompanyReps = company => {
   });
 };
 
-createProducts = company => {
-    console.log('Create Products')
+const createProducts = company => {
+    console.log('----------------------------\nthis is where we create products\n----------------------------')
+    //company.category.map((company) => createProductsForCategory(company))
 };
 
-createCategories = company => {
-    console.log('Create Categories')
+const createCategory = (category) => {
+    categoryFacade.create({'categoryName': category})
 }
 
-createCategory = (category) => {
-    categoryFacade.create({'categoryName': category})
+const createProductsForCategory = () => {
+
 }
