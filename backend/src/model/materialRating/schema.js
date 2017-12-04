@@ -9,4 +9,4 @@ const materialRatingSchema = new Schema({
 });
 
 
-module.exports =  materialRatingSchema;
+module.exports =  mongoose.model('Rating', materialRatingSchema);

@@ -11,9 +11,9 @@ class materialRatingContoller extends Controller {
         .catch((e) => { return next({message: 'Could not find material.', statusCode: 400}) });
     }
 
-    create(req, res, next) {
+    createRating(req, res, next) {
         let material;
-    
+
         materialFacade
           .findById(req.param("materialid"))
           .then(matDoc => {
