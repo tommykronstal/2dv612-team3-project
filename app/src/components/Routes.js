@@ -20,6 +20,7 @@ import NavigationLink from './common/NavigationLink'
 import UpdateProduct from '../pages/UpdateProduct'
 import ListCompanyProducts from '../pages/ListCompanyProducts'
 import ListAllProducts from '../pages/ListAllProducts'
+import Product from '../pages/Product'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -101,6 +102,7 @@ const UserRoutes = ({ match, location }) => (
         <Switch>
           <Route exact path={match.url} component={Welcome} />
           <Route exact path={`${match.url}/products`} component={ListAllProducts} />
+          <Route exact path={`${match.url}/products/:productId`} component={Product} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>
