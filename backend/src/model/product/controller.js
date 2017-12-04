@@ -3,6 +3,7 @@ const productFacade = require("./facade");
 const companyFacade = require("../company/facade");
 const materialFacade = require("../material/facade");
 
+const mongoose = require('mongoose');
 
 class ProductController extends Controller {
   findForCompany(req, res, next) {
@@ -57,20 +58,14 @@ class ProductController extends Controller {
   }
 
   findByIdIncludeCompany(req,res,next){
-    console.log(req.param('id'))
+    let product;
     productFacade.findById(req.param('id')).then((doc) => {
-      console.log(doc);
-      return companyFacade.findOne({ 'products': { $elemMatch: {name: 'blabla'} } })
-      .then((doc2)=>{
-        console.log(doc2)
-        res.status(200).json(doc2);})
-       
-    // companyFacade.findOne({ 'products': { $elemMatch: { '_id': req.param("id")} } })
-     
-    })
- 
-
-  
+      product = JSON.parse(JSON.stringify(doc));
+      return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
+      .then((doc)=>{
+        product.companyName = doc.companyName;
+        res.status(200).json(product);})
+    }).catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
    }
 }
 
