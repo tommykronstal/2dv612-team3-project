@@ -19,6 +19,9 @@ class materialRatingContoller extends Controller {
           .then(matDoc => {
             material = matDoc;
 
+
+            console.log("test: ", materialFacade.findById(req.param("materialid").rating.body.userid));
+
             //Some error handling
             if(req.body.rating > 5)
               return next ({message: 'Rating cannot be higher than 5.', statusCode: 400});
@@ -34,7 +37,7 @@ class materialRatingContoller extends Controller {
               return material.save();
             }
             else
-              return next ({message: 'Something went wrong.', statusCode: 400});
+              return next ({message: 'Something went horribly wrong.', statusCode: 400});
           })
           .then(matDoc => {
             res.status(201).json(matDoc);
@@ -42,9 +45,9 @@ class materialRatingContoller extends Controller {
           .catch((e) => { return next({message: 'Could not rate material.', statusCode: 400}) });
     }
 
-
+    //TODO!
     updateRating(req, res, next) {
-      
+      console.log("From updateRating: I was called!!!!!");
 
     }
 }
