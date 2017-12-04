@@ -26,6 +26,9 @@ class Product extends Component {
 				) : (
 					<Content>
 						<Headline>{product.name}</Headline>
+						<Headline style={{
+							color: '#9E9E9E'
+						}}>{product.companyName}</Headline>
 						{product.materials.length ? (
 							product.materials.map((material, i) => (
 								<Material {...material} key={i} />
