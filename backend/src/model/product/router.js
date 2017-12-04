@@ -13,7 +13,8 @@ router.route('/product')
   .get((...args) => controller.find(...args));
 
 router.route('/product/:id')
-  .get((...args) => controller.findById(...args))
+  .get((...args) => controller.findByIdIncludeCompany(...args))
+  //.get((...args) => controller.findById(...args))
 
   router.route('/company/:companyid/product/:id')
   .put(upload.single('pdf'), (...args) => controller.update(...args))

@@ -8,7 +8,8 @@ const materialSchema = new Schema({
   filename: {type: String},
   path: { type: String },
   size: {type: Number},
-  mimetype: {type: String}
+  mimetype: {type: String},
+  rating: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Rating'}]
 });
 
 
