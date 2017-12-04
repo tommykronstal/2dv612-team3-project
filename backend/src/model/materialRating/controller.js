@@ -17,12 +17,12 @@ class materialRatingContoller extends Controller {
         materialFacade
           .findById(req.param("id"))
           .then(matDoc => {
-            material.rating = matDoc;
+            material = matDoc;
             return materialRatingFacade.create(req.body);
           })
           .then(matDoc => {
             material.rating.push(matDoc);
-            return material.rating.save();
+            return material.save();
           })
           .then(matDoc => {
             res.status(201).json(matDoc.rating);
