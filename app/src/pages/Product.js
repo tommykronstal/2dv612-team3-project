@@ -9,7 +9,7 @@ import Headline from '../components/common/Headline'
 import Material from '../components/Material'
 
 const StyledHeadline = styled(Headline)`
-	color: ${props => props.color ? props.color : 'initial'};
+	color: ${props => (props.color ? props.color : 'initial')};
 `
 
 class Product extends Component {
@@ -19,8 +19,7 @@ class Product extends Component {
 	}
 
 	render() {
-		const {isLoading} = this.props
-		const {product} = this.props
+		const {product, isLoading} = this.props
 		return (
 			<div>
 				{!Object.keys(product).length || isLoading ? (
@@ -29,8 +28,10 @@ class Product extends Component {
 					</Content>
 				) : (
 					<Content>
-						<StyledHeadline>{product.name}</StyledHeadline>
-						<StyledHeadline color='#9E9E9E'>
+						<StyledHeadline>
+							{product.name} ({product.category.categoryName})
+						</StyledHeadline>
+						<StyledHeadline color="#9E9E9E">
 							{product.companyName}
 						</StyledHeadline>
 						{product.materials.length ? (
