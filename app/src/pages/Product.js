@@ -8,6 +8,10 @@ import Section from '../components/common/Section'
 import Headline from '../components/common/Headline'
 import Material from '../components/Material'
 
+const StyledHeadline = styled(Headline)`
+	color: ${props => props.color ? props.color : 'initial'};
+`
+
 class Product extends Component {
 	componentDidMount() {
 		const {match: {params: {productId}}} = this.props
@@ -25,18 +29,18 @@ class Product extends Component {
 					</Content>
 				) : (
 					<Content>
-						<Headline>{product.name}</Headline>
-						<Headline style={{
-							color: '#9E9E9E'
-						}}>{product.companyName}</Headline>
+						<StyledHeadline>{product.name}</StyledHeadline>
+						<StyledHeadline color='#9E9E9E'>
+							{product.companyName}
+						</StyledHeadline>
 						{product.materials.length ? (
 							product.materials.map((material, i) => (
 								<Material {...material} key={i} />
 							))
 						) : (
-							<Headline>
+							<StyledHeadline>
 								There are currently no materials stored for this product.
-							</Headline>
+							</StyledHeadline>
 						)}
 					</Content>
 				)}
