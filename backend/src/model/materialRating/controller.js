@@ -15,7 +15,7 @@ class materialRatingContoller extends Controller {
         let material;
     
         materialFacade
-          .findById(req.param("id"))
+          .findById(req.param("materialid"))
           .then(matDoc => {
             material = matDoc;
             return materialRatingFacade.create(req.body);
@@ -25,7 +25,7 @@ class materialRatingContoller extends Controller {
             return material.save();
           })
           .then(matDoc => {
-            res.status(201).json(matDoc.rating);
+            res.status(201).json(matDoc);
           })
           .catch((e) => { return next({message: 'Could not rate material.', statusCode: 400}) });
     }    
