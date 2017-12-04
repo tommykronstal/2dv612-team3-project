@@ -18,7 +18,7 @@ class ListCompanyProducts extends Component {
         <Title>My products</Title>
         <List>
           {this.props.products.map(product => (
-            <Item key={product._id}>
+            <Item displayBorder key={product._id}>
               <Link to={`/company/user/product/${product._id}`}>
                 {product.name}
               </Link>
