@@ -9,6 +9,7 @@ services:
      - "80:80"
     volumes:
      - static-files:/var/www/src
+     - ./fileserver:/var/www/src/uploads
     links:
      - backend
 
@@ -21,7 +22,6 @@ services:
       - webserver
     volumes:
      - static-files:/usr/src/app/build
-     - ../filesystem:/usr/src/app/upload
     environment:
      - NODE_ENV=production
 
@@ -38,7 +38,7 @@ services:
       - ADMIN_PASSWORD=$ADMIN_PASSWORD
     command: npm start
     volumes:
-    - ../fileserver:./src/filesystem/uploads
+    - ./fileserver:/usr/src/app/src/filesystem/uploads
 
   mongo:
     image: mongo
