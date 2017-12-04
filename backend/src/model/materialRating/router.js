@@ -2,7 +2,7 @@ const controller = require('./controller');
 const Router = require('express').Router;
 const router = new Router();
 
-router.route('/:materialid')
+router.route('/:materialid/rating')
   .get((...args) => controller.findForMaterial(...args))
   .post((...args) => controller.create(...args));
 

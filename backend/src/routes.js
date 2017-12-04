@@ -25,6 +25,6 @@ router.use('/api/company', company);
 router.use('/api/category', category);
 router.use('/api/', product);
 router.use('/api/product/material', material);
-router.use('/api/product/material/rating', materialRating);
+router.use('/api/product/material', materialRating);
 
 module.exports = router;
