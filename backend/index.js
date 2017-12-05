@@ -21,6 +21,11 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
 seedDB.admin(config.admin_account);
+
+if(process.env.NODE_ENV !== 'production') {
+    seedDB.companies(config.companies);
+    seedDB.users(100);
+}
 app.use('/', routes);
 
 app.use(function (err, req, res, next) {
