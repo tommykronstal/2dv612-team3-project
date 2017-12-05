@@ -12,7 +12,6 @@ services:
      - "80:80"
     volumes:
      - static-files:/var/www/src
-     #- ./fileserver:/var/www/src/uploads
     links:
      - backend
 
