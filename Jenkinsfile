@@ -10,7 +10,7 @@ node {
             stage ('archive') {
                 stash includes: '*.yml, app/**, backend/**, nginx/**, *.json, yarn.lock, pact/**', name: 'fullStack'
             }
-            
+            /*
             stage ('Cleaning previous build') {
                 cleanOldBuild("docker-compose.yml")
             }
@@ -24,29 +24,29 @@ node {
                 },
                 failFast: true
             }
-            
+*/            
             stage ('Unit tests') {
 
                 parallel frontendTest: {
-                    sh 'docker-compose -f docker-compose-test.yml up app'
+                    //sh 'docker-compose -f docker-compose-test.yml up app'
                 }, backendTest: {
-                    sh 'docker-compose -f docker-compose-test.yml up backend'
+                    //sh 'docker-compose -f docker-compose-test.yml up backend'
                 },
                 failFast: true
                 
-                cleanOldBuild("docker-compose-pact.yml")
-                sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
-                sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
-                junit "**/backend/src/test-report*.xml"
+                //cleanOldBuild("docker-compose-pact.yml")
+                //sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+                //sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
+                //junit "**/backend/src/test-report*.xml"
             }
         }
 
         node('staging') {
             stage('Set up staging environment') {
-                unstash 'fullStack'
-                cleanOldBuild("docker-compose.yml")
-                sh 'docker-compose build --no-cache'
-                sh 'docker-compose up -d'
+                //unstash 'fullStack'
+                //cleanOldBuild("docker-compose.yml")
+                //sh 'docker-compose build --no-cache'
+                //sh 'docker-compose up -d'
             }
         }
 
