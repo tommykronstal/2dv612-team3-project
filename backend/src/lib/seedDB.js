@@ -22,24 +22,8 @@ exports.admin = function (adminAccount) {
     .catch(e => console.log(e));
 };
 
-const companies = ["Philips", "Samsung", "Cresent"];
 
 exports.companies = function (companies) {
-  companies = [{
-      name: "Philips",
-      reps: 3,
-      productsPerCategory: 3,
-      categories: ['TV', 'VCR'],
-      materialsPerProduct: 3
-    },
-    {
-      name: "Samsung",
-      reps: 2,
-      productsPerCategory: 5,
-      categories: ['TV', 'VCR', 'Mobile Phone'],
-      materialsPerProduct: 2
-    }
-  ];
 
   // Get all unique categories
   const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
@@ -51,6 +35,7 @@ exports.companies = function (companies) {
 };
 
 const createCompany = company => {
+    console.log(company);
   var mongoCompany;
   const admin = {
     firstName: `FN${company.name}Admin`,
@@ -80,7 +65,7 @@ const createCompany = company => {
     })
     .then(() => createProducts(company))
     .then(products => {
-      mongoCompany.products = products
+      mongoCompany.products = products;
       mongoCompany.save()
     })
 
@@ -110,26 +95,36 @@ const createProducts = company => {
   return new Promise(function (resolve, reject) {
   const prodArr = [];
   var i;
-  for (i = 0; i < company.categories.length; i++) {
-    // get category 
-    categoryFacade.findOne({'categoryName': company.categories[i]})
-    .then((category) => {
-      for (j = 0; j < company.productsPerCategory; j++) {
-        prodArr.push(productFacade.create({'name':company.name + " " + category.categoryName +" "+ j, 'category': category._id}));
-      }
-      return prodArr;
-    }).then((arrDoc) => {
-        Promise.all(arrDoc).then((docs) => {
-            return resolve(docs);
-        }).catch(e => reject(e));
-    })
-  }
+
+      const material = {
+          name: "manual",
+          originalname: "components.pdf",
+          filename: "e506a9172af9259843342dc44c58f763",
+          path: "src/filesystem/uploads/e506a9172af9259843342dc44c58f763",
+          size: 33600,
+          mimetype: "e506a9172af9259843342dc44c58f763"
+      };
+
+      materialFacde.create(material).then((materialDoc) =>{
+
+          for (i = 0; i < company.categories.length; i++) {
+              // get category
+              categoryFacade.findOne({'categoryName': company.categories[i]})
+                  .then((category) => {
+                      for (j = 0; j < company.productsPerCategory; j++) {
+                          prodArr.push(productFacade.create({'name':company.name + " " + category.categoryName +" "+ j, 'category': category._id, 'materials':[materialDoc.id]}));
+                      }
+                      return prodArr;
+                  }).then((arrDoc) => {
+                  Promise.all(arrDoc).then((docs) => {
+                      return resolve(docs);
+                  }).catch(e => reject(e));
+              })
+          }
+
+      })
 })
 };
-
-const createMaterial  = (material) => {
-    materialFacde.create(material);
-}
 
 const createCategory = (category) => {
   categoryFacade.create({

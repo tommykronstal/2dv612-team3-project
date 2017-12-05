@@ -21,7 +21,10 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
 seedDB.admin(config.admin_account);
-seedDB.companies(['Philips']);
+
+if(process.env.NODE_ENV == 'production') {
+    seedDB.companies(config.companies);
+}
 app.use('/', routes);
 
 app.use(function (err, req, res, next) {

@@ -12,7 +12,22 @@ const config = {
       email: 'admin@admin.nu',
       password: process.env.ADMIN_PASSWORD || 'admin',
       role: 'ADMIN',
-  }
+  },
+  companies: [{
+        name: "Philips",
+        reps: 3,
+        productsPerCategory: 3,
+        categories: ['TV', 'VCR'],
+        materialsPerProduct: 3
+    },
+        {
+            name: "Samsung",
+            reps: 2,
+            productsPerCategory: 5,
+            categories: ['TV', 'VCR', 'Mobile Phone'],
+            materialsPerProduct: 2
+        }
+    ]
 };
 
 module.exports = config;
