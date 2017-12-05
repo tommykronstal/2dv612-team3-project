@@ -64,9 +64,16 @@ node('prod') {
         unstash 'fullStack'
         cleanOldBuild("docker-compose-prod.yml")
         sh 'docker-compose -f docker-compose-prod.yml down'
+        // Backup uploads
+        sh 'docker cp 2dv612pipeline_webserver_1:/var/www/src/uploads -> uploads.tar'
         sh 'docker volume rm 2dv612pipeline_static-files --force'
         sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
+        //Unpack and restore uploads
+        sh 'tar xvf uploads.tar'
+        sh 'docker cp uploads 2dv612pipeline_webserver_1:/var/www/src'
+        sh 'rm -rf uploads'
+        sh 'rm uploads.tar'
         slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }
 }
