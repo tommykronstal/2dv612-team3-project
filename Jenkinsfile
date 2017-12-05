@@ -8,7 +8,7 @@ node {
             }
 
             stage ('archive') {
-                stash includes: '*.yml, /app, /backend, nginx, *.json, yarn.lock, /pact', name: 'fullStack'
+                stash includes: '*.yml, app/**, backend/**, nginx/**, *.json, yarn.lock, pact/**', name: 'fullStack'
             }
             
             stage ('Cleaning previous build') {
@@ -24,7 +24,7 @@ node {
                 },
                 failFast: true
             }
-            
+           
             stage ('Unit tests') {
 
                 parallel frontendTest: {

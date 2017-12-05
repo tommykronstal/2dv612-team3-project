@@ -12,7 +12,6 @@ services:
      - "80:80"
     volumes:
      - static-files:/var/www/src
-     - ./fileserver:/var/www/src/uploads
     links:
      - backend
 
@@ -41,7 +40,7 @@ services:
       - ADMIN_PASSWORD=$ADMIN_PASSWORD
     command: npm start
     volumes:
-    - ./fileserver:/usr/src/app/src/filesystem/uploads
+    - static-files:/usr/src/app/src/filesystem/uploads
 
   mongo:
     image: mongo
