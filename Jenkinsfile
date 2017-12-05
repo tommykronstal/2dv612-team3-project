@@ -68,7 +68,7 @@ node('prod') {
         sh 'docker volume rm 2dv612pipeline_static-files --force'
         sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
-        
+        restoreUploads()
         slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }
 }
@@ -82,12 +82,19 @@ def backupUploads() {
     try {
         sh 'docker cp 2dv612pipeline_webserver_1:/var/www/src/uploads -> uploads.tar'
         //Unpack and restore uploads
+       
+    } catch (e) {
+        sh "echo ${e}"
+    }   
+}
+
+def restoreUploads() {
+    try {
         sh 'tar xvf uploads.tar'
         sh 'docker cp uploads 2dv612pipeline_webserver_1:/var/www/src'
         sh 'rm -rf uploads'
         sh 'rm uploads.tar'
     } catch (e) {
         sh "echo ${e}"
-    }
-    
+    }   
 }
