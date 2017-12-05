@@ -3,14 +3,16 @@
 * ```git clone https://github.com/tommykronstal/2dv612-team3-project.git```
 * ```cd 2dv612-team3-project && docker-compose up --build```
   * Only build one `dep docker-compose up -d --no-deps --build backend`
+* Frontend served by nginx: [http://localhost:5000](http://localhost:5000)
 * Frontend: [http://localhost:3000](http://localhost:3000)
 * Backend: [http://localhost:4000](http://localhost:4000)
 
 # Live server and CI/CD
 
 * Live server: [http://194.47.174.40](http://194.47.174.40)
-* Staging server frontend: [http://194.47.174.56:3000](http://194.47.174.56:3000)
-* Staging server backend: [http://194.47.174.56:4000](http://194.47.174.56:4000)
+* Staging server frontend served by nginx: [http://194.47.174.56:5000](http://194.47.174.56:5000)
+  * Staging server frontend: [http://194.47.174.56:3000](http://194.47.174.56:3000)
+  * Staging server backend: [http://194.47.174.56:4000](http://194.47.174.56:4000)
 * Jenkins build server: [http://194.47.174.37:8080](http://194.47.174.37:8080)
 
 # run locally
