@@ -2,13 +2,17 @@ version: '2'
 services:
 
   webserver:
-    build: ./nginx
+    build:
+      context: ./nginx
+      args:
+        configfile: site.conf
     restart: always
     ports:
      - "443:443"
      - "80:80"
     volumes:
      - static-files:/var/www/src
+     - ./fileserver:/var/www/src/uploads
     links:
      - backend
 
@@ -36,6 +40,8 @@ services:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
       - ADMIN_PASSWORD=$ADMIN_PASSWORD
     command: npm start
+    volumes:
+    - ./fileserver:/usr/src/app/src/filesystem/uploads
 
   mongo:
     image: mongo
