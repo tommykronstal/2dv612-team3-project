@@ -48,8 +48,7 @@ exports.users = function(number) {
           password: "password"
         };
         userFacade.create(user);
-    }
-    
+    }    
   }
 })
 }
@@ -61,7 +60,7 @@ const createCompany = company => {
   const admin = {
     firstName: `FN${company.name}Admin`,
     lastName: `LN${company.name}Admin`,
-    email: `admin@${company.name}.com`,
+    email: `admin@${company.name.toLowerCase()}.com`,
     role: "COMPANY_ADMIN",
     password: "password"
   };
@@ -99,7 +98,7 @@ const createCompanyReps = company => {
       const companyRep = {
         firstName: `FN${company.name}Rep${i}`,
         lastName: `LN${company.name}${i}Rep`,
-        email: `Rep${i}@${company.name}.com`,
+        email: `rep${i}@${company.name.toLowerCase()}.com`,
         role: "COMPANY_REP",
         password: "password"
       };
