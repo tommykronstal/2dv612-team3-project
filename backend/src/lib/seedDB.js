@@ -122,9 +122,9 @@ const createProducts = company => {
       name: "manual",
       originalname: "components.pdf",
       filename: "e506a9172af9259843342dc44c58f763",
-      path: "src/filesystem/uploads/e506a9172af9259843342dc44c58f763",
+      path: "src/lib/seed/e506a9172af9259843342dc44c58f763",
       size: 33600,
-      mimetype: "e506a9172af9259843342dc44c58f763"
+      mimetype: "application/pdf"
     };
 
     materialFacde.create(material).then(materialDoc => {
