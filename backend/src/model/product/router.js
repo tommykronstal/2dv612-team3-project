@@ -12,7 +12,11 @@ router.route('/company/:companyid/product')
 router.route('/product')
   .get((...args) => controller.find(...args));
 
-router.route('/company/:companyid/product/:id')
+router.route('/product/:id')
+  .get((...args) => controller.findByIdIncludeCompany(...args))
+  //.get((...args) => controller.findById(...args))
+
+  router.route('/company/:companyid/product/:id')
   .put(upload.single('pdf'), (...args) => controller.update(...args))
   .get((...args) => controller.findById(...args))
   .delete((...args) => controller.remove(...args));
