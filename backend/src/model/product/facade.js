@@ -7,6 +7,7 @@ class ProductFacade extends Facade {
         return productSchema
           .findById(...args)
           .populate('materials')
+          .populate('category')
           .exec();
       }
 }

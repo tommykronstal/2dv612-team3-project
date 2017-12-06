@@ -5,7 +5,7 @@ import Section from './Section'
 
 const Div = styled.div`
   margin: 2rem 1rem 4rem 1rem;
-  text-align: center
+  text-align: center;
 `
 
 export default props => (

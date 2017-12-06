@@ -1,7 +1,7 @@
-import {SET_PRODUCTS} from '../actions/types'
-
+import {SET_PRODUCTS, SET_PRODUCT} from '../actions/types'
 const defaultState = {
-  products: []
+  products: [],
+  product: {}
 }
 
 export default (state = defaultState, action) => {
@@ -11,6 +11,12 @@ export default (state = defaultState, action) => {
         ...state,
         products: [...action.products]
       }
+
+      case SET_PRODUCT:
+        return {
+          ...state,
+          product: {...action.product}
+        }
     default:
       return state
   }

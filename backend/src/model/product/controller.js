@@ -70,5 +70,4 @@ class ProductController extends Controller {
 }
 
 
-
 module.exports = new ProductController(productFacade);
