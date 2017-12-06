@@ -25,7 +25,7 @@ materialRatingSchema.post('save', function(doc, next) {
     let denominator = rateDocs.length;
     materialFacade.findOne({_id: materialRating.materialid})
     .then(matDoc => {
-        matDoc.avgRating = sum;
+        matDoc.avgRating = sum / denominator;
         return matDoc.save();
     })
     .then(() => next())

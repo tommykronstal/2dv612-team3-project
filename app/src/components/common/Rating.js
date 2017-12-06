@@ -1,5 +1,20 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import Star from './Star'
+import Text from './Text'
+
+const Label = styled(Text)`
+  color: rgb(210, 210, 210);
+  display: inline-block;
+  font-style: italic;
+  font-weight: 100;
+  vertical-align: top;
+  padding-left: 0.2rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  
+`
 
 export default props => (
   <div>
@@ -14,5 +29,6 @@ export default props => (
         />
       ))
     }
+    <Label>({props.amount})</Label>
   </div>
 )
