@@ -220,19 +220,23 @@ describe('set up pact', () => {
 
     // Testing Rating
     describe('Create a rating', () => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+        };
 
         beforeAll(() => provider.addInteraction({
                 uponReceiving: 'a request for creating a rating',
                 withRequest: {
                     method: 'POST',
-                    path: '/api/product/material/5a280388169758001ce1fd69/rating',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: { 'rating': '4' }
+                    path: '/api/product/material/5a2838e4407de3001da76d72/rating',
+                    headers,
+                    body: { 'rating': 4 }
                 },
                 willRespondWith: {
                     status: 201,
                     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                    body: Matchers.eachLike({
+                    body: {
                         "_id": "5a2838e4407de3001da76d72",
                         "name": "manual",
                         "originalname": "components.pdf",
@@ -240,7 +244,7 @@ describe('set up pact', () => {
                         "path": "src/lib/seed/e506a9172af9259843342dc44c58f763",
                         "size": 33600,
                         "mimetype": "application/pdf",
-                        "__v": 1,
+                        "__v": 2,
                         "avgRating": 4,
                         "rating": [
                             {
@@ -248,9 +252,15 @@ describe('set up pact', () => {
                                 "userid": "5a2838d7407de3001da76d00",
                                 "materialid": "5a2838e4407de3001da76d72",
                                 "rating": 4
+                            },
+                            {
+                                "_id": "5a2846614bd89f001ee98d36",
+                                "userid": "5a2838d7407de3001da76d1e",
+                                "materialid": "5a2838e4407de3001da76d72",
+                                "rating": 4
                             }
                         ]
-                    })
+                    }
                 }
             })
         );
@@ -263,7 +273,7 @@ describe('set up pact', () => {
             "path": "src/lib/seed/e506a9172af9259843342dc44c58f763",
             "size": 33600,
             "mimetype": "application/pdf",
-            "__v": 1,
+            "__v": 2,
             "avgRating": 4,
             "rating": [
                 {
@@ -271,15 +281,21 @@ describe('set up pact', () => {
                     "userid": "5a2838d7407de3001da76d00",
                     "materialid": "5a2838e4407de3001da76d72",
                     "rating": 4
+                },
+                {
+                    "_id": "5a2846614bd89f001ee98d36",
+                    "userid": "5a2838d7407de3001da76d1e",
+                    "materialid": "5a2838e4407de3001da76d72",
+                    "rating": 4
                 }
             ]
-        }
+        };
 
         it('returns a matching rating', async () => {
-            const result = await post(PACT_HOST + '/api/product/material/5a280388169758001ce1fd69/rating',
-                {headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({rating: 4})});
+            const result = await post(PACT_HOST + '/api/product/material/5a2838e4407de3001da76d72/rating',
+                {headers: headers, body: JSON.stringify({rating: 4})});
 
-            expect(result).toEqual({...expected, status: 200})
+            expect(result).toEqual({...expected, status: 201})
         })
     })
 
@@ -294,19 +310,19 @@ describe('set up pact', () => {
               withRequest: {
                   method: 'GET',
                   path: '/api/product/material/5a2838e4407de3001da76d72/rating',
-                  headers: { 'Accept': 'application/json' }
+                  headers
               },
               willRespondWith: {
                   status: 200,
                   headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                  body: Matchers.eachLike([
+                  body: Matchers.eachLike(
                       {
                           "_id": "5a283ba1e892b9001e44fd6e",
                           "userid": "5a2838d7407de3001da76d00",
                           "materialid": "5a2838e4407de3001da76d72",
                           "rating": 4
                       }
-                  ])
+                  )
               }
       })
       );
@@ -314,14 +330,13 @@ describe('set up pact', () => {
       it('returns a list of ratings', async () => {
           const result = await get(PACT_HOST + '/api/product/material/5a2838e4407de3001da76d72/rating', {headers});
 
-          const expected = [
+          const expected =[
               {
                   "_id": "5a283ba1e892b9001e44fd6e",
                   "userid": "5a2838d7407de3001da76d00",
                   "materialid": "5a2838e4407de3001da76d72",
                   "rating": 4
-              }
-          ];
+              }];
 
           expected.status = 200; // fix for ugly mapping of response status
 
