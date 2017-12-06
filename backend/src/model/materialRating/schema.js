@@ -12,7 +12,7 @@ const materialRatingSchema = new Schema({
 materialRatingSchema.index({userid: 1, materialid: 1}, {unique: true});
 
 //Recalculate average rating from all ratings with same materialid
-materialRatingSchema.post('save', function(next) {
+materialRatingSchema.post('save', function(doc, next) {
   let materialRating = this;
   //Find all ratings with same materialid
   this.constructor.find({materialid: materialRating.materialid})
@@ -25,9 +25,10 @@ materialRatingSchema.post('save', function(next) {
     let denominator = rateDocs.length;
     materialFacade.findOne({_id: materialRating.materialid})
     .then(matDoc => {
-        matDoc.avgRating = avgRating;
-        matDoc.save();
-    });
+        matDoc.avgRating = sum / denominator;
+        return matDoc.save();
+    })
+    .then(() => next())
   });
 });
 

@@ -5,7 +5,7 @@ class MaterialFacade extends Facade {
     findById(...args) {
         return this.Schema
           .findById(...args)
-          .populate('rating')
+          .populate('rating', { '__v': 0 })
           .exec();
       }
 }

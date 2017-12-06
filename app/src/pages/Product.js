@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchProduct} from '../actions/products'
+import {fetchProduct, setRating} from '../actions/products'
 import Loading from '../components/common/Loading'
 import Content from '../components/common/Content'
 import styled from 'styled-components'
@@ -19,7 +19,8 @@ class Product extends Component {
 	}
 
 	render() {
-		const {product, isLoading} = this.props
+		const {product, isLoading, userId, setRating} = this.props
+
 		return (
 			<div>
 				{!Object.keys(product).length || isLoading ? (
@@ -35,8 +36,8 @@ class Product extends Component {
 							{product.companyName}
 						</StyledHeadline>
 						{product.materials.length ? (
-							product.materials.map((material, i) => (
-								<Material {...material} key={i} />
+							product.materials.map((material) => (
+								<Material {...material} userId={userId} setRating={setRating(material._id)} key={material._id} />
 							))
 						) : (
 							<StyledHeadline>
@@ -50,13 +51,15 @@ class Product extends Component {
 	}
 }
 
-const mapStateToProps = ({products, loading}) => ({
+const mapStateToProps = ({products, loading, auth}) => ({
 	loading: loading.isLoading,
 	product: products.product,
+	userId: auth.userId
 })
 
 const mapDispatchToProps = dispatch => ({
 	tryFetchProduct: productId => dispatch(fetchProduct(productId)),
+	setRating: materialId => rating => dispatch(setRating(materialId, rating))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product)

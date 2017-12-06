@@ -1,16 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import Link from './common/Link'
+import A from '../components/common/A'
 import Text from './common/Text'
+import Rating from './common/Rating'
 
 /**
  * Ignoring predefined padding
  * set from original styled component
  */
 const StyledText = styled(Text)`
-	color: ${props => (props.color ? props.color : 'initial')};
+	color: rgb(210, 210, 210);
 	padding-bottom: 0px !important;
 	text-align: start;
+`
+const StyledLabel = styled(Text)`
+color: rgb(210, 210, 210);
+padding-bottom: 0px !important;
+display: inline-block;
 `
 
 const MaterialContainer = styled.div`
@@ -27,17 +33,19 @@ const ColumnContainer = styled.div`
 	flex-direction: column;
 `
 
-export default ({name, originalname, mimetype, filename, ...props}) => {
+export default ({name, filename, mimetype, avgRating, userId, setRating, ...props}) => {
 	const [_, type] = mimetype.split('/')
+
+	const myRating = props.rating.find(r => r.userid === userId) 
+	const rating = myRating ? myRating.rating : 0
+
 	return (
 		<MaterialContainer>
 			<ColumnContainer>
-				<StyledText>{name}</StyledText>
-				<StyledText color="#9E9E9E">{type}</StyledText>
+				<A href={`/uploads/${filename}`} target='_blank'>{name}</A>
+				<StyledText>{type}</StyledText>
 			</ColumnContainer>
-			<Link target="_blank" to={`/uploads/${filename}`}>
-				View Material
-			</Link>
+			<Rating small avg={avgRating} rating={rating} onClick={setRating} amount={props.rating.length} />
 		</MaterialContainer>
 	)
 }

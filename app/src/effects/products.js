@@ -4,13 +4,16 @@ import {
   SET_PRODUCTS,
   SET_PRODUCT,
   FETCH_PRODUCT,
+  SET_RATING,
+  UPDATE_MATERIAL
 } from '../actions/types'
 import {put, takeEvery, call, select} from 'redux-saga/effects'
-import {get} from '../lib/http'
+import {get, post} from '../lib/http'
 
 export function* watchProductActions() {
   yield takeEvery(FETCH_PRODUCTS, fetchProducts)
   yield takeEvery(FETCH_PRODUCT, fetchProduct)
+  yield takeEvery(SET_RATING, setRating)  
 }
 
 export function* fetchProducts() {
@@ -46,4 +49,19 @@ export function* fetchProduct({productId}) {
 
   yield put({type: SET_PRODUCT, product})
   yield put({type: TOGGLE_LOADING})
+}
+
+export function* setRating({ materialId, rating }) {
+  const {token} = yield select(({auth}) => ({
+    token: auth.jwt
+  }))
+
+  const material = yield call(post, `/api/product/material/${materialId}/rating`, {
+    headers: {
+      Authorization: token,
+    },
+    body: JSON.stringify({ rating })
+  })
+
+  yield put({type: UPDATE_MATERIAL, material })
 }
