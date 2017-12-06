@@ -9,6 +9,7 @@ const defaultState = {
   jwt: token,
   email: data.email,
   role: data.role,
+  userId: data.userId,
   companyId: data.companyId
 }
 
@@ -21,6 +22,7 @@ export default (state = defaultState, action) => {
       jwt: action.token,
       email: action.payload.email,
       role: action.payload.role,
+      userId: action.payload.userId,
       companyId: action.payload.companyId
     }
   case LOGOUT:
@@ -29,6 +31,7 @@ export default (state = defaultState, action) => {
       jwt: null,
       email: null,
       role: null,
+      userId: null,
       companyId: null
     }
   default:

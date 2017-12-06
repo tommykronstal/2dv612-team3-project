@@ -5,6 +5,7 @@ const Container = styled.div`
   transition: transform 0.2s;
   transform-origin: center;
   display: inline-block;
+  cursor: pointer;
 
   :active {
     transform: scale(0.5);

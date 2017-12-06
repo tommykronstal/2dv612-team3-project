@@ -6,7 +6,12 @@ class ProductFacade extends Facade {
     findById(...args) {
         return productSchema
           .findById(...args)
-          .populate('materials')
+          .populate({
+            path:     'materials',			
+            populate: { 
+                path:  'rating'
+            }
+          })
           .populate('category')
           .exec();
       }

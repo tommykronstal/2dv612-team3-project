@@ -21,7 +21,7 @@ class UserController extends Controller {
         const token = jwt.sign(JSON.stringify({ firstName, email, role, companyId }), jwtSecret);
         return res.json({ token, error: false });
       } else { // Everything went ok, logging in!
-        const token = jwt.sign(JSON.stringify({ firstName, email, role }), jwtSecret);
+        const token = jwt.sign(JSON.stringify({ firstName, email, role, userId: doc._id }), jwtSecret);
         return res.json({ token, error: false });
       }
     } catch (e) {
@@ -37,7 +37,7 @@ class UserController extends Controller {
     try {
       if (!email || !password) return res.status(400).json({ error: true });
       const userDocument = await userFacade.createUser({ email, password, firstName, lastName, role });
-      return res.status(201).json({ error: false, token: jwt.sign({ email, role }, jwtSecret) });
+      return res.status(201).json({ error: false, token: jwt.sign({ firstName, email, role, userId: userDocument._id }, jwtSecret) });
     } catch (e) {
       return next(e);
     }
