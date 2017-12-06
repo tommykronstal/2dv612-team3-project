@@ -27,7 +27,7 @@ const ColumnContainer = styled.div`
 	flex-direction: column;
 `
 
-export default ({name, originalname, mimetype, ...props}) => {
+export default ({name, originalname, mimetype, filename, ...props}) => {
 	const [_, type] = mimetype.split('/')
 	return (
 		<MaterialContainer>
@@ -35,7 +35,9 @@ export default ({name, originalname, mimetype, ...props}) => {
 				<StyledText>{name}</StyledText>
 				<StyledText color="#9E9E9E">{type}</StyledText>
 			</ColumnContainer>
-			<Link to='/'>View Material</Link>
+			<Link target="_blank" to={`/uploads/${filename}`}>
+				View Material
+			</Link>
 		</MaterialContainer>
 	)
 }
