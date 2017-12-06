@@ -218,4 +218,51 @@ describe('set up pact', () => {
     })
   })
 
+  describe('Return a rating', () => {
+      const headers = {
+          'Accept': 'application/json',
+          'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+      };
+
+      beforeAll(() => provider.addInteraction({
+              uponReceiving: 'a request for getting a rating',
+              withRequest: {
+                  method: 'GET',
+                  path: '/api/product/material/5a280388169758001ce1fd69/rating',
+                  headers: { 'Accept': 'application/json' }
+              },
+              willRespondWith: {
+                  status: 200,
+                  headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                  body: Matchers.eachLike({
+                      "_id": "5a280388169758001ce1fd6b",
+                      "name": "Samsung Mobile Phone 0",
+                      "category": "5a280387169758001ce1fd5f",
+                      "rating": [],
+                      "materials": ["5a280388169758001ce1fd69"]
+                  })
+              }
+      })
+      );
+
+      it('returns a list of ratings', async () => {
+          const result = await get(PACT_HOST + '/api/product/material/5a280388169758001ce1fd69/rating', {headers});
+
+          const expected = [
+              {
+                  "_id": "5a280388169758001ce1fd6b",
+                  "name": "Samsung Mobile Phone 0",
+                  "category": "5a280387169758001ce1fd5f",
+                  "rating": [],
+                  "materials": ["5a280388169758001ce1fd69"]
+              }
+          ];
+
+          expected.status = 200; // fix for ugly mapping of response status
+
+          expect(result).toEqual(expected)
+      });
+      it('successfully verifies', () => provider.verify())
+  })
+
 })
