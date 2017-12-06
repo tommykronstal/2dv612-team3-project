@@ -28,7 +28,7 @@ class Authorization {
             if (!user) return next({ error: true, message: 'Invalid token', statusCode: 401});
 
             //Let any user get all categories and products
-            if ((req.url.indexOf('/api/category') > - 1 || req.url.indexOf('/api/product') > - 1) && req.method === 'GET') return next();
+            if ((req.url.indexOf('/api/category') > - 1 && req.method === 'GET' || req.url.indexOf('/api/product') > - 1)) return next();
             
             return checkRole(req, res, next);
         } catch(e) {

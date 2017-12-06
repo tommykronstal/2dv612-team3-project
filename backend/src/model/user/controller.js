@@ -21,7 +21,7 @@ class UserController extends Controller {
         const token = jwt.sign(JSON.stringify({ firstName, email, role, companyId }), jwtSecret);
         return res.json({ token, error: false });
       } else { // Everything went ok, logging in!
-        const token = jwt.sign(JSON.stringify({ firstName, email, role }), jwtSecret);
+        const token = jwt.sign(JSON.stringify({ firstName, email, role, userId: doc._id }), jwtSecret);
         return res.json({ token, error: false });
       }
     } catch (e) {
