@@ -16,15 +16,11 @@ class MaterialController extends Controller {
 
 
   async getAnnotation(req, res, next) {
-    const {
-        annotation
-      } = req.body;
-  
-      const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
-  
-      const annotationFromDB = "Will be read from db";
+      const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+      const annotation = "Will be read from db";
+      const material = req.params.id;
 
-      res.status(200).json({error: false, userinfo: decodedToken.email, annotation: annotationFromDB, material: req.params.id});
+      res.status(200).json({error: false, userinfo: useremail, annotation: annotation, material: material});
   } 
 
 
