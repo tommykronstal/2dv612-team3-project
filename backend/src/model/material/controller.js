@@ -1,27 +1,31 @@
 const Controller = require('../../lib/controller');
 const materialFacade = require('./facade');
+const jwt = require('jsonwebtoken');
 
 class MaterialController extends Controller {
 
   async createAnnotation(req, res, next) {
-    const {
-      annotation
-    } = req.body;
+    
+    const annotation = req.body.annotation;
+    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+    const material = req.params.id;
 
-    res.status(201).json({error: false, message: annotation});
+    res.status(201).json({error: false, annotation: annotation, user: useremail, material: material});
 
-    /*
-    try {
-      const newUser = await userFacade.createUser(user); // returns an array on succ. if email is not unique i.e. user already exists execution will catch here
-      const companyExists = await companyFacade.find({name: company.companyName})[0]; // todo no unique identifier for companies in schema so have to find first?
-      if (companyExists) return next({message: 'Company already exists', statusCode: 400});
-      company.admin = newUser;
-      await companyFacade.create(company);
-      return res.status(201).json({ error: false });
-    } catch (e) {
-      return next(e);
-    }*/
   }
+
+
+  async getAnnotation(req, res, next) {
+    const {
+        annotation
+      } = req.body;
+  
+      const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
+  
+      const annotationFromDB = "Will be read from db";
+
+      res.status(200).json({error: false, userinfo: decodedToken.email, annotation: annotationFromDB, material: req.params.id});
+  } 
 
 
 }
