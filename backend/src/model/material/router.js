@@ -11,4 +11,11 @@ router.route('/:id')
   .delete((...args) => controller.remove(...args));
 
 
+router.route('/:id/annotation')
+  .post((...args) => controller.createAnnotation(...args))
+  .put((...args) => controller.update(...args))
+  .get((...args) => controller.findById(...args))
+  .delete((...args) => controller.remove(...args));
+
+
 module.exports = router;
