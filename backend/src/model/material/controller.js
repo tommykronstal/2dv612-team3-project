@@ -2,6 +2,7 @@ const Controller = require('../../lib/controller');
 const materialFacade = require('./facade');
 const jwt = require('jsonwebtoken');
 const annotationFacade = require('../annotation/facade');
+//const materialFacade = require('../material/facade');
 
 class MaterialController extends Controller {
 
@@ -34,10 +35,11 @@ class MaterialController extends Controller {
 
       const annotation = await annotationFacade.find({email: useremail, materialid: material});
 
-      res.status(200).json({error: false, userinfo: useremail, annotation: annotation, material: material});
+      const materialToReturn = await materialFacade.find({_id: material}).then(doc => {
+        doc.annotation = annotation;
+        res.status(200).json({error: false, userinfo: useremail, annotation: annotation[0].annotation, material: doc});
+      });   
   } 
-
-
 }
 
 module.exports = new MaterialController(materialFacade);
