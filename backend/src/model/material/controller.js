@@ -2,12 +2,10 @@ const Controller = require('../../lib/controller');
 const materialFacade = require('./facade');
 const jwt = require('jsonwebtoken');
 const annotationFacade = require('../annotation/facade');
-//const materialFacade = require('../material/facade');
 
 class MaterialController extends Controller {
 
-  async createAnnotation(req, res, next) {
-    
+  async createMaterial(req, res, next) {
     const annotation = req.body.annotation;
     const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
     const material = req.params.id;
@@ -24,13 +22,13 @@ class MaterialController extends Controller {
     .catch((e) => { res.status(500).json({error: true, message: "Something went wrong with internally"}); console.log(e) });
   }
 
-  async getAnnotation(req, res, next) {
+  async getMaterial(req, res, next) {
       const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
       const material = req.params.id;
       const annotation = await annotationFacade.find({email: useremail, materialid: material});
       const materialToReturn = await materialFacade.find({_id: material}).then(doc => {
         doc.annotation = annotation;
-        res.status(200).json({error: false, userinfo: useremail, annotation: annotation[0].annotation, material: doc});
+        res.status(200).json({error: false, annotation: annotation[0].annotation, name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
       });   
   } 
 }
