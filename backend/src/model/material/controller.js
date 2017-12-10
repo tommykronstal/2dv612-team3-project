@@ -21,7 +21,7 @@ class MaterialController extends Controller {
 
         res.status(201).json({error: false, annotation: annotation, email: useremail, materialid: material});
     })
-    .catch((e) => { console.log(e) });
+    .catch((e) => { res.status(500).json({error: true, message: "Something went wrong with internally"}); console.log(e) });
   }
 
   async getAnnotation(req, res, next) {
