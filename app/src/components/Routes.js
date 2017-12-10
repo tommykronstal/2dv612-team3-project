@@ -21,6 +21,7 @@ import UpdateProduct from '../pages/UpdateProduct'
 import ListCompanyProducts from '../pages/ListCompanyProducts'
 import ListAllProducts from '../pages/ListAllProducts'
 import Product from '../pages/Product'
+import {withOverlay} from './withDialog'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -31,16 +32,16 @@ const AdminRoutes = ({ match, location }) => (
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
 
-    <TransitionGroup>
-      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
+    {/* <TransitionGroup>
+      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}> */}
         <Switch>
           <Route exact path={match.url} component={Welcome} />
           <Route exact path={`${match.url}/companies`} component={AddCompany} />
           <Route exact path={`${match.url}/categories`} component={AddCategory} />
           <Route component={NotFound} />
         </Switch>
-      </CSSTransition>
-    </TransitionGroup>
+      {/* </CSSTransition>
+    </TransitionGroup> */}
 
   </NavigationContainer>
 )
@@ -52,15 +53,15 @@ const CompanyAdminRoutes = ({ match, location }) => (
       <NavigationLink exact={true} to={`${match.url}/representative`}>Add Representative</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
-    <TransitionGroup>
-      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
+    {/* <TransitionGroup>
+      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}> */}
         <Switch>
           <Route exact path={match.url} component={Welcome} />
           <Route exact path={`${match.url}/representative`} component={AddCompanyRep} />
           <Route component={NotFound} />
         </Switch>
-      </CSSTransition>
-    </TransitionGroup>
+      {/* </CSSTransition>
+    </TransitionGroup> */}
   </NavigationContainer>
 )
 
@@ -79,14 +80,14 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
       <Route component={NotFound} />
     </Switch>
-    <TransitionGroup>
-      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
+    {/* <TransitionGroup>
+      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}> */}
         <Switch>
           <Route exact path={match.url} component={Welcome} />
           <Route component={NotFound} />
         </Switch>
-      </CSSTransition>
-    </TransitionGroup>
+      {/* </CSSTransition> */}
+  {/* //   </TransitionGroup> */}
   </NavigationContainer>
 )
 
@@ -97,16 +98,17 @@ const UserRoutes = ({ match, location }) => (
       <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
-    <TransitionGroup>
-      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
+    {/* <TransitionGroup>
+      <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}> */}
         <Switch>
           <Route exact path={match.url} component={Welcome} />
           <Route exact path={`${match.url}/products`} component={ListAllProducts} />
           <Route exact path={`${match.url}/products/:productId`} component={Product} />
+          {/* <Route exact path={`${match.url}/products/:productId`} component={withOverlay(Product)} /> */}
           <Route component={NotFound} />
         </Switch>
-      </CSSTransition>
-    </TransitionGroup>
+      {/* </CSSTransition>
+    </TransitionGroup> */}
   </NavigationContainer>
 )
 
