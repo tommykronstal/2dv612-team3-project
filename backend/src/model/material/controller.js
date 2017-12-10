@@ -5,7 +5,7 @@ const annotationFacade = require('../annotation/facade');
 
 class MaterialController extends Controller {
 
-  async createMaterial(req, res, next) {
+  async addAnnotation(req, res, next) {
     const annotation = req.body.annotation;
     const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
     const material = req.params.id;
