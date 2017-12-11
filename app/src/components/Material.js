@@ -57,10 +57,12 @@ export default ({
   setRating,
   displayOverlay,
   toggleOverlay,
-  annotation = '',
   _id: materialId,
+  annotation = '',
   ...props
 }) => {
+
+
   const [_, type] = mimetype.split('/')
   const myRating = props.rating.find(r => r.userid === userId)
   const rating = myRating ? myRating.rating : 0
@@ -72,7 +74,7 @@ export default ({
         <Dialog
           Component={() => (
             <Annotation
-              annotation={''}
+              annotation={annotation}
               toggleOverlay={toggleOverlay}
               materialId={materialId}
             />
