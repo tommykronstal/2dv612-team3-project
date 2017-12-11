@@ -22,9 +22,11 @@ class Annotation extends Component {
 
   saveAnnotation = () => {
     this.props.updateAnnotation(this.state.annotation, this.props.materialId)
+    this.props.toggleOverlay()
   }
 
   render() {
+    console.log(this.props)
     const {annotation} = this.state
     return (
       <AnnotationContainer>
@@ -80,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
 /**
  * Not sure what is needed here yet
  */
-const mapStateToProps = () => ({})
+const mapStateToProps = (state) => ({state})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Annotation)
 // export default Annotation
