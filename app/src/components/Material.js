@@ -57,12 +57,14 @@ export default ({
   setRating,
   displayOverlay,
   toggleOverlay,
+  annotation = '',
   _id: materialId,
   ...props
 }) => {
   const [_, type] = mimetype.split('/')
   const myRating = props.rating.find(r => r.userid === userId)
   const rating = myRating ? myRating.rating : 0
+  const icon = annotation ? 'comment' : 'mode_comment'
 
   return (
     <MaterialContainer>
@@ -92,7 +94,7 @@ export default ({
             {name}
           </A>
           <IconContainer onClick={() => toggleOverlay()}>
-            <MaterialIcon icon="comment" size={20} color={'#9E9E9E)'}/>
+            <MaterialIcon icon={icon} size={20} color={'#9E9E9E)'} />
           </IconContainer>
         </div>
         <StyledText>{type}</StyledText>
