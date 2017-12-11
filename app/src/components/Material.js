@@ -5,6 +5,7 @@ import Text from './common/Text'
 import Rating from './common/Rating'
 import {Dialog} from './Dialogs'
 import Annotation from './Annotation'
+import MaterialIcon from 'material-icons-react'
 
 /**
  * Ignoring predefined padding
@@ -28,11 +29,23 @@ const MaterialContainer = styled.div`
   align-items: center;
   padding: 8px;
   border: 1px solid rgb(240, 240, 240);
+  border-radius: 8px;
 `
 
 const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+// Could not get hover effect on <MaterialIcon />
+// so put it on container instead
+const IconContainer = styled.div`
+  display: flex;
+  margin-left: 6px;
+  justify-content: center;
+  :hover {
+    cursor: pointer !important;
+  }
 `
 
 export default ({
@@ -56,23 +69,30 @@ export default ({
         <Dialog
           Component={() => (
             <Annotation
-              annotation={'Page 7 was good'}
+              annotation={''}
               toggleOverlay={toggleOverlay}
             />
           )}
           onOverlayClick={() => toggleOverlay()}
         />
       )}
-
-      <input
-        type="button"
-        onClick={() => toggleOverlay()}
-        value="Display Overlay"
-      />
       <ColumnContainer>
-        <A href={`/uploads/${filename}`} target="_blank">
-          {name}
-        </A>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            minHeight: 32,
+          }}
+        >
+          <A href={`/uploads/${filename}`} target="_blank">
+            {name}
+          </A>
+          <IconContainer onClick={() => toggleOverlay()}>
+            <MaterialIcon icon="comment" size={20} color={'#9E9E9E)'}/>
+          </IconContainer>
+        </div>
         <StyledText>{type}</StyledText>
       </ColumnContainer>
       <Rating
