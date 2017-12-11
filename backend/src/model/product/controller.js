@@ -29,7 +29,7 @@ class ProductController extends Controller {
         return res.status(201).json(company.products);
       }
       else {
-        return next({message: 'Could not find company', statusCode: 400});
+        return next({message: 'Could not find company.', statusCode: 400});
       }
 
     } catch (e) {
