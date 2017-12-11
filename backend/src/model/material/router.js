@@ -6,7 +6,7 @@ router.route('/')
   .get((...args) => controller.find(...args));
 
 router.route('/:id')
-  .put((...args) => controller.createMaterial(...args))
+  .put((...args) => controller.update(...args))
   .get((...args) => controller.getMaterial(...args)) // getMaterial -> findById
   .delete((...args) => controller.remove(...args));
 
