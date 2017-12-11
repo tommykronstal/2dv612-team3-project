@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import Section from '../components/common/Section'
 import Headline from '../components/common/Headline'
 import Material from '../components/Material'
-import {withOverlay} from '../components/withDialog'
+import {withOverlay} from '../components/withOverlay'
 
 const StyledHeadline = styled(Headline)`
   color: ${props => (props.color ? props.color : 'initial')};
@@ -38,15 +38,15 @@ class Product extends Component {
             </StyledHeadline>
             {product.materials.length ? (
               product.materials.map(material => {
-                const props = {
-                  userId,
-                  setRating: setRating(material._id),
-                }
-                const EnhancedMaterial = withOverlay(Material, props)
-                return <EnhancedMaterial {...material} key={material._id} />
-                // product.materials.map((material) => (
-                // 	<Material {...material} userId={userId} setRating={setRating(material._id)} key={material._id} />
-                // ))
+                const EnhancedMaterial = withOverlay(Material)
+                return (
+                  <EnhancedMaterial
+                    {...material}
+                    setRating={setRating(material._id)}
+                    key={material._id}
+                    userId={userId}
+                  />
+                )
               })
             ) : (
               <StyledHeadline>
