@@ -4,28 +4,28 @@ const productSchema = require('./schema')
 class ProductFacade extends Facade {
   findById (...args) {
     return productSchema
-          .findById(...args)
-          .populate({
-            path: 'materials',
-            populate: {
-              path: 'rating'
-            }
-          })
-          .populate('category')
-          .exec()
+      .findById(...args)
+      .populate({
+        path: 'materials',
+        populate: {
+          path: 'rating'
+        }
+      })
+      .populate('category')
+      .exec()
   }
 
   findForSearch (...args) {
     return productSchema
-    .find(...args)
-    .populate({
-      path: 'materials',
-      populate: {
-        path: 'rating'
-      }
-    })
-    .populate('category')
-    .exec()
+      .find(...args)
+      .populate({
+        path: 'materials',
+        populate: {
+          path: 'rating'
+        }
+      })
+      .populate('category')
+      .exec()
   }
 }
 
