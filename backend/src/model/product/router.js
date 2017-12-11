@@ -21,4 +21,7 @@ router.route('/product/:id')
   .get((...args) => controller.findById(...args))
   .delete((...args) => controller.remove(...args));
 
+router.route('/search')
+  .get((...args) => controller.search(...args));
+
 module.exports = router;
