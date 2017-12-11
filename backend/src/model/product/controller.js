@@ -14,7 +14,32 @@ class ProductController extends Controller {
     })
   }
 
-  create (req, res, next) {
+
+  async create (req, res, next) {
+    let company;
+    let prodDoc;
+
+    try {
+      company = await companyFacade.findById(req.param('companyid'));
+      
+      if(company) {
+        prodDoc = await productFacade.create(req.body);
+        company.products.push(prodDoc);
+        await company.save();
+        return res.status(201).json(company.products);
+      }
+      else {
+        return next({message: 'Could not find company', statusCode: 400});
+      }
+
+    } catch (e) {
+      console.log(e);
+      return next({message: 'Could not create product.', statusCode: 400});
+    }
+  }
+
+  /*
+  old_create (req, res, next) {
     let company
 
     companyFacade
@@ -38,6 +63,9 @@ class ProductController extends Controller {
         })
       })
   }
+  */
+
+
 
   update (req, res, next) {
     let product
