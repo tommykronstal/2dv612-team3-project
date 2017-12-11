@@ -29,8 +29,12 @@ class MaterialController extends Controller {
       const material = req.params.id;
       const annotation = await annotationFacade.find({email: useremail, materialid: material});
       const materialToReturn = await materialFacade.find({_id: material}).then(doc => {
-        doc.annotation = annotation;
-        res.status(200).json({error: false, annotation: annotation[0].annotation, name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
+        if (annotation) {
+            doc.annotation = annotation;
+            res.status(200).json({error: false, annotation: annotation[0].annotation, name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
+        } else {
+            res.status(200).json(doc);
+        }
       });   
   } 
 }
