@@ -21,7 +21,6 @@ import UpdateProduct from '../pages/UpdateProduct'
 import ListCompanyProducts from '../pages/ListCompanyProducts'
 import ListAllProducts from '../pages/ListAllProducts'
 import Product from '../pages/Product'
-import {withOverlay} from './withDialog'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
