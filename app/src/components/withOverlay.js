@@ -5,20 +5,18 @@ export const withOverlay = (WrappedComponent, ...parentProps) =>
       displayOverlay: false,
     }
 
-    toggleOverlay = () => {
-      console.log('toggling: ', this.state.displayOverlay)
+    toggleOverlay = () =>
       this.setState({displayOverlay: !this.state.displayOverlay})
-    }
 
     render() {
       return (
         <WrappedComponent
-        {...{
-          ...this.props,
-          ...parentProps,
-          toggleOverlay: () => this.toggleOverlay(),
-          displayOverlay: this.state.displayOverlay
-        }}
+          {...{
+            ...this.props,
+            ...parentProps,
+            toggleOverlay: () => this.toggleOverlay(),
+            displayOverlay: this.state.displayOverlay,
+          }}
         />
       )
     }
