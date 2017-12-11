@@ -14,16 +14,14 @@ class MaterialController extends Controller {
         if (!doc.length) {
             annotationFacade.create({email: useremail, materialid: material, annotation: annotation}).then(doc => {
                 res.status(201).json({error: false, annotation: annotation, email: useremail, materialid: material});
-            }).catch((e => { console.log(e)}));
+            }).catch((e => { res.status(500).json({error: true, message: "Could not sava annotation"}); console.log(e) }));
         } else {
             annotationFacade.update({email: useremail, materialid: material}, {annotation: annotation}).then(doc => {
                 res.status(200).json({error: false, annotation: annotation, email: useremail, materialid: material});
-            }).catch((e => { console.log(e)}));
+            }).catch((e => { res.status(500).json({error: true, message: "Could not sava annotation"}); console.log(e) }));
         }
-
-        //res.status(201).json({error: false, annotation: annotation, email: useremail, materialid: material});
     })
-    .catch((e) => { res.status(500).json({error: true, message: "Something went wrong with internally"}); console.log(e) });
+    .catch((e) => { res.status(500).json({error: true, message: "Could not sava annotation"}); console.log(e) });
   }
 
   async getMaterial(req, res, next) {
