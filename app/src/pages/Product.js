@@ -21,7 +21,6 @@ class Product extends Component {
 
   render() {
     const {product, isLoading, userId, setRating} = this.props
-
     return (
       <div>
         {!Object.keys(product).length || isLoading ? (

@@ -17,7 +17,6 @@ const OverlayShadow = styled.div`
 export const Dialog = ({Component, onOverlayClick}) => {
   return (
     <OverlayShadow
-      data-name={'overlay'}
       onClick={e => {
         e.stopPropagation()
         onOverlayClick()

@@ -9,6 +9,7 @@ const AnnotationContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 8px;
 `
 
 class Annotation extends Component {
@@ -24,9 +25,8 @@ class Annotation extends Component {
   render() {
     const {annotation} = this.state
     return (
-      <AnnotationContainer className="annotation-container">
+      <AnnotationContainer>
         <div
-          className="top-section"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -34,10 +34,7 @@ class Annotation extends Component {
             flex: 2,
           }}
         >
-          <div
-            className="editing"
-            style={{display: 'flex', justifyContent: 'flex-start'}}
-          >
+          <div style={{display: 'flex', justifyContent: 'flex-start'}}>
             <textarea
               placeholder={'Write a annotation for the product here.'}
               style={{
@@ -47,15 +44,15 @@ class Annotation extends Component {
                 justifyContent: 'flex-start',
                 fontFamily: 'Helvetica',
                 padding: 4,
+                resize: 'none'
               }}
               onChange={e => this.setState({annotation: e.target.value})}
               value={annotation}
             />
           </div>
         </div>
-        <div className="bottom-section">
+        <div>
           <div
-            className="button-container"
             style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -64,10 +61,7 @@ class Annotation extends Component {
             <Button primary onClick={() => this.props.toggleOverlay()}>
               Cancel
             </Button>
-            <Button
-              primary
-              onClick={() => this.saveAnnotation()}
-            >
+            <Button primary onClick={() => this.saveAnnotation()}>
               Save
             </Button>
           </div>
@@ -78,11 +72,3 @@ class Annotation extends Component {
 }
 
 export default Annotation
-
-{
-  /* <input
-type={'text'}
-value={annotation}
-onChange={e => this.setState({annotation: e.target.value})}
-/> */
-}
