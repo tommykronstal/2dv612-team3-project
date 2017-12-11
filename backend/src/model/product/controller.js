@@ -39,7 +39,7 @@ class ProductController extends Controller {
   }
 
   /*
-  old_create (req, res, next) {
+  create (req, res, next) {
     let company
 
     companyFacade
