@@ -4,6 +4,7 @@ import { watchAuthenticationActions } from './auth'
 import { watchFormActions } from './form'
 import { watchCategoriesActions } from './categories'
 import { watchProductActions } from './products'
+import { watchAnnotationActions } from './annotation';
 
 
 // single entry point to start all Sagas at once
@@ -13,6 +14,7 @@ export default function *effects() {
     watchAuthenticationActions(),
     watchFormActions(),
     watchCategoriesActions(),
-    watchProductActions()
+    watchProductActions(),
+    watchAnnotationActions()
   ])
 }

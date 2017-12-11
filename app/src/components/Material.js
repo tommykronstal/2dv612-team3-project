@@ -57,6 +57,7 @@ export default ({
   setRating,
   displayOverlay,
   toggleOverlay,
+  _id: materialId,
   ...props
 }) => {
   const [_, type] = mimetype.split('/')
@@ -71,6 +72,7 @@ export default ({
             <Annotation
               annotation={''}
               toggleOverlay={toggleOverlay}
+              materialId={materialId}
             />
           )}
           onOverlayClick={() => toggleOverlay()}

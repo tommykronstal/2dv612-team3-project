@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import Button from './common/Button'
+import {connect} from 'react-redux'
+import { updateAnnotation } from '../actions/annotation';
 
 const AnnotationContainer = styled.div`
   height: 412px;
@@ -19,7 +21,7 @@ class Annotation extends Component {
   }
 
   saveAnnotation = () => {
-    console.log('saving', this.state.annotation)
+    this.props.updateAnnotation(this.state.annotation, this.props.materialId)
   }
 
   render() {
@@ -71,4 +73,14 @@ class Annotation extends Component {
   }
 }
 
-export default Annotation
+const mapDispatchToProps = dispatch => ({
+  updateAnnotation: (annotationText, materialId) => dispatch(updateAnnotation(annotationText, materialId))
+})
+
+/**
+ * Not sure what is needed here yet
+ */
+const mapStateToProps = () => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Annotation)
+// export default Annotation
