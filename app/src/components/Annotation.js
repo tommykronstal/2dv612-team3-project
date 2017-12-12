@@ -79,6 +79,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateAnnotation(annotationText, materialId)),
 })
 
-const mapStateToProps = () => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Annotation)
+export default connect(() => ({}), mapDispatchToProps)(Annotation)

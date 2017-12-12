@@ -58,11 +58,9 @@ export default ({
   displayOverlay,
   toggleOverlay,
   _id: materialId,
-  annotation = '',
+  annotation,
   ...props
 }) => {
-
-
   const [_, type] = mimetype.split('/')
   const myRating = props.rating.find(r => r.userid === userId)
   const rating = myRating ? myRating.rating : 0
