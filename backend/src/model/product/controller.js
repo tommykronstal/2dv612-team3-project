@@ -26,12 +26,12 @@ class ProductController extends Controller {
         prodDoc = await productFacade.create(req.body);
         company.products.push(prodDoc);
         await company.save();
+
         return res.status(201).json(company.products);
       }
       else {
         return next({message: 'Could not find company.', statusCode: 400});
       }
-
     } catch (e) {
       console.log(e);
       return next({message: 'Could not create product.', statusCode: 400});
@@ -67,12 +67,12 @@ class ProductController extends Controller {
 
         product.materials.push(prodDoc);
         await product.save();
+
         return res.status(201).json(prodDoc);
       }
       else {
         return next({message: 'Could not find product.', statusCode: 400});
       }
-
     } catch (e) {
       console.log(e);
       return next({message: 'Failed to upload.', statusCode: 400});
@@ -80,29 +80,40 @@ class ProductController extends Controller {
   }
 
 
-  findByIdIncludeCompany(req,res,next){
-    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+  async findByIdIncludeCompany(req, res, next) {
+    const useremail = await jwt.verify(req.headers.authorization, 'keyboardcat').email;
     let product;
-    productFacade.findById(req.param('id')).then((doc) => {
-      product = JSON.parse(JSON.stringify(doc));
-      for(let i = 0; i < product.materials.length; i++) {
-        annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id}).then((annotDoc) => {
-          if(annotDoc) {
-            product.materials[i].annotation = annotDoc.annotation;
-          }
-        });
-      }
-    })
-    .then((doc) => {
-        return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
-        .then((doc)=>{
-          product.companyName = doc.companyName;
-          res.status(200).json(product);
-        })
-    })
-    .catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
-   }
+    let doc;
 
+    try {
+      doc = await productFacade.findById(req.param('id'));
+
+      if(doc) {
+        product = await JSON.parse(JSON.stringify(doc));
+
+        for(let i = 0; i < product.materials.length; i++) {
+          let annotDoc = await annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id});
+            if(annotDoc) {
+              product.materials[i].annotation = annotDoc.annotation;
+            }          
+        }
+
+        doc = await companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) });
+        product.companyName = doc.companyName;
+
+        return res.status(200).json(product);
+      }
+      else { 
+        return next({message: 'Could not find product.', statusCode: 400})
+      }
+    } catch (e) {
+      console.log(e);
+      return next({message: 'Could not find product.', statusCode: 400});
+    }
+  }
+
+
+  
   // Example: localhost:5000/api/search?q=philips TV 2
   async search (req, res, next) {
     const allProducts = await productFacade.findForSearch()
@@ -145,9 +156,9 @@ module.exports = new ProductController(productFacade)
 
 
 
-/********************************
- *  Old code, keep in case shit *
- ********************************/
+/*********************************************
+ *  Old code, keep for now just in case shit *
+ *********************************************/
 
 
 /*
@@ -216,5 +227,29 @@ module.exports = new ProductController(productFacade)
           statusCode: 400
         })
       })
+  }
+
+
+  findByIdIncludeCompany(req,res,next){
+    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+    let product;
+    productFacade.findById(req.param('id')).then((doc) => {
+      product = JSON.parse(JSON.stringify(doc));
+      for(let i = 0; i < product.materials.length; i++) {
+        annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id}).then((annotDoc) => {
+          if(annotDoc) {
+            product.materials[i].annotation = annotDoc.annotation;
+          }
+        });
+      }
+    })
+    .then((doc) => {
+        return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
+        .then((doc)=>{
+          product.companyName = doc.companyName;
+          res.status(200).json(product);
+        })
+    })
+    .catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
   }
   */
