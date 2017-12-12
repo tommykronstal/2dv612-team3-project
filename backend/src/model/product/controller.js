@@ -38,33 +38,6 @@ class ProductController extends Controller {
     }
   }
 
-  /*
-  create (req, res, next) {
-    let company
-
-    companyFacade
-      .findById(req.param('companyid'))
-      .then(compDoc => {
-        company = compDoc
-        req.body.companyName = company.companyName
-        return productFacade.create(req.body)
-      })
-      .then(prodDoc => {
-        company.products.push(prodDoc)
-        return company.save()
-      })
-      .then(compDoc => {
-        res.status(201).json(compDoc.products)
-      })
-      .catch((e) => {
-        return next({
-          message: 'Could not create product.',
-          statusCode: 400
-        })
-      })
-  }
-  */
-
 
 
   update (req, res, next) {
@@ -169,3 +142,35 @@ const removeUnmatchedSearchResults = (result) => {
 }
 
 module.exports = new ProductController(productFacade)
+
+
+
+/* Old code, keep in case shit */
+
+
+/*
+  create (req, res, next) {
+    let company
+
+    companyFacade
+      .findById(req.param('companyid'))
+      .then(compDoc => {
+        company = compDoc
+        req.body.companyName = company.companyName
+        return productFacade.create(req.body)
+      })
+      .then(prodDoc => {
+        company.products.push(prodDoc)
+        return company.save()
+      })
+      .then(compDoc => {
+        res.status(201).json(compDoc.products)
+      })
+      .catch((e) => {
+        return next({
+          message: 'Could not create product.',
+          statusCode: 400
+        })
+      })
+  }
+  */
