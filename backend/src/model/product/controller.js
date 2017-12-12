@@ -8,22 +8,24 @@ const mongoose = require('mongoose');
 const Fuse = require('fuse.js')
 
 class ProductController extends Controller {
-  findForCompany (req, res, next) {
-    companyFacade.findById(req.param('companyid')).then(doc => {
-      res.status(200).json(doc.products)
-    })
+  async findForCompany (req, res, next) {
+    try {
+      let doc = await companyFacade.findById(req.param('companyid'));
+      if(doc)
+        return res.status(200).json(doc.products);
+    } catch (e) {
+      console.log(e);
+      return next({message: 'Could not find company.', statusCode: 400});
+    }
   }
 
 
   async create (req, res, next) {
-    let company;
-    let prodDoc;
-
     try {
-      company = await companyFacade.findById(req.param('companyid'));
+      let company = await companyFacade.findById(req.param('companyid'));
       
       if(company) {
-        prodDoc = await productFacade.create(req.body);
+        let prodDoc = await productFacade.create(req.body);
         company.products.push(prodDoc);
         await company.save();
 
@@ -40,11 +42,8 @@ class ProductController extends Controller {
 
 
   async update(req, res, next) {
-    let product;
-    let prodDoc;
-
     try {
-      product = await productFacade.findById(req.param('id'));
+      let product = await productFacade.findById(req.param('id'));
 
       if(product) {
         const {
@@ -56,7 +55,7 @@ class ProductController extends Controller {
         } = await req.file;
         const name = await req.body.name;
 
-        prodDoc = await materialFacade.create({
+        let prodDoc = await materialFacade.create({
           originalname,
           size,
           name,
@@ -82,14 +81,12 @@ class ProductController extends Controller {
 
   async findByIdIncludeCompany(req, res, next) {
     const useremail = await jwt.verify(req.headers.authorization, 'keyboardcat').email;
-    let product;
-    let doc;
 
     try {
-      doc = await productFacade.findById(req.param('id'));
+      let doc = await productFacade.findById(req.param('id'));
 
       if(doc) {
-        product = await JSON.parse(JSON.stringify(doc));
+        let product = await JSON.parse(JSON.stringify(doc));
 
         for(let i = 0; i < product.materials.length; i++) {
           let annotDoc = await annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id});
@@ -162,6 +159,13 @@ module.exports = new ProductController(productFacade)
 
 
 /*
+
+findForCompany (req, res, next) {
+    companyFacade.findById(req.param('companyid')).then(doc => {
+      res.status(200).json(doc.products)
+    })
+}
+
   create (req, res, next) {
     let company
     companyFacade
