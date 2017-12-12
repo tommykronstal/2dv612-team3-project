@@ -1,11 +1,25 @@
-import {SET_PRODUCTS, SET_PRODUCT, UPDATE_MATERIAL, UPDATE_PRODUCT_MATERIAL_ANNOTATION} from '../actions/types'
+import {SET_SEARCH_RESULTS, SET_SEARCH_QUERY, SET_PRODUCTS, SET_PRODUCT, UPDATE_MATERIAL, UPDATE_PRODUCT_MATERIAL_ANNOTATION} from '../actions/types'
 const defaultState = {
   products: [],
-  product: {}
+  product: {},
+  searchQuery: '',
+  searchResults: []
 }
 
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case SET_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: action.searchResults
+      }
+
+    case SET_SEARCH_QUERY:
+      return {
+        ...state,
+        searchQuery: action.searchQuery
+      }
+
     case SET_PRODUCTS:
       return {
         ...state,

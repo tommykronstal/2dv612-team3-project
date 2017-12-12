@@ -21,6 +21,7 @@ import UpdateProduct from '../pages/UpdateProduct'
 import ListCompanyProducts from '../pages/ListCompanyProducts'
 import ListAllProducts from '../pages/ListAllProducts'
 import Product from '../pages/Product'
+import ProductSearch from '../containers/ProductSearch'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -93,6 +94,7 @@ const CompanyUserRoutes = ({ match, location }) => (
 const UserRoutes = ({ match, location }) => (
   <NavigationContainer>
     <NavigationBar>
+      <ProductSearch />
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>

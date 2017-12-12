@@ -6,6 +6,8 @@ import {
   FETCH_PRODUCT,
   SET_RATING,
   UPDATE_MATERIAL,
+  SET_SEARCH_RESULTS,
+  FETCH_SEARCH_RESULTS,
 } from '../actions/types'
 import {put, takeEvery, call, select} from 'redux-saga/effects'
 import {get, post} from '../lib/http'
@@ -14,6 +16,7 @@ export function* watchProductActions() {
   yield takeEvery(FETCH_PRODUCTS, fetchProducts)
   yield takeEvery(FETCH_PRODUCT, fetchProduct)
   yield takeEvery(SET_RATING, setRating)
+  yield takeEvery(FETCH_SEARCH_RESULTS, fetchSearchResults)
 }
 
 export function* fetchProducts() {
@@ -71,4 +74,18 @@ export function* setRating({materialId, rating}) {
   // annotation is not included in the material resonse
   const {annotation} = product.materials.find(({_id}) => materialId === _id)
   yield put({type: UPDATE_MATERIAL, material: {...material, annotation}})
+}
+
+export function* fetchSearchResults() {
+  yield put({type: TOGGLE_LOADING})
+
+  const {token, searchQuery} = yield select(state => ({
+    token: state.auth.jwt,
+    searchQuery: state.products.searchQuery,
+  }))
+
+  const searchResults = yield call(get, '/api/search?q=' + encodeURIComponent(searchQuery), {headers: {Authorization: token}})
+
+  yield put({type: SET_SEARCH_RESULTS, searchResults})
+  yield put({type: TOGGLE_LOADING})
 }
