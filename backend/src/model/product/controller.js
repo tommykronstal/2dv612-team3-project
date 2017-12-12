@@ -145,7 +145,9 @@ module.exports = new ProductController(productFacade)
 
 
 
-/* Old code, keep in case shit */
+/********************************
+ *  Old code, keep in case shit *
+ ********************************/
 
 
 /*
