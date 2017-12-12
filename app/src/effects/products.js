@@ -13,7 +13,7 @@ import {get, post} from '../lib/http'
 export function* watchProductActions() {
   yield takeEvery(FETCH_PRODUCTS, fetchProducts)
   yield takeEvery(FETCH_PRODUCT, fetchProduct)
-  yield takeEvery(SET_RATING, setRating)  
+  yield takeEvery(SET_RATING, setRating)
 }
 
 export function* fetchProducts() {
@@ -29,6 +29,8 @@ export function* fetchProducts() {
     : '/api/product'
 
   const products = yield call(get, endpoint, {headers: {Authorization: token}})
+
+  console.log('products :', products)
 
   yield put({type: SET_PRODUCTS, products})
   yield put({type: TOGGLE_LOADING})
@@ -46,6 +48,8 @@ export function* fetchProduct({productId}) {
       Authorization: token,
     },
   })
+
+  console.log('product', product)
 
   yield put({type: SET_PRODUCT, product})
   yield put({type: TOGGLE_LOADING})
