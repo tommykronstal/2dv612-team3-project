@@ -30,6 +30,8 @@ class Authorization {
             //Let any user get all categories and products
             if ((req.url.indexOf('/api/category') > - 1 && req.method === 'GET' || req.url.indexOf('/api/product') > - 1)) return next();
 
+            if(req.url.indexOf('/api/search') > -1) return next();
+
             return checkRole(req, res, next);
         } catch(e) {
             return next(e);
