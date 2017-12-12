@@ -13,9 +13,7 @@ exports.admin = function (adminAccount) {
       if (!doc) {
         userFacade
           .create(adminAccount)
-          .then(doc => {
-            console.log('Added admin', doc)
-          })
+          .then(doc => {})
           .catch(e => console.log(e))
       }
     })
@@ -24,7 +22,7 @@ exports.admin = function (adminAccount) {
 
 exports.companies = function (companies) {
   companyFacade.find({}).then(docs => {
-    if (docs.length == 0) {
+    if (docs.length === 0) {
       // Get all unique categories
       const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
       // Create categories
@@ -55,18 +53,17 @@ exports.users = function (number) {
 
 const createCompany = company => {
   return new Promise(function (resolve, reject) {
-  console.log(company)
-  var mongoCompany
-  const admin = {
-    firstName: `FN${company.name}Admin`,
-    lastName: `LN${company.name}Admin`,
-    email: `admin@${company.name.toLowerCase()}.com`,
-    role: 'COMPANY_ADMIN',
-    password: 'password'
-  }
+    var mongoCompany
+    const admin = {
+      firstName: `FN${company.name}Admin`,
+      lastName: `LN${company.name}Admin`,
+      email: `admin@${company.name.toLowerCase()}.com`,
+      role: 'COMPANY_ADMIN',
+      password: 'password'
+    }
 
-  // Create admin
-  userFacade
+    // Create admin
+    userFacade
     .create(admin)
     .then(adminDoc => {
       // Create company
@@ -163,7 +160,6 @@ const createProducts = company => {
     })
   })
 }
-
 const createCategory = category => {
   categoryFacade.create({
     categoryName: category
