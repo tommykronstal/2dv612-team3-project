@@ -8,8 +8,9 @@ export function* watchAnnotationActions() {
 
 export function* updateAnnotation({annotationText, materialId}) {
   console.log(annotationText, materialId)
+
   const {token} = yield select(state => ({
-    token: state.auth.jaw,
+    token: state.auth.jwt,
   }))
 
   const response = yield call(
@@ -19,6 +20,7 @@ export function* updateAnnotation({annotationText, materialId}) {
       headers: {
         Authorization: token,
       },
+      body: JSON.stringify({annotation: annotationText})
     },
   )
 
