@@ -164,7 +164,6 @@ module.exports = new ProductController(productFacade)
 /*
   create (req, res, next) {
     let company
-
     companyFacade
       .findById(req.param('companyid'))
       .then(compDoc => {
@@ -186,12 +185,9 @@ module.exports = new ProductController(productFacade)
         })
       })
   }
-
   
-
   update (req, res, next) {
     let product
-
     const {
       originalname,
       size,
@@ -200,7 +196,6 @@ module.exports = new ProductController(productFacade)
       mimetype
     } = req.file
     const name = req.body.name
-
     productFacade
       .findById(req.param('id'))
       .then(doc => {
@@ -228,8 +223,6 @@ module.exports = new ProductController(productFacade)
         })
       })
   }
-
-
   findByIdIncludeCompany(req,res,next){
     const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
     let product;
