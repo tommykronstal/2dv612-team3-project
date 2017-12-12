@@ -1,6 +1,6 @@
 import {put, takeEvery, call, select} from 'redux-saga/effects'
 import {post} from '../lib/http'
-import {UPDATE_ANNOTATION, SET_STATUS} from '../actions/types'
+import {UPDATE_ANNOTATION, SET_STATUS, UPDATE_PRODUCT_MATERIAL_ANNOTATION} from '../actions/types'
 
 export function* watchAnnotationActions() {
   yield takeEvery(UPDATE_ANNOTATION, updateAnnotation)
@@ -29,7 +29,11 @@ export function* updateAnnotation({annotationText, materialId}) {
       type: SET_STATUS,
       message: 'Your annotation successfully updated.',
     })
-  } else {
-    console.log('SOMETHING ELSE HAPPEND OMG KERNEL PANIC')
+
+    yield put({
+      type: UPDATE_PRODUCT_MATERIAL_ANNOTATION,
+      annotation: annotationText,
+      materialId: materialId
+    })
   }
 }
