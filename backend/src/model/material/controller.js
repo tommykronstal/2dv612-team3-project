@@ -27,14 +27,19 @@ class MaterialController extends Controller {
   async getMaterial(req, res, next) {
       const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
       const material = req.params.id;
-      let annotation = await annotationFacade.find({email: useremail, materialid: material});
-      if(annotation.length < 1) {
-          annotation = [{annotation: ""}];
-      }
+      let annotation;
+
+      await annotationFacade.find({email: useremail, materialid: material}).then(a => {
+        annotation = a[0].annotation;
+      }).catch((e) => { console.log(e) });
+
       await materialFacade.find({_id: material}).then(doc => {
-        doc.annotation = annotation;
-        res.status(200).json({error: false, annotation: annotation[0].annotation, name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
-      });
+        if (annotation) {
+            res.status(200).json({error: false, annotation: annotation, name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
+        } else {
+            res.status(200).json({error: false, annotation: "", name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
+        }
+      }).catch((e) => { res.status(500).json({error: true, message: "Could not get material"}); console.log(e) });;
   }
 }
 
