@@ -14,94 +14,106 @@ class ProductController extends Controller {
     })
   }
 
-  create (req, res, next) {
-    let company
 
-    companyFacade
-      .findById(req.param('companyid'))
-      .then(compDoc => {
-        company = compDoc
-        req.body.companyName = company.companyName
-        return productFacade.create(req.body)
-      })
-      .then(prodDoc => {
-        company.products.push(prodDoc)
-        return company.save()
-      })
-      .then(compDoc => {
-        res.status(201).json(compDoc.products)
-      })
-      .catch((e) => {
-        return next({
-          message: 'Could not create product.',
-          statusCode: 400
-        })
-      })
+  async create (req, res, next) {
+    let company;
+    let prodDoc;
+
+    try {
+      company = await companyFacade.findById(req.param('companyid'));
+      
+      if(company) {
+        prodDoc = await productFacade.create(req.body);
+        company.products.push(prodDoc);
+        await company.save();
+
+        return res.status(201).json(company.products);
+      }
+      else {
+        return next({message: 'Could not find company.', statusCode: 400});
+      }
+    } catch (e) {
+      console.log(e);
+      return next({message: 'Could not create product.', statusCode: 400});
+    }
   }
 
-  update (req, res, next) {
-    let product
 
-    const {
-      originalname,
-      size,
-      filename,
-      path,
-      mimetype
-    } = req.file
-    const name = req.body.name
+  async update(req, res, next) {
+    let product;
+    let prodDoc;
 
-    productFacade
-      .findById(req.param('id'))
-      .then(doc => {
-        product = doc
-        return materialFacade.create({
+    try {
+      product = await productFacade.findById(req.param('id'));
+
+      if(product) {
+        const {
+          originalname,
+          size,
+          filename,
+          path,
+          mimetype
+        } = await req.file;
+        const name = await req.body.name;
+
+        prodDoc = await materialFacade.create({
           originalname,
           size,
           name,
           path,
           filename,
           mimetype
-        })
-      })
-      .then(materialDoc => {
-        product.materials.push(materialDoc)
-        return product.save()
-      })
-      .then(prodDoc => {
-        res.status(201).json(prodDoc)
-      })
-      .catch((e) => {
-        return next({
-          message: 'Failed to upload.',
-          statusCode: 400
-        })
-      })
+        });
+
+        product.materials.push(prodDoc);
+        await product.save();
+
+        return res.status(201).json(prodDoc);
+      }
+      else {
+        return next({message: 'Could not find product.', statusCode: 400});
+      }
+    } catch (e) {
+      console.log(e);
+      return next({message: 'Failed to upload.', statusCode: 400});
+    }
   }
 
-  findByIdIncludeCompany(req,res,next){
-    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
-    let product;
-    productFacade.findById(req.param('id')).then((doc) => {
-      product = JSON.parse(JSON.stringify(doc));
-      for(let i = 0; i < product.materials.length; i++) {
-        annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id}).then((annotDoc) => {
-          if(annotDoc) {
-            product.materials[i].annotation = annotDoc.annotation;
-          }
-        });
-      }
-    })
-    .then((doc) => {
-        return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
-        .then((doc)=>{
-          product.companyName = doc.companyName;
-          res.status(200).json(product);
-        })
-    })
-    .catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
-   }
 
+  async findByIdIncludeCompany(req, res, next) {
+    const useremail = await jwt.verify(req.headers.authorization, 'keyboardcat').email;
+    let product;
+    let doc;
+
+    try {
+      doc = await productFacade.findById(req.param('id'));
+
+      if(doc) {
+        product = await JSON.parse(JSON.stringify(doc));
+
+        for(let i = 0; i < product.materials.length; i++) {
+          let annotDoc = await annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id});
+            if(annotDoc) {
+              product.materials[i].annotation = annotDoc.annotation;
+            }          
+        }
+
+        doc = await companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) });
+        product.companyName = doc.companyName;
+
+        return res.status(200).json(product);
+      }
+      else { 
+        return next({message: 'Could not find product.', statusCode: 400})
+      }
+    } catch (e) {
+      console.log(e);
+      return next({message: 'Could not find product.', statusCode: 400});
+    }
+  }
+
+
+  
   // Example: localhost:5000/api/search?q=philips TV 2
   async search (req, res, next) {
     const allProducts = await productFacade.findForSearch()
@@ -141,3 +153,96 @@ const removeUnmatchedSearchResults = (result) => {
 }
 
 module.exports = new ProductController(productFacade)
+
+
+
+/*********************************************
+ *  Old code, keep for now just in case shit *
+ *********************************************/
+
+
+/*
+  create (req, res, next) {
+    let company
+    companyFacade
+      .findById(req.param('companyid'))
+      .then(compDoc => {
+        company = compDoc
+        req.body.companyName = company.companyName
+        return productFacade.create(req.body)
+      })
+      .then(prodDoc => {
+        company.products.push(prodDoc)
+        return company.save()
+      })
+      .then(compDoc => {
+        res.status(201).json(compDoc.products)
+      })
+      .catch((e) => {
+        return next({
+          message: 'Could not create product.',
+          statusCode: 400
+        })
+      })
+  }
+  
+  update (req, res, next) {
+    let product
+    const {
+      originalname,
+      size,
+      filename,
+      path,
+      mimetype
+    } = req.file
+    const name = req.body.name
+    productFacade
+      .findById(req.param('id'))
+      .then(doc => {
+        product = doc
+        return materialFacade.create({
+          originalname,
+          size,
+          name,
+          path,
+          filename,
+          mimetype
+        })
+      })
+      .then(materialDoc => {
+        product.materials.push(materialDoc)
+        return product.save()
+      })
+      .then(prodDoc => {
+        res.status(201).json(prodDoc)
+      })
+      .catch((e) => {
+        return next({
+          message: 'Failed to upload.',
+          statusCode: 400
+        })
+      })
+  }
+  findByIdIncludeCompany(req,res,next){
+    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+    let product;
+    productFacade.findById(req.param('id')).then((doc) => {
+      product = JSON.parse(JSON.stringify(doc));
+      for(let i = 0; i < product.materials.length; i++) {
+        annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id}).then((annotDoc) => {
+          if(annotDoc) {
+            product.materials[i].annotation = annotDoc.annotation;
+          }
+        });
+      }
+    })
+    .then((doc) => {
+        return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
+        .then((doc)=>{
+          product.companyName = doc.companyName;
+          res.status(200).json(product);
+        })
+    })
+    .catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
+  }
+  */
