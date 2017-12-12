@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import Button from './common/Button'
 import {connect} from 'react-redux'
-import { updateAnnotation } from '../actions/annotation';
+import {updateAnnotation} from '../actions/annotation'
 
 const AnnotationContainer = styled.div`
   height: 412px;
@@ -26,7 +26,6 @@ class Annotation extends Component {
   }
 
   render() {
-    console.log(this.props)
     const {annotation} = this.state
     return (
       <AnnotationContainer>
@@ -41,6 +40,8 @@ class Annotation extends Component {
           <div style={{display: 'flex', justifyContent: 'flex-start'}}>
             <textarea
               placeholder={'Write a annotation for the product here.'}
+              onChange={e => this.setState({annotation: e.target.value})}
+              value={annotation}
               style={{
                 height: 256,
                 width: 600,
@@ -48,10 +49,8 @@ class Annotation extends Component {
                 justifyContent: 'flex-start',
                 fontFamily: 'Helvetica',
                 padding: 4,
-                resize: 'none'
+                resize: 'none',
               }}
-              onChange={e => this.setState({annotation: e.target.value})}
-              value={annotation}
             />
           </div>
         </div>
@@ -76,13 +75,10 @@ class Annotation extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateAnnotation: (annotationText, materialId) => dispatch(updateAnnotation(annotationText, materialId))
+  updateAnnotation: (annotationText, materialId) =>
+    dispatch(updateAnnotation(annotationText, materialId)),
 })
 
-/**
- * Not sure what is needed here yet
- */
-const mapStateToProps = (state) => ({state})
+const mapStateToProps = () => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Annotation)
-// export default Annotation
