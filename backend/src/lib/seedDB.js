@@ -137,6 +137,7 @@ const createProducts = company => {
               prodArr.push(
                 productFacade.create({
                   name: company.name + " " + category.categoryName + " " + j,
+                  companyName: company.name,
                   category: category._id,
                   materials: [materialDoc.id]
                 })
