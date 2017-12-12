@@ -1,4 +1,4 @@
-import {SET_PRODUCTS, SET_PRODUCT, UPDATE_MATERIAL} from '../actions/types'
+import {SET_PRODUCTS, SET_PRODUCT, UPDATE_MATERIAL, UPDATE_PRODUCT_MATERIAL_ANNOTATION} from '../actions/types'
 const defaultState = {
   products: [],
   product: {}
@@ -30,6 +30,24 @@ export default (state = defaultState, action) => {
               action.material,
               ...state.product.materials.slice(materialIndex + 1)              
             ] 
+          }
+        }
+
+      case UPDATE_PRODUCT_MATERIAL_ANNOTATION:
+        const {product} = state
+        // Finding material that we want to update
+        const targetMaterial = product.materials.find(({_id}) => action.materialId === _id)
+        // collecting all materials except the one we want to update
+        const productMaterials = product.materials.filter(({_id}) => action.materialId !== _id)
+        return {
+          ...state,
+          product: {
+            ...product,
+            materials: [...productMaterials, {
+              ...targetMaterial,
+              annotation: action.annotation
+
+            }]
           }
         }
 

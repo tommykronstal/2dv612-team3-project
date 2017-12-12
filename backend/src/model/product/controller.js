@@ -1,11 +1,11 @@
-const Controller = require('../../lib/controller')
-const productFacade = require('./facade')
-const companyFacade = require('../company/facade')
-const materialFacade = require('../material/facade')
-
+const Controller = require("../../lib/controller");
+const productFacade = require("./facade");
+const companyFacade = require("../company/facade");
+const materialFacade = require("../material/facade");
+const annotationFacade = require("../annotation/facade");
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const Fuse = require('fuse.js')
-
-const mongoose = require('mongoose')
 
 class ProductController extends Controller {
   findForCompany (req, res, next) {
@@ -79,24 +79,28 @@ class ProductController extends Controller {
       })
   }
 
-  findByIdIncludeCompany (req, res, next) {
-    let product
+  findByIdIncludeCompany(req,res,next){
+    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+    let product;
     productFacade.findById(req.param('id')).then((doc) => {
-      product = JSON.parse(JSON.stringify(doc))
-      return companyFacade.findOne({
-        'products': mongoose.Types.ObjectId(req.param('id'))
-      })
-        .then((doc) => {
-          product.companyName = doc.companyName
-          res.status(200).json(product)
-        })
-    }).catch((e) => {
-      return next({
-        message: 'Could not find product',
-        statusCode: 400
-      })
+      product = JSON.parse(JSON.stringify(doc));
+      for(let i = 0; i < product.materials.length; i++) {
+        annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id}).then((annotDoc) => {
+          if(annotDoc) {
+            product.materials[i].annotation = annotDoc.annotation;
+          }
+        });
+      }
     })
-  }
+    .then((doc) => {
+        return companyFacade.findOne({'products': mongoose.Types.ObjectId(req.param('id')) })
+        .then((doc)=>{
+          product.companyName = doc.companyName;
+          res.status(200).json(product);
+        })
+    })
+    .catch((e) => { return next({message: 'Could not find product' , statusCode: 400}) });
+   }
 
   // Example: localhost:5000/api/search?q=philips TV 2
   async search (req, res, next) {
