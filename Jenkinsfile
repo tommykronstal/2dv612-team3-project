@@ -3,12 +3,17 @@ node {
     try {
 
         node('master') {
+            
+            def frontend
+            def backend
+
             stage('checkout') {
                 checkout scm
             }
 
             stage ('archive') {
                 stash excludes: 'data/**', includes: '*.yml, app/**, backend/**, nginx/**, *.json, yarn.lock, pact/**', name: 'fullStack'
+                stash includes: 'docker-compose-prodyction.yml', name: 'production'
             }
             
             stage ('Cleaning previous build') {
@@ -16,15 +21,28 @@ node {
             }
 
             stage ('Build services') {
+                
 
                 parallel buildFrontend: {
                     sh 'docker-compose build --no-cache app'
+                    frontend = docker.build("tommykronstal/2dv612frontend")
                 }, buildBackend: {
                     sh 'docker-compose build --no-cache backend'
+                    backend = docker.build("tommykronstal/2dv612backend")
                 },
                 failFast: true
             }
            
+            stage('Upload to docker hub') {
+                parallel uploadFrontend: {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        frontend.push("latest")
+                    }, uploadBackend: {
+                        backend.push("latest")
+                    }
+                }
+            }
+
             stage ('Unit tests') {
 
                 parallel frontendTest: {
@@ -64,14 +82,27 @@ node('prod') {
         unstash 'fullStack'
         backupUploads()
         cleanOldBuild("docker-compose-prod.yml")
-        //sh 'docker-compose -f docker-compose-prod.yml down'
         sh 'docker volume rm 2dv612pipeline_static-files --force'
-        sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
+        //sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
         restoreUploads()
         slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }
 }
+
+// Clean up after all environments are up
+node('master') {
+    removeUnusedDockerArtifacts()
+}
+
+node('staging') {
+    removeUnusedDockerArtifacts()
+}
+
+node('prod') {
+    removeUnusedDockerArtifacts()
+}
+
 
 def cleanOldBuild(df) {
     sh "docker-compose -f ${df} down"
@@ -97,4 +128,8 @@ def restoreUploads() {
     } catch (e) {
         sh "echo ${e}"
     }   
+}
+
+def removeUnusedDockerArtifacts() {
+    docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 }
