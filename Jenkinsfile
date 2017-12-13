@@ -53,7 +53,7 @@ node('master') {
             failFast: true
                 
             cleanOldBuild("docker-compose-pact.yml")
-            sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+            sh 'docker-compose -f docker-compose-pact.yml up --abort-on-container-exit'
             sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
             junit "**/backend/src/test-report*.xml"
         }
@@ -64,16 +64,13 @@ node('master') {
     }
 }
 
-/*
 node('staging') {
     stage('Set up staging environment') {
-        //unstash 'fullStack'
+        unstash 'fullStack'
         cleanOldBuild("docker-compose.yml")
-        //sh 'docker-compose build --no-cache'
-         sh 'docker-compose up -d'
+        sh 'docker-compose up -d'
     }
 }
-*/
 
 //input "Deploy to production?"
 
@@ -83,7 +80,6 @@ node('master') {
         backupUploads()
         cleanOldBuild("docker-compose-prod.yml")
         sh 'docker volume rm 2dv612pipeline_static-files --force'
-        //sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
         restoreUploads()
         //slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
@@ -91,12 +87,11 @@ node('master') {
 }
 
 
-
-// Clean up after all environments are up
+// Clean up after all environments are up (should be done by puppet/ansible)
 node('master') {
     removeUnusedDockerArtifacts()
 }
-/*
+
 node('staging') {
     removeUnusedDockerArtifacts()
 }
@@ -104,7 +99,7 @@ node('staging') {
 node('prod') {
     removeUnusedDockerArtifacts()
 }
-*/
+
 def cleanOldBuild(df) {
     sh "docker-compose -f ${df} down"
 }
