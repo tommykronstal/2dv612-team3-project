@@ -36,6 +36,7 @@ services:
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
       - ADMIN_PASSWORD=$ADMIN_PASSWORD
+      - NODE_ENV=production
     command: npm start
     volumes:
     - static-files:/usr/src/app/src/filesystem/uploads
