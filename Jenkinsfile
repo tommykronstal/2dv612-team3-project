@@ -1,3 +1,4 @@
+
 node {
 
     try {
@@ -69,6 +70,8 @@ node {
             stage('Set up staging environment') {
                 //unstash 'fullStack'
                 cleanOldBuild("docker-compose.yml")
+                sh 'docker-compose down'
+                sh 'docker-compose -f docker-compose-prod.yml down'
                 //sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
             }
