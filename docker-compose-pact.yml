@@ -2,6 +2,7 @@ version: '2'
 services:
   backend:
     image: tommykronstal/2dv612backend
+    build: ./backend
     volumes:
       - ./backend/src:/usr/src/app/src
     ports:
