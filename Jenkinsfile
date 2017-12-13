@@ -1,86 +1,79 @@
 
-node {
+node('master') {
 
     try {
+        def frontend
+        def backend
 
-        node('master') {
+        stage('checkout') {
+            checkout scm
+        }
+
+        stage ('archive') {
+            stash excludes: 'data/**', includes: '*.yml, app/**, backend/**, nginx/**, *.json, yarn.lock, pact/**', name: 'fullStack'
+            stash includes: 'docker-compose-prod.yml, nginx/**', name: 'production'
+        }
             
-            def frontend
-            def backend
+        stage ('Cleaning previous build') {
+            cleanOldBuild("docker-compose.yml")
+        }
 
-            stage('checkout') {
-                checkout scm
-            }
-
-            stage ('archive') {
-                stash excludes: 'data/**', includes: '*.yml, app/**, backend/**, nginx/**, *.json, yarn.lock, pact/**', name: 'fullStack'
-                stash includes: 'docker-compose-prod.yml, nginx/**', name: 'production'
-            }
-            
-            stage ('Cleaning previous build') {
-                cleanOldBuild("docker-compose.yml")
-            }
-
-            stage ('Build services') {
+        stage ('Build services') {
                 
-
-                parallel buildFrontend: {
-                    //sh 'docker-compose build --no-cache app'
-                    dir('./app') {
-                        frontend = docker.build("tommykronstal/2dv612frontend")
-                    }
-                }, buildBackend: {
-                    //sh 'docker-compose build --no-cache backend'
-                    dir('./backend') {
-                            backend = docker.build("tommykronstal/2dv612backend")
-                    }
-                },
-                failFast: true
-            }
+            parallel buildFrontend: {
+                dir('./app') {
+                     frontend = docker.build("tommykronstal/2dv612frontend")
+                 }
+             }, buildBackend: {
+                dir('./backend') {
+                     backend = docker.build("tommykronstal/2dv612backend")
+                 }
+            },
+            failFast: true
+        }
            
-            stage('Upload to docker hub') {
-                parallel uploadFrontend: {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        frontend.push("latest")
-                    }
-                }, uploadBackend: {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        backend.push("latest")
-                    }
+        stage('Upload to docker hub') {
+            parallel uploadFrontend: {
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    frontend.push("latest")
+                }
+            }, uploadBackend: {
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    backend.push("latest")
                 }
             }
+        }
             
-            stage ('Unit tests') {
-
-                parallel frontendTest: {
-                    sh 'docker-compose -f docker-compose-test.yml up app'
-                }, backendTest: {
-                    sh 'docker-compose -f docker-compose-test.yml up backend'
-                },
-                failFast: true
+        stage ('Unit tests') {
+            parallel frontendTest: {
+                sh 'docker-compose -f docker-compose-test.yml up app'
+            }, backendTest: {
+                sh 'docker-compose -f docker-compose-test.yml up backend'
+            },
+            failFast: true
                 
-                cleanOldBuild("docker-compose-pact.yml")
-                sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
-                sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
-                junit "**/backend/src/test-report*.xml"
-            }
+            cleanOldBuild("docker-compose-pact.yml")
+            sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
+            sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
+            junit "**/backend/src/test-report*.xml"
         }
-        /*
-        node('master') {
-            stage('Set up staging environment') {
-                //unstash 'fullStack'
-                cleanOldBuild("docker-compose.yml")
-                //sh 'docker-compose build --no-cache'
-                sh 'docker-compose up -d'
-            }
-        }
-        */
 
     } catch (err) {
         //slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
         currentBuild.result = 'FAILURE'
     }
 }
+
+/*
+node('staging') {
+    stage('Set up staging environment') {
+        //unstash 'fullStack'
+        cleanOldBuild("docker-compose.yml")
+        //sh 'docker-compose build --no-cache'
+         sh 'docker-compose up -d'
+    }
+}
+*/
 
 //input "Deploy to production?"
 
@@ -104,11 +97,11 @@ node('master') {
     removeUnusedDockerArtifacts()
 }
 /*
-node('master') {
+node('staging') {
     removeUnusedDockerArtifacts()
 }
 
-node('master') {
+node('prod') {
     removeUnusedDockerArtifacts()
 }
 */
