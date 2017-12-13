@@ -17,8 +17,6 @@ services:
 
   app:
     image: tommykronstal/2dv612frontend
-    args:
-       - NODE_ENV=production
     depends_on:
       - webserver
     volumes:
