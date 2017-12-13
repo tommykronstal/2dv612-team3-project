@@ -112,21 +112,22 @@ class ProductController extends Controller {
         findAllMatches: true,
         threshold: 0.6,
         location: 0,
+        tokenize: true,
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
         keys: [
           {
             name: 'materials.name',
-            weight: 0.9
+            weight: 0.3
           },
           {
             name: 'companyName',
-            weight: 0.3
+            weight: 0.9
           },
           {
             name: 'name',
-            weight: 0.3
+            weight: 0.9
           }
         ],
         includeScore: true,
@@ -135,7 +136,7 @@ class ProductController extends Controller {
       const fuse = new Fuse(allProducts, options)
       console.log("q:", req.param('q'))
       const result = fuse.search(req.param('q'))
-      //const filterdResult = removeUnmatchedSearchResults(result)
+
       return res.status(201).json(result)
     } catch (error) {
       return next({message: 'Search couldn\'t find any products', statusCode: 400})

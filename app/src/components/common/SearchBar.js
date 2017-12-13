@@ -7,8 +7,8 @@ const Input = styled.input`
   font-weight: 400;
   font-size: 1rem;
   width: 100%;
-  color: rgb(60, 60, 60);
-  padding: 0.4rem;
+  color: rgb(140, 140, 140);
+  padding: 0;
   margin: 0;
   outline: none;
   border: none;
@@ -25,8 +25,8 @@ const Label = styled.label`
   font-weight: 400;
   font-size: 1rem;
   position: absolute;
-  top: 0;
-  left: 0.2rem;
+  top: -0.3rem;
+  left: 0rem;
   right: 0;
   color: rgb(200,200,200);
   pointer-events: none;

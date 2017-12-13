@@ -9,6 +9,8 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case SET_SEARCH_RESULTS:
+      console.log(action.searchResults)
+
       return {
         ...state,
         searchResults: action.searchResults
