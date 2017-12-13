@@ -136,5 +136,5 @@ def restoreUploads() {
 }
 
 def removeUnusedDockerArtifacts() {
-    sh "docker system prune"
+    sh "docker system prune --force"
 }
