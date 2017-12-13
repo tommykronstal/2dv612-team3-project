@@ -23,6 +23,7 @@ services:
      - static-files:/usr/src/app/build
     environment:
      - NODE_ENV=production
+    command: npm run build
 
   backend:
     image: tommykronstal/2dv612backend
