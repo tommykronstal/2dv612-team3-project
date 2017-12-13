@@ -74,7 +74,7 @@ node('staging') {
 
 //input "Deploy to production?"
 
-node('master') {
+node('prod') {
     stage ('Deploy') {
         unstash 'production'
         backupUploads()
