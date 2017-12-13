@@ -37,8 +37,11 @@ node {
                 parallel uploadFrontend: {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                         frontend.push("latest")
-                    }, uploadBackend: {
-                        backend.push("latest")
+                    }
+                }, uploadBackend: {
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                            backend.push("latest")
+                        }
                     }
                 }
             }
