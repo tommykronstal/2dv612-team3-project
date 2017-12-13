@@ -28,7 +28,7 @@ services:
      - NODE_ENV=production
 
   backend:
-    build: ./backend
+    image: tommykronstal/2dv612backend
     ports:
       - "4000:4000"
     links:
@@ -43,7 +43,7 @@ services:
     - static-files:/usr/src/app/src/filesystem/uploads
 
   mongo:
-    image: mongo
+    image: mongo:3.4
     ports:
       - "27017:27017"
     volumes:
