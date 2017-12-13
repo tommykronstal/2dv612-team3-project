@@ -17,7 +17,7 @@ services:
      - app
 
   app:
-    build: ./app
+    iamge: tommykronstal/2dv612frontend
     ports:
      - "3000:3000"
     links:
@@ -36,7 +36,7 @@ services:
     command: npm run storybook
 
   backend:
-    build: ./backend
+    image: tommykronstal/2dv612backend
     volumes:
       - ./backend/src:/usr/src/app/src
       - static-files:/usr/src/app/src/filesystem/uploads/uploads
