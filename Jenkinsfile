@@ -25,10 +25,14 @@ node {
 
                 parallel buildFrontend: {
                     //sh 'docker-compose build --no-cache app'
-                    frontend = docker.build("tommykronstal/2dv612frontend")
+                    dir('./app') {
+                        frontend = docker.build("tommykronstal/2dv612frontend")
+                    }
                 }, buildBackend: {
                     //sh 'docker-compose build --no-cache backend'
-                    backend = docker.build("tommykronstal/2dv612backend")
+                    dir('./backend') {
+                            backend = docker.build("tommykronstal/2dv612backend")
+                    }
                 },
                 failFast: true
             }
