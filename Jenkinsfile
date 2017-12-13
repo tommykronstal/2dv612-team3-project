@@ -65,7 +65,7 @@ node {
                 junit "**/backend/src/test-report*.xml"
             }
         }
-        
+        /*
         node('master') {
             stage('Set up staging environment') {
                 //unstash 'fullStack'
@@ -76,7 +76,7 @@ node {
                 sh 'docker-compose up -d'
             }
         }
-        
+        */
 
     } catch (err) {
         //slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
@@ -90,8 +90,8 @@ node('master') {
     stage ('Deploy') {
         //unstash 'fullStack'
         backupUploads()
-        cleanOldBuild("docker-compose.yml")
-        //sh 'docker volume rm 2dv612pipeline_static-files --force'
+        cleanOldBuild("docker-compose-prod.yml")
+        sh 'docker volume rm 2dv612pipeline_static-files --force'
         //sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
         restoreUploads()
