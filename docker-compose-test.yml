@@ -2,7 +2,7 @@ version: '2'
 services:
 
   app:
-    build: ./app
+    image: tommykronstal/2dv612frontend
     volumes:
      - ./app/src:/usr/src/app/src
      - ./app/__pacts__:/usr/src/app/__pacts__

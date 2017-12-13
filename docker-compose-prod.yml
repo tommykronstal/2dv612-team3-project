@@ -16,8 +16,8 @@ services:
      - backend
 
   app:
+    image: tommykronstal/2dv612frontend
     build:
-      context: ./app
       args:
        - NODE_ENV=production
     depends_on:
