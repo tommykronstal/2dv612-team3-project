@@ -19,7 +19,7 @@ export default connect(
 )((props) => (
   <Form onSubmit={(e) => {
     e.preventDefault()
-
+    props.router.history.push('/user/search')
     props.doSearch()
   }}>
     <SearchBar 

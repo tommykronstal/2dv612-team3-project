@@ -140,7 +140,7 @@ const createProducts = company => {
             for (j = 0; j < company.productsPerCategory; j++) {
               prodArr.push(
                 productFacade.create({
-                  name: company.name + ' ' + category.categoryName + ' ' + j,
+                  name: category.categoryName + ' ' + j,
                   companyName: company.name,
                   category: category._id,
                   materials: [materialDoc.id]

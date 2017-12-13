@@ -21,6 +21,7 @@ import UpdateProduct from '../pages/UpdateProduct'
 import ListCompanyProducts from '../pages/ListCompanyProducts'
 import ListAllProducts from '../pages/ListAllProducts'
 import Product from '../pages/Product'
+import SearchResults from '../pages/SearchResults'
 import ProductSearch from '../containers/ProductSearch'
 
 const AdminRoutes = ({ match, location }) => (
@@ -91,10 +92,10 @@ const CompanyUserRoutes = ({ match, location }) => (
   </NavigationContainer>
 )
 
-const UserRoutes = ({ match, location }) => (
+const UserRoutes = ({ match, location, ...props }) => (
   <NavigationContainer>
     <NavigationBar>
-      <ProductSearch />
+      <ProductSearch router={props} />
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
@@ -105,6 +106,7 @@ const UserRoutes = ({ match, location }) => (
           <Route exact path={match.url} component={Welcome} />
           <Route exact path={`${match.url}/products`} component={ListAllProducts} />
           <Route exact path={`${match.url}/products/:productId`} component={Product} />
+          <Route exact path={`${match.url}/search`} component={SearchResults} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>
