@@ -39,13 +39,12 @@ node {
                         frontend.push("latest")
                     }
                 }, uploadBackend: {
-                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                            backend.push("latest")
-                        }
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        backend.push("latest")
                     }
                 }
             }
-
+            
             stage ('Unit tests') {
 
                 parallel frontendTest: {
