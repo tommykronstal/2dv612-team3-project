@@ -17,8 +17,7 @@ services:
 
   app:
     image: tommykronstal/2dv612frontend
-    build:
-      args:
+    args:
        - NODE_ENV=production
     depends_on:
       - webserver
