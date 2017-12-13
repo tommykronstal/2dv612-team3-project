@@ -11,7 +11,7 @@ services:
     command: npm run test:ci
 
   backend:
-    build: ./backend
+    image: tommykronstal/2dv612backend
     volumes:
       - ./backend/src:/usr/src/app/src
     environment:
