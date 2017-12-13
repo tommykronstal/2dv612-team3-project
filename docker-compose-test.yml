@@ -3,6 +3,7 @@ services:
 
   app:
     image: tommykronstal/2dv612frontend
+    build: ./app
     volumes:
      - ./app/src:/usr/src/app/src
      - ./app/__pacts__:/usr/src/app/__pacts__
@@ -12,6 +13,7 @@ services:
 
   backend:
     image: tommykronstal/2dv612backend
+    build: ./backend
     volumes:
       - ./backend/src:/usr/src/app/src
     environment:
