@@ -67,7 +67,7 @@ node {
         
         node('master') {
             stage('Set up staging environment') {
-                unstash 'fullStack'
+                //unstash 'fullStack'
                 cleanOldBuild("docker-compose.yml")
                 //sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
@@ -96,6 +96,8 @@ node('master') {
     }
 }
 */
+
+/*
 // Clean up after all environments are up
 node('master') {
     removeUnusedDockerArtifacts()
@@ -108,7 +110,7 @@ node('master') {
 node('master') {
     removeUnusedDockerArtifacts()
 }
-
+*/
 
 def cleanOldBuild(df) {
     sh "docker-compose -f ${df} down"
@@ -135,6 +137,7 @@ def restoreUploads() {
         sh "echo ${e}"
     }   
 }
+
 
 def removeUnusedDockerArtifacts() {
     sh "docker images prune"
