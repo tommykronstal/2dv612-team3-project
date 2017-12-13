@@ -70,8 +70,6 @@ node {
             stage('Set up staging environment') {
                 //unstash 'fullStack'
                 cleanOldBuild("docker-compose.yml")
-                sh 'docker-compose down'
-                sh 'docker-compose -f docker-compose-prod.yml down'
                 //sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
             }
@@ -91,7 +89,7 @@ node('master') {
         unstash 'production'
         backupUploads()
         cleanOldBuild("docker-compose-prod.yml")
-        //sh 'docker volume rm 2dv612pipeline_static-files --force'
+        sh 'docker volume rm 2dv612pipeline_static-files --force'
         //sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
         restoreUploads()
@@ -100,12 +98,12 @@ node('master') {
 }
 
 
-/*
+
 // Clean up after all environments are up
 node('master') {
     removeUnusedDockerArtifacts()
 }
-
+/*
 node('master') {
     removeUnusedDockerArtifacts()
 }
@@ -114,17 +112,13 @@ node('master') {
     removeUnusedDockerArtifacts()
 }
 */
-
 def cleanOldBuild(df) {
     sh "docker-compose -f ${df} down"
-    //sh 'docker network prune -f'
 }
 
 def backupUploads() {
     try {
         sh 'docker cp 2dv612pipeline_webserver_1:/var/www/src/uploads -> uploads.tar'
-        //Unpack and restore uploads
-       
     } catch (e) {
         sh "echo ${e}"
     }   
@@ -141,7 +135,6 @@ def restoreUploads() {
     }   
 }
 
-
 def removeUnusedDockerArtifacts() {
-    sh "docker images prune"
+    sh "docker system prune"
 }
