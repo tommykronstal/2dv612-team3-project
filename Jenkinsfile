@@ -64,16 +64,16 @@ node {
                 junit "**/backend/src/test-report*.xml"
             }
         }
-        /*
-        node('staging') {
+        
+        node('master') {
             stage('Set up staging environment') {
                 unstash 'fullStack'
                 cleanOldBuild("docker-compose.yml")
-                sh 'docker-compose build --no-cache'
+                //sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
             }
         }
-        */
+        
 
     } catch (err) {
         //slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
