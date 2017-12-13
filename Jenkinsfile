@@ -60,7 +60,7 @@ node {
                 junit "**/backend/src/test-report*.xml"
             }
         }
-
+        /*
         node('staging') {
             stage('Set up staging environment') {
                 unstash 'fullStack'
@@ -69,7 +69,7 @@ node {
                 sh 'docker-compose up -d'
             }
         }
-
+        */
 
     } catch (err) {
         //slackSend channel: '#jenkins', color: 'bad', message: 'Nooo, something broke :(', teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
@@ -78,7 +78,7 @@ node {
 }
 
 //input "Deploy to production?"
-
+/*
 node('master') {
     stage ('Deploy') {
         unstash 'fullStack'
@@ -91,7 +91,7 @@ node('master') {
         //slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }
 }
-
+*/
 // Clean up after all environments are up
 node('master') {
     removeUnusedDockerArtifacts()
