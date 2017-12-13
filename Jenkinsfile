@@ -67,8 +67,8 @@ node('master') {
 node('staging') {
     stage('Set up staging environment') {
         unstash 'fullStack'
-        cleanOldBuild("docker-compose.yml")
-        sh 'docker-compose up -d'
+        cleanOldBuild("docker-compose-staging.yml")
+        sh 'docker-compose -f docker-compose-staging.yml up -d'
     }
 }
 
