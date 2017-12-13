@@ -87,7 +87,7 @@ node('master') {
     stage ('Deploy') {
         //unstash 'fullStack'
         backupUploads()
-        cleanOldBuild("docker-compose-prod.yml")
+        cleanOldBuild("docker-compose.yml")
         //sh 'docker volume rm 2dv612pipeline_static-files --force'
         //sh 'docker-compose -f docker-compose-prod.yml build --no-cache'
         sh 'docker-compose -f docker-compose-prod.yml up -d'
