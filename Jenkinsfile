@@ -121,8 +121,7 @@ def restoreUploads() {
     try {
         sh 'tar xvf uploads.tar'
         sh 'docker cp uploads 2dv612pipeline_webserver_1:/var/www/src'
-        sh 'rm -rf uploads'
-        sh 'rm uploads.tar'
+        sh 'rm -rf uploads && rm uploads.tar'
     } catch (e) {
         sh "echo ${e}"
     }   
