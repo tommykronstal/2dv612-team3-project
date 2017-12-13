@@ -13,7 +13,7 @@ node {
 
             stage ('archive') {
                 stash excludes: 'data/**', includes: '*.yml, app/**, backend/**, nginx/**, *.json, yarn.lock, pact/**', name: 'fullStack'
-                stash includes: 'docker-compose-production.yml', name: 'production'
+                //stash includes: 'docker-compose-production.yml', name: 'production'
             }
             
             stage ('Cleaning previous build') {
