@@ -108,7 +108,7 @@ node('master') {
 
 def cleanOldBuild(df) {
     sh "docker-compose -f ${df} down"
-    sh 'docker network prune -f'
+    //sh 'docker network prune -f'
 }
 
 def backupUploads() {
