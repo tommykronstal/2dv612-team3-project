@@ -77,7 +77,7 @@ node {
 
 //input "Deploy to production?"
 
-node('prod') {
+node('master') {
     stage ('Deploy') {
         unstash 'fullStack'
         backupUploads()
@@ -95,11 +95,11 @@ node('master') {
     removeUnusedDockerArtifacts()
 }
 
-node('staging') {
+node('master') {
     removeUnusedDockerArtifacts()
 }
 
-node('prod') {
+node('master') {
     removeUnusedDockerArtifacts()
 }
 
