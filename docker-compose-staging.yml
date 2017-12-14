@@ -1,45 +1,42 @@
 version: '2'
 services:
-
   webserver:
-    build:
+    build: 
       context: ./nginx
       args:
-        configfile: site.conf
+        configfile: staging.conf
     restart: always
     ports:
      - "443:443"
-     - "80:80"
+     - "5000:80"
     volumes:
-     - static-files:/var/www/src
+     - static-files:/var/www/src/uploads
     links:
      - backend
+     - app
 
   app:
     image: tommykronstal/2dv612frontend
-    depends_on:
-      - webserver
+    ports:
+     - "3000:3000"
+    links:
+     - backend
     volumes:
-     - static-files:/usr/src/app/build
-    environment:
-     - NODE_ENV=production
-    command: npm run build
+     - ./app/src:/usr/src/app/src
+    command: npm start
 
   backend:
     image: tommykronstal/2dv612backend
+    volumes:
+      - ./backend/src:/usr/src/app/src
+      - static-files:/usr/src/app/src/filesystem/uploads/uploads
     ports:
       - "4000:4000"
     links:
       - mongo
-    depends_on:
-      - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/backend
-      - ADMIN_PASSWORD=$ADMIN_PASSWORD
-      - NODE_ENV=production
     command: npm start
-    volumes:
-    - static-files:/usr/src/app/src/filesystem/uploads
 
   mongo:
     image: mongo:3.4

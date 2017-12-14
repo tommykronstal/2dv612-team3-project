@@ -16,11 +16,6 @@ const StyledText = styled(Text)`
   padding-bottom: 0px !important;
   text-align: start;
 `
-const StyledLabel = styled(Text)`
-  color: rgb(210, 210, 210);
-  padding-bottom: 0px !important;
-  display: inline-block;
-`
 
 const MaterialContainer = styled.div`
   display: flex;
@@ -61,7 +56,7 @@ export default ({
   annotation,
   ...props
 }) => {
-  const [_, type] = mimetype.split('/')
+  const [, type] = mimetype.split('/')
   const myRating = props.rating.find(r => r.userid === userId)
   const rating = myRating ? myRating.rating : 0
   const icon = annotation ? 'comment' : 'mode_comment'

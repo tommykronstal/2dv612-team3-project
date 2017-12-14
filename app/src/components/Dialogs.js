@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const OverlayShadow = styled.div`
@@ -22,9 +22,9 @@ export const Dialog = ({Component, onOverlayClick}) => {
         onOverlayClick()
       }}
     >
-    <div onClick={e => e.stopPropagation()}>
-      <Component />
-    </div>
+      <div onClick={e => e.stopPropagation()}>
+        <Component />
+      </div>
     </OverlayShadow>
   )
 }

@@ -8,7 +8,7 @@ import {fetchProducts} from '../actions/products'
 import styled from 'styled-components'
 import Link from '../components/common/Link'
 
-const ProductInforContainer = styled.div`
+const ProductInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,11 +26,11 @@ class ListAllProducts extends Component {
       <Section>
         <Title>Products</Title>
         <List>
-          {this.props.products.map(({name, _id: productId}) => (
-            <ProductInforContainer key={productId}>
-              <Item>{name}</Item>
+          {this.props.products.map(({name, companyName, _id: productId}) => (
+            <ProductInfoContainer key={productId}>
+              <Item>{companyName} {name}</Item>
               <Link to={`${match.url}/${productId}`}>View Product</Link>
-            </ProductInforContainer>
+            </ProductInfoContainer>
           ))}
         </List>
       </Section>

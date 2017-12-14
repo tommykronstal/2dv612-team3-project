@@ -1,6 +1,7 @@
 version: '2'
 services:
   backend:
+    image: tommykronstal/2dv612backend
     build: ./backend
     volumes:
       - ./backend/src:/usr/src/app/src
@@ -13,7 +14,7 @@ services:
     command: npm start
 
   mongo:
-    image: mongo
+    image: mongo:3.4
     ports:
       - "27017:27017"
     volumes:

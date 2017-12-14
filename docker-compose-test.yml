@@ -2,6 +2,7 @@ version: '2'
 services:
 
   app:
+    image: tommykronstal/2dv612frontend
     build: ./app
     volumes:
      - ./app/src:/usr/src/app/src
@@ -11,6 +12,7 @@ services:
     command: npm run test:ci
 
   backend:
+    image: tommykronstal/2dv612backend
     build: ./backend
     volumes:
       - ./backend/src:/usr/src/app/src
