@@ -31,8 +31,8 @@ router.route('*').all(function (req, res, next) {
 router.use('/api/user', checkRole.checkApiUser([ADMIN]), user);
 router.use('/api/company', checkRole.checkApiCompany([COMPANYREP,COMPANYADMIN,ADMIN]), company);
 router.use('/api/category', checkRole.checkApiCategory(ALL), category);
-router.use('/api/product/material', checkRole.checkApiMaterial([ADMIN, COMPANYREP, USER]), material);
-router.use('/api/product/material', checkRole.checkApiMaterial([ADMIN, COMPANYREP, USER]), materialRating);
-router.use('/api/', checkRole.checkApiProduct([ADMIN, COMPANYREP, USER]), product);
+router.use('/api/product/material', checkRole.checkApiMaterial([ALL]), material);
+router.use('/api/product/material', checkRole.checkApiMaterial([ALL]), materialRating);
+router.use('/api/', checkRole.checkApiProduct([ALL]), product);
 
 module.exports = router;
