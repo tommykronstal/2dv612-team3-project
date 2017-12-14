@@ -106,39 +106,52 @@ class ProductController extends Controller {
   // Example: localhost:5000/api/search?q=philips TV 2
   async search (req, res, next) {
     try {
-      const allProducts = await productFacade.findForSearch()
+      const allProducts = await productFacade.findForSearch();
+
+      const searchList = allProducts.reduce((result, product) => {
+        product.searchKey = product.companyName + ' ' + product.name
+        result.push(product)
+
+        product.materials.forEach(material => result.push({
+          _id: material._id,
+          name: material.name,
+          isMaterial: true,
+          originalname: material.originalname,
+          filename: material.filename,
+          searchKey: material.name + ' ' + product.companyName + ' ' + product.name, 
+          productName: product.name,
+          companyName: product.companyName
+        }));
+
+        return result;
+      }, []);
+
       const options = {
         shouldSort: true,
         findAllMatches: true,
         threshold: 0.6,
         location: 0,
         tokenize: true,
+        matchAllTokens: true,
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: [
-          {
-            name: 'materials.name',
-            weight: 0.3
-          },
-          {
-            name: 'companyName',
-            weight: 0.9
-          },
-          {
-            name: 'name',
-            weight: 0.9
-          }
-        ],
+        keys: ['searchKey'],
         includeScore: true,
-        includeMatches: true
-      }
-      const fuse = new Fuse(allProducts, options)
-      console.log("q:", req.param('q'))
-      const result = fuse.search(req.param('q'))
+        includeMatches: false
+      };
 
-      return res.status(201).json(result)
+      const fuse = new Fuse(searchList, options);
+
+      const searchParam = req.param('q');
+
+      console.log('q:', searchParam);
+
+      const result = fuse.search(searchParam);
+
+      return res.status(201).json(result);
     } catch (error) {
+      console.error(error)
       return next({message: 'Search couldn\'t find any products', statusCode: 400})
     }
   }

@@ -22,16 +22,16 @@ class SearchResults extends Component {
       <Section>
         <Title>SearchResults</Title>
         <List>
-          {this.props.searchResults.map((result, i) => result.isMaterial ? 
+          {this.props.searchResults.map(({item}, i) => item.isMaterial ? 
             (
-              <ProductInfoContainer key={i + result.material._id}>
-                <Item>{result.material.name} for {result.companyName} {result.name}</Item>
-                <A href={`/uploads/${result.material.filename}`} target="_blank">View Manual</A>
+              <ProductInfoContainer key={i + item._id}>
+                <Item>{item.name} for {item.companyName} {item.productName}</Item>
+                <A href={`/uploads/${item.filename}`} target="_blank">View Manual</A>
               </ProductInfoContainer>              
             ) : (
-              <ProductInfoContainer key={i + result.productId}>
-                <Item>{result.companyName} {result.name}</Item>
-                <Link to={`/user/products/${result.productId}`}>View Product</Link>
+              <ProductInfoContainer key={i + item._id}>
+                <Item>{item.companyName} {item.name}</Item>
+                <Link to={`/user/products/${item.productId}`}>View Product</Link>
               </ProductInfoContainer>
           ))}
         </List>

@@ -11,7 +11,6 @@ import {
 } from '../actions/types'
 import {put, takeEvery, call, select} from 'redux-saga/effects'
 import {get, post} from '../lib/http'
-import {formatSearchResult} from '../lib/search'
 
 export function* watchProductActions() {
   yield takeEvery(FETCH_PRODUCTS, fetchProducts)
@@ -87,6 +86,6 @@ export function* fetchSearchResults() {
 
   const searchResults = yield call(get, '/api/search?q=' + encodeURIComponent(searchQuery), {headers: {Authorization: token}})
 
-  yield put({type: SET_SEARCH_RESULTS, searchResults: formatSearchResult(searchResults)})
+  yield put({type: SET_SEARCH_RESULTS, searchResults})
   yield put({type: TOGGLE_LOADING})
 }
