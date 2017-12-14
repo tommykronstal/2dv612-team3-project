@@ -26,9 +26,9 @@ class ListAllProducts extends Component {
       <Section>
         <Title>Products</Title>
         <List>
-          {this.props.products.map(({name, _id: productId}) => (
+          {this.props.products.map(({name, companyName, _id: productId}) => (
             <ProductInfoContainer key={productId}>
-              <Item>{name}</Item>
+              <Item>{companyName} {name}</Item>
               <Link to={`${match.url}/${productId}`}>View Product</Link>
             </ProductInfoContainer>
           ))}
