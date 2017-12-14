@@ -88,6 +88,8 @@ class Authorization {
 
             const user = await userFacade.findOne(mongoGetUserQuery);
             if (!user) return next({ error: true, message: 'Invalid token', statusCode: 401});
+
+            return next();
         } catch(e) {
             return next(e);
         }

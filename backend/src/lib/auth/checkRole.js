@@ -75,11 +75,11 @@ class CheckRole {
         }}
     }
 
-    getToken(req, next) {
+    async getToken(req, next) {
         const token = req.headers.authorization;
-
         try {
-            decoded = jwt.verify(token, jwtSecret);
+            decoded = await jwt.verify(token, jwtSecret);
+            return next();
         }catch(e) {
             return next(e);
         }
