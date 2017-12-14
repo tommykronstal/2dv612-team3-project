@@ -1,5 +1,5 @@
 let validateError = require('../lib/validateError');
-let Auth = require('../lib/Auth');
+let Auth = require('../lib/auth/Auth');
 
 let _req = {
     _startTime: Date,
