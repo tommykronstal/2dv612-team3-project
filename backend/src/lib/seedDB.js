@@ -3,6 +3,7 @@ const companyFacade = require('../model/company/facade')
 const categoryFacade = require('../model/category/facade')
 const productFacade = require('../model/product/facade')
 const materialFacde = require('../model/material/facade')
+let carModels = require('./seed/MOCK_DATA.json')
 
 exports.admin = function (adminAccount) {
   userFacade
@@ -26,9 +27,14 @@ exports.companies = function (companies) {
       // Get all unique categories
       const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
       // Create categories
-      categories.map(x => createCategory(x))
-      // Create companies
-      companies.map(x => createCompany(x))
+      const categoryPromises = categories.map(x => createCategory(x))
+      Promise.all(categoryPromises)
+      .then(() => {
+      const companyPromises = companies.map(x => createCompany(x))
+      return Promise.all(companyPromises)
+      }).then(() => {
+        return createMaterial()
+      })           
     }
   })
 }
@@ -47,6 +53,32 @@ exports.users = function (number) {
         }
         userFacade.create(user)
       }
+    }
+  })
+}
+
+const createMaterial = () => {
+  const materialNames = ['manual', 'quickstart', 'safety brochure']
+  const materialPromises = []
+  let products = []
+  productFacade.find().then((docs) => {
+    products = docs
+    for(var i = 0; i < docs.length; i++) {
+      const material = {
+        name: materialNames[Math.floor((Math.random() * 3))],
+        originalname: 'components.pdf',
+        filename: 'e506a9172af9259843342dc44c58f763',
+        path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
+        size: 33600,
+        mimetype: 'application/pdf',
+      }
+      materialPromises.push(materialFacde.create(material))
+    }
+    return Promise.all(materialPromises)
+  }).then((matDocs) => {
+    for (let i = 0; i < products.length; i++) {
+      products[i].materials.push(matDocs[i])
+      products[i].save()
     }
   })
 }
@@ -140,10 +172,10 @@ const createProducts = company => {
             for (j = 0; j < company.productsPerCategory; j++) {
               prodArr.push(
                 productFacade.create({
-                  name: category.categoryName + ' ' + j,
+                  name: carModels.shift().productname,
                   companyName: company.name,
                   category: category._id,
-                  materials: [materialDoc.id]
+                  //materials: [materialDoc.id]
                 })
               )
             }
