@@ -58,7 +58,7 @@ exports.users = function (number) {
 }
 
 const createMaterial = () => {
-  const materialNames = ['manual', 'quickstart', 'safety brochure']
+  const materialNames = ['Manual', 'Quickstart', 'Safety Brochure']
   const materialPromises = []
   let products = []
   productFacade.find().then((docs) => {
