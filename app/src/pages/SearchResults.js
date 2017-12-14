@@ -31,7 +31,7 @@ class SearchResults extends Component {
             ) : (
               <ProductInfoContainer key={i + item._id}>
                 <Item>{item.companyName} {item.name}</Item>
-                <Link to={`/user/products/${item.productId}`}>View Product</Link>
+                <Link to={`/user/products/${item._id}`}>View Product</Link>
               </ProductInfoContainer>
           ))}
         </List>

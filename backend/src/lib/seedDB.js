@@ -30,11 +30,11 @@ exports.companies = function (companies) {
       const categoryPromises = categories.map(x => createCategory(x))
       Promise.all(categoryPromises)
       .then(() => {
-      const companyPromises = companies.map(x => createCompany(x))
-      return Promise.all(companyPromises)
+        const companyPromises = companies.map(x => createCompany(x))
+        return Promise.all(companyPromises)
       }).then(() => {
         return createMaterial()
-      })           
+      })
     }
   })
 }
@@ -63,14 +63,14 @@ const createMaterial = () => {
   let products = []
   productFacade.find().then((docs) => {
     products = docs
-    for(var i = 0; i < docs.length; i++) {
+    for (var i = 0; i < docs.length; i++) {
       const material = {
         name: materialNames[Math.floor((Math.random() * 3))],
         originalname: 'components.pdf',
         filename: 'e506a9172af9259843342dc44c58f763',
         path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
         size: 33600,
-        mimetype: 'application/pdf',
+        mimetype: 'application/pdf'
       }
       materialPromises.push(materialFacde.create(material))
     }
@@ -150,48 +150,41 @@ const createCompanyReps = company => {
 const createProducts = company => {
   return new Promise(function (resolve, reject) {
     const prodArr = []
-    var i
-
-    const material = {
-      name: 'manual',
-      originalname: 'components.pdf',
-      filename: 'e506a9172af9259843342dc44c58f763',
-      path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
-      size: 33600,
-      mimetype: 'application/pdf'
+    const categoryPromises = []
+    
+    for (let i = 0; i < company.categories.length; i++) {
+      // get category
+      categoryPromises.push(categoryFacade
+        .findOne({
+          categoryName: company.categories[i]
+        }))
     }
-
-    materialFacde.create(material).then(materialDoc => {
-      for (i = 0; i < company.categories.length; i++) {
-        // get category
-        categoryFacade
-          .findOne({
-            categoryName: company.categories[i]
-          })
-          .then(category => {
-            for (j = 0; j < company.productsPerCategory; j++) {
-              prodArr.push(
-                productFacade.create({
-                  name: carModels.shift().productname,
-                  companyName: company.name,
-                  category: category._id,
-                  //materials: [materialDoc.id]
-                })
-              )
-            }
-            return prodArr
-          })
-          .then(arrDoc => {
-            Promise.all(arrDoc)
-              .then(docs => {
-                return resolve(docs)
+    Promise.all(categoryPromises)
+      .then(categorys => {
+        for (let i = 0; i < categorys.length; i++) {
+          for (j = 0; j < company.productsPerCategory; j++) {
+            
+            prodArr.push(
+              productFacade.create({
+                name: carModels.shift().productname,
+                companyName: company.name,
+                category: categorys[i]._id
               })
-              .catch(e => reject(e))
-          })
-      }
-    })
+            )
+          }
+        }
+        return prodArr
+        })
+        .then(arrDoc => {
+          Promise.all(arrDoc)
+            .then(docs => {
+              return resolve(docs)
+            })
+            .catch(e => reject(e))
+        })
   })
 }
+
 const createCategory = category => {
   categoryFacade.create({
     categoryName: category
