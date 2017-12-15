@@ -12,5 +12,4 @@ router.route('/:id')
   .delete((...args) => controller.remove(...args))
   .post((...args) => controller.registerCompanyRep(...args));
 
-
 module.exports = router;

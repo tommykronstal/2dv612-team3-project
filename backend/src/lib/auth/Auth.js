@@ -12,6 +12,9 @@ class Authorization {
         let company;
         let user;
 
+        // Let the requests to api/company/id/product go to product router.
+        if (req.url.indexOf("product") > -1 ) return next();
+
         try {
             //Get the Company provided in the url
             company = await companyFacade.findOne({ _id: companyId });
