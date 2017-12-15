@@ -54,20 +54,26 @@ class Authorization {
     }
 
     apiCategory(req, res, next) {
-        if (req.url.indexOf('/api/category') > - 1 && req.method === 'GET') {
+        if (req.method === 'GET') {
             return next();
+        }else {
+            returnForbidden(next);
         }
     }
 
     apiMaterial(req, res, next) {
-        if (req.url.indexOf('/api/product/material') > - 1 && req.method === 'GET') {
+        if (req.method === 'GET') {
             return next();
+        }else {
+            returnForbidden(next);
         }
     }
 
     apiProduct(req, res, next) {
-        if ((req.url.indexOf('/api/product/') > - 1 || req.url === 'api/search') && req.method === 'GET') {
+        if ((req.url.indexOf('/product') > - 1 || req.url === '/search') && req.method === 'GET') {
             return next();
+        }else {
+            returnForbidden(next);
         }
     }
 
@@ -97,6 +103,13 @@ class Authorization {
             return next(e);
         }
     }
+}
+
+function returnForbidden(next) {
+    return next({
+        message: 'Forbidden. There was no valid role found for the given request.',
+        statusCode: 403
+    });
 }
 
 module.exports = new Authorization();

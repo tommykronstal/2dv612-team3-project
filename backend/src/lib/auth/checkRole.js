@@ -26,7 +26,6 @@ class CheckRole {
 
     checkApiCompany(roles){
         { return function(req, res, next) {
-            console.log("Inside Company");
             for(role of roles) {
                 if (decoded.role === "ADMIN"){
                     return next();
@@ -41,7 +40,7 @@ class CheckRole {
     checkApiCategory(roles) {
         { return function(req, res, next) {
             for(let role of roles) {
-                if (role === "ADMIN"){
+                if (decoded.role === "ADMIN"){
                     return next();
                 }else if (decoded.role === role) {
                     return auth.apiCategory(req, res, next);
@@ -53,11 +52,11 @@ class CheckRole {
 
     checkApiMaterial(roles) {
         { return function(req, res, next) {
-
             for(let role of roles) {
-                if (role === "ADMIN" || role === "COMPANY_REP"){
+                if (decoded.role === "ADMIN" || decoded.role === "COMPANY_REP"){
                     return next();
                 }else if (decoded.role === role) {
+                    console.log(req.url);
                     return auth.apiMaterial(req, res, next);
                 }
             }
@@ -67,7 +66,6 @@ class CheckRole {
 
     checkApiProduct(roles){
         { return function(req, res, next) {
-            console.log("Checking product");
             for(let role of roles) {
                 if (decoded.role === "ADMIN" || decoded.role === "COMPANY_REP"){
                     return next();
@@ -90,7 +88,6 @@ class CheckRole {
 }
 
 function returnForbidden(next) {
-    console.log("Forbidden message");
     return next({
         message: 'Forbidden. There was no valid role found for the given request.',
         statusCode: 403
