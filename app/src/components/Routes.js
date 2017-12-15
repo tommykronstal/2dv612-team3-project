@@ -23,6 +23,7 @@ import ListAllProducts from '../pages/ListAllProducts'
 import Product from '../pages/Product'
 import SearchResults from '../pages/SearchResults'
 import ProductSearch from '../containers/ProductSearch'
+import ListThreads from '../pages/ListThreads'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -72,6 +73,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/product`} >Add Product</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/products`} >List Products</NavigationLink>
+      <NavigationLink exact={false} to={`${match.url}/forum`}>Forum</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>
@@ -79,6 +81,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/product`} component={AddProduct}/>
       <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
+      <Route exact path={`${match.url}/forum`} component={ListThreads} />
       <Route component={NotFound} />
     </Switch>
     <TransitionGroup>
@@ -98,6 +101,7 @@ const UserRoutes = ({ match, location, ...props }) => (
       <ProductSearch router={props} />
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
+      <NavigationLink exact={false} to={`${match.url}/forum`}>Forum</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <TransitionGroup>
@@ -107,6 +111,7 @@ const UserRoutes = ({ match, location, ...props }) => (
           <Route exact path={`${match.url}/products`} component={ListAllProducts} />
           <Route exact path={`${match.url}/products/:productId`} component={Product} />
           <Route exact path={`${match.url}/search`} component={SearchResults} />
+          <Route exact path={`${match.url}/forum`} component={ListThreads} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>

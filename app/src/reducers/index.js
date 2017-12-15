@@ -5,5 +5,6 @@ import form from './form'
 import categories from './categories'
 import navigation from './navigation'
 import products from './products'
+import forum from './forum'
 
-export {loading, status, auth, form, categories, navigation, products}
+export {loading, status, auth, form, categories, navigation, products, forum}
