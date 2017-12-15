@@ -22,10 +22,14 @@ router.route('/api').get((req, res) => {
 });
 
 router.route('*').all(function (req, res, next) {
-    if (req.url === '/api/user/login') return next();
-    if (req.url === '/api/user/register') return next();
-    auth.authorize(req, res, next);
-    checkRole.getToken(req, res, next);
+    if (req.url === '/api/user/login'){
+        return next();
+    }else if (req.url === '/api/user/register') {
+        return next();
+    }else {
+        checkRole.getToken(req, res, next);
+        auth.authorize(req, res, next);
+    }
 });
 
 router.use('/api/user', checkRole.checkApiUser([ADMIN]), user);

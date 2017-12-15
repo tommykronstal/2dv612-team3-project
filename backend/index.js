@@ -30,7 +30,7 @@ app.use('/', routes);
 
 app.use(function (err, req, res, next) {
     validateError(err);
-
+    console.log(err);
     res.status(err.statusCode).send({error: true, message: err.message});
 });
 

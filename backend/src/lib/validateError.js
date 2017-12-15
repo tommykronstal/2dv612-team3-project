@@ -18,6 +18,10 @@ function validateError(err) {
     if (err.name === "JsonWebTokenError"){
         err.statusCode = 401;
     }
+
+    if (err.name === "TypeError") {
+        err.statusCode = 500;
+    }
 }
 
 module.exports = validateError;

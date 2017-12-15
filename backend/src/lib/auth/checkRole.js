@@ -10,6 +10,11 @@ class CheckRole {
 
     checkApiUser(roles){
         { return function(req, res, next) {
+            if (req.url === '/login'){
+                return next();
+            }else if (req.url === '/register') {
+                return next();
+            }
             for (role of roles){
                 if (decoded.role === role) {
                     return next();
@@ -79,7 +84,6 @@ class CheckRole {
         const token = req.headers.authorization;
         try {
             decoded = await jwt.verify(token, jwtSecret);
-            return next();
         }catch(e) {
             return next(e);
         }
