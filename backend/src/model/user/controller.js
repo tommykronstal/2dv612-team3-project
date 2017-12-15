@@ -8,7 +8,6 @@ const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or r
 class UserController extends Controller {
    async login(req, res, next) {
     const { email, password } = req.body; // todo presuming email and pw are sent on body params from loginform
-       console.log(req);
      if (!email || !password) return next({ error: true, message: "username or password missing", statusCode: 400});
 
     try {

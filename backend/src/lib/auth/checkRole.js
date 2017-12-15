@@ -26,9 +26,8 @@ class CheckRole {
 
     checkApiCompany(roles){
         { return function(req, res, next) {
-
             for(role of roles) {
-                if (role === "ADMIN"){
+                if (decoded.role === "ADMIN"){
                     return next();
                 }else if (decoded.role === role) {
                     return auth.apiCompany(req, res, next, role);
@@ -40,9 +39,8 @@ class CheckRole {
 
     checkApiCategory(roles) {
         { return function(req, res, next) {
-
-            for(let role in roles) {
-                if (role === "ADMIN"){
+            for(let role of roles) {
+                if (decoded.role === "ADMIN"){
                     return next();
                 }else if (decoded.role === role) {
                     return auth.apiCategory(req, res, next);
@@ -54,11 +52,11 @@ class CheckRole {
 
     checkApiMaterial(roles) {
         { return function(req, res, next) {
-
-            for(let role in roles) {
-                if (role === "ADMIN" || role === "COMPANY_REP"){
+            for(let role of roles) {
+                if (decoded.role === "ADMIN" || decoded.role === "COMPANY_REP"){
                     return next();
                 }else if (decoded.role === role) {
+                    console.log(req.url);
                     return auth.apiMaterial(req, res, next);
                 }
             }
@@ -68,9 +66,8 @@ class CheckRole {
 
     checkApiProduct(roles){
         { return function(req, res, next) {
-
-            for(let role in roles) {
-                if (role === "ADMIN" || role === "COMPANY_REP"){
+            for(let role of roles) {
+                if (decoded.role === "ADMIN" || decoded.role === "COMPANY_REP"){
                     return next();
                 }else if (decoded.role === role) {
                     return auth.apiProduct(req, res, next);

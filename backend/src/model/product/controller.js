@@ -9,12 +9,13 @@ const Fuse = require('fuse.js')
 
 class ProductController extends Controller {
   async findForCompany (req, res, next) {
+      console.log("Find Product for Company");
     try {
-      let doc = await companyFacade.findById(req.param('companyid'))
+      let doc = await companyFacade.findById(req.param('companyid'));
       if (doc)
         {return res.status(200).json(doc.products);}
     } catch (e) {
-      console.log(e)
+      console.log("Found an error");
       return next({message: 'Could not find company.', statusCode: 400})
     }
   }
