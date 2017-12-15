@@ -21,6 +21,19 @@ exports.admin = function (adminAccount) {
     .catch(e => console.log(e))
 }
 
+exports.seed = async function (companies) {
+  const companyDocs = await companyFacade.find({})
+  if(companyDocs.length === 0){
+    await createCompanies(companies)
+    await createReps(companies)
+    await createUsers(1000)
+    await createCategorys(companies)
+    await createProducts(companies)
+    await createMaterial(companies)
+    await createRatings()
+  }
+}
+
 exports.companies = function (companies) {
   companyFacade.find({}).then(docs => {
     if (docs.length === 0) {
