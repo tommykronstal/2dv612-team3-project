@@ -6,10 +6,11 @@ import Headline from '../components/common/Headline'
 import Link from '../components/common/Link'
 import List from '../components/common/List'
 import Item from '../components/common/ListItem'
+import { fetchForumThreads } from '../actions/forum'
 
 class ListThreads extends Component {
   componentDidMount() {
-    this.props.fetchThreads()
+    this.props.fetchForumThreads()
   }
 
   render() {
@@ -38,6 +39,6 @@ export default connect(
     threads: forum.threads
   }),
   dispatch => ({
-    fetchThreads: _ => dispatch({ type: 'BAAA'}),
+    fetchForumThreads: _ => dispatch(fetchForumThreads()),
   }),
 )(ListThreads)

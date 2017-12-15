@@ -1,28 +1,15 @@
+import { SET_FORUM_THREADS } from '../actions/types'
 
 const initialState = {
-  threads: [
-    {
-      _id: 'rgiit904kpoegkeop',
-      title: 'Question about an iphone?',
-      user: {
-        firstName: 'john'
-      }
-    },
-    {
-      _id: 'dir392ir9032i0g',
-      title: 'Question about something else',
-      user: {
-        firstName: 'paul'
-      }
-    }
-  ]
+  threads: []
 }
 
 export default function forum (state = initialState, action = {}) {
   switch (action.type) {
-  case '':
+  case SET_FORUM_THREADS:
     return {
-      ...state
+      ...state,
+      threads: action.threads
     }
   default:
     return state
