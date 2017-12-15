@@ -70,7 +70,7 @@ class Authorization {
     }
 
     apiProduct(req, res, next) {
-        if ((req.url.indexOf('/product') > - 1 || req.url === '/search') && req.method === 'GET') {
+        if ((req.url.indexOf('/product') > - 1 || req.url.indexOf('/search') > - 1) && req.method === 'GET') {
             return next();
         }else {
             returnForbidden(next);
