@@ -8,4 +8,4 @@ const postSchema = new Schema({
   isRepresentative: { type: Boolean, default: false }
 });
 
-module.exports = mongoose.model('Post', posttSchema)
+module.exports = mongoose.model('Post', postSchema)
