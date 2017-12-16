@@ -15,12 +15,9 @@ const threadSchema = new Schema({
     }
   },
 
-  posts: {
-    type: [Post],
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true }],
 
-  },
-
-  date: {type: Date, default: Date.now }
+  date: {type: Date, default: Date.now, required: true }
 
 });
 
