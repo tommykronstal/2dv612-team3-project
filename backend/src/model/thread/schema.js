@@ -15,9 +15,19 @@ const threadSchema = new Schema({
     }
   },
 
+<<<<<<< HEAD
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true }],
 
   date: {type: Date, default: Date.now, required: true }
+=======
+  
+  posts: {
+    type: [Post],
+
+  },
+  
+  date: {type: Date, default: Date.now }
+>>>>>>> 150355c5553b47bfa7620cf1d04028b9216ef83c
 
 });
 
