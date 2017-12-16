@@ -21,35 +21,48 @@ exports.admin = function (adminAccount) {
     .catch(e => console.log(e))
 }
 
-exports.seed = async function (companies) {
+const seed = async function (seedSettings) {
   const companyDocs = await companyFacade.find({})
-  if(companyDocs.length === 0){
-    await createCompanies(companies)
-    await createReps(companies)
-    await createUsers(1000)
-    await createCategorys(companies)
-    await createProducts(companies)
-    await createMaterial(companies)
-    await createRatings()
+  if (companyDocs.length === 0) {
+    await createCompanies(seedSettings)
+    await createReps(seedSettings)
+    // await createUsers(100)
+    // await createCategorys(companies)
+    // await createProducts(companies)
+    // await createMaterial(companies)
+    // await createRatings()
   }
 }
 
-exports.companies = function (companies) {
-  companyFacade.find({}).then(docs => {
-    if (docs.length === 0) {
-      // Get all unique categories
-      const categories = Array.from(new Set([].concat.apply([], companies.map(company => company.categories))))
-      // Create categories
-      const categoryPromises = categories.map(x => createCategory(x))
-      Promise.all(categoryPromises)
-      .then(() => {
-        const companyPromises = companies.map(x => createCompany(x))
-        return Promise.all(companyPromises)
-      }).then(() => {
-        return createMaterial()
+const createCompanies = async function (companies) {
+  const cmp = await Promise.all(companies.map(async function (company) {
+    const adminDoc = await userFacade
+      .create({
+        firstName: `FN${company.name}Admin`,
+        lastName: `LN${company.name}Admin`,
+        email: `admin@${company.name.toLowerCase()}.com`,
+        role: 'COMPANY_ADMIN',
+        password: 'password'
       })
-    }
-  })
+    const companyDoc = await companyFacade
+      .create({
+        companyName: company.name,
+        admin: adminDoc._id
+      })
+    return companyDoc
+  }))
+  return cmp
+}
+
+const createReps = async function (companies) {
+  //const companyDocs = await companyFacade.find({})
+}
+
+exports.companies = async function (companies) {
+  const companyDocs = await companyFacade.find({})
+  if (companyDocs.length === 0) {
+    seed(companies)
+  }
 }
 
 exports.users = function (number) {
@@ -109,32 +122,32 @@ const createCompany = company => {
 
     // Create admin
     userFacade
-    .create(admin)
-    .then(adminDoc => {
-      // Create company
-      return companyFacade.create({
-        companyName: company.name,
-        admin: adminDoc._id
+      .create(admin)
+      .then(adminDoc => {
+        // Create company
+        return companyFacade.create({
+          companyName: company.name,
+          admin: adminDoc._id
+        })
       })
-    })
-    .then(companyDoc => {
-      // Create reps
-      mongoCompany = companyDoc
-      return createCompanyReps(company)
-    })
-    .then(reps => {
-      mongoCompany.reps = reps
-      return mongoCompany.save()
-    })
-    .then(() => createProducts(company))
-    .then(products => {
-      mongoCompany.products = products
-      return mongoCompany.save()
-    })
-    .then(doc => {
-      return resolve(doc)
-    })
-    .catch(e => reject(e))
+      .then(companyDoc => {
+        // Create reps
+        mongoCompany = companyDoc
+        return createCompanyReps(company)
+      })
+      .then(reps => {
+        mongoCompany.reps = reps
+        return mongoCompany.save()
+      })
+      .then(() => createProducts(company))
+      .then(products => {
+        mongoCompany.products = products
+        return mongoCompany.save()
+      })
+      .then(doc => {
+        return resolve(doc)
+      })
+      .catch(e => reject(e))
   })
 }
 
@@ -164,7 +177,7 @@ const createProducts = company => {
   return new Promise(function (resolve, reject) {
     const prodArr = []
     const categoryPromises = []
-    
+
     for (let i = 0; i < company.categories.length; i++) {
       // get category
       categoryPromises.push(categoryFacade
@@ -176,7 +189,6 @@ const createProducts = company => {
       .then(categorys => {
         for (let i = 0; i < categorys.length; i++) {
           for (j = 0; j < company.productsPerCategory; j++) {
-            
             prodArr.push(
               productFacade.create({
                 name: carModels.shift().productname,
@@ -187,14 +199,14 @@ const createProducts = company => {
           }
         }
         return prodArr
-        })
-        .then(arrDoc => {
-          Promise.all(arrDoc)
-            .then(docs => {
-              return resolve(docs)
-            })
-            .catch(e => reject(e))
-        })
+      })
+      .then(arrDoc => {
+        Promise.all(arrDoc)
+          .then(docs => {
+            return resolve(docs)
+          })
+          .catch(e => reject(e))
+      })
   })
 }
 
