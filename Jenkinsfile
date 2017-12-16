@@ -1,5 +1,5 @@
-def frontImage = tommykronstal/2dv612frontend
-def backImage = tommykronstal/2dv612backend
+def frontImage = "tommykronstal/2dv612frontend"
+def backImage = "tommykronstal/2dv612backend"
 
 
 node('master') {
