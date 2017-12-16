@@ -1,3 +1,6 @@
+def frontImage = "tommykronstal/2dv612frontend"
+def backImage = "tommykronstal/2dv612backend"
+
 
 node('master') {
 
@@ -22,11 +25,11 @@ node('master') {
                 
             parallel buildFrontend: {
                 dir('./app') {
-                     frontend = docker.build("tommykronstal/2dv612frontend")
+                     frontend = docker.build("${frontImage}")
                  }
              }, buildBackend: {
                 dir('./backend') {
-                     backend = docker.build("tommykronstal/2dv612backend")
+                     backend = docker.build("${backImage}")
                  }
             },
             failFast: true
@@ -68,6 +71,8 @@ node('staging') {
     stage('Set up staging environment') {
         unstash 'fullStack'
         cleanOldBuild("docker-compose-staging.yml")
+        pullImage("${frontImage}")
+        pullImage("${backImage}")
         sh 'docker-compose -f docker-compose-staging.yml up -d'
     }
 }
@@ -80,6 +85,8 @@ node('prod') {
         backupUploads()
         cleanOldBuild("docker-compose-prod.yml")
         sh 'docker volume rm 2dv612pipeline_static-files --force'
+        pullImage("${frontImage}")
+        pullImage("${backImage}")
         sh 'docker-compose -f docker-compose-prod.yml up -d'
         restoreUploads()
         //slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
@@ -124,4 +131,8 @@ def restoreUploads() {
 
 def removeUnusedDockerArtifacts() {
     sh "docker system prune --force"
+}
+
+def pullImage(image) {
+    sh "docker pull ${image}"
 }
