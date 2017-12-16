@@ -27,5 +27,6 @@ router.use('/api/category',  category);
 router.use('/api/product/material', material);
 router.use('/api/product/material',  materialRating);
 router.use('/api/', product);
+router.use('/api/forum/category', forumThread)
 
 module.exports = router;
