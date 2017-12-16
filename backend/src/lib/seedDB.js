@@ -57,7 +57,7 @@ const seed = async function (seedSettings) {
   await createProducts(seedSettings, companyDocs)
   // Creates one material for each product
   await createMaterial()
-  
+
   // Already done from index
   // await createUsers(100)
   //
@@ -115,8 +115,6 @@ const createCategories = async function (seedSettings) {
   }))
   return categoryDocs
 }
-
-
 
 const createMaterial = () => {
   const materialNames = ['Manual', 'Quickstart', 'Safety Brochure']
