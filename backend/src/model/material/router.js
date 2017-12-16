@@ -9,9 +9,9 @@ router.route('/')
   .get((...args) => controller.find(...args));
 
 router.route('/:id')
-  .put(checkRole.checkRoles(companyGroup), (...args) => controller.update(...args))
+  .put(checkRole(companyGroup), (...args) => controller.update(...args))
   .get((...args) => controller.getMaterial(...args)) // getMaterial -> findById
-  .delete(checkRole.checkRoles(companyGroup),(...args) => controller.remove(...args));
+  .delete(checkRole(companyGroup),(...args) => controller.remove(...args));
 
 
 router.route('/:id/annotation')

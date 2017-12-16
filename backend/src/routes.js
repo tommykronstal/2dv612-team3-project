@@ -8,19 +8,16 @@ const category = require('./model/category/router');
 const material = require('./model/material/router');
 const materialRating = require('./model/materialRating/router');
 
-const auth = require('./lib/auth/Auth');
-const checkRole = require('./lib/auth/checkRole');
+const authorize = require('./lib/auth/Auth');
 
 router.route('/api').get((req, res) => {
   res.json({message: 'Welcome to backend API!'})
 });
 
 router.route('*').all(function (req, res, next) {
-    if (req.url === '/api/user/login' || req.url === '/api/user/register'){
-        return next();
-    }else {
-        auth.authorize(req, res, next);
-    }
+    if (req.url === '/api/user/login' || req.url === '/api/user/register') return next();
+
+    authorize(req, res, next);
 });
 
 router.use('/api/user', user);

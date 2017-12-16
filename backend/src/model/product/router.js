@@ -9,7 +9,7 @@ const companyGroup = require("../../lib/roles").companyGroup;
 
 router.route('/company/:companyid/product')
   .get((...args) => controller.findForCompany(...args))
-  .post(checkRole.checkRoles(companyGroup), (...args) => controller.create(...args));
+  .post(checkRole(companyGroup), (...args) => controller.create(...args));
 
 router.route('/product')
   .get((...args) => controller.find(...args));
@@ -18,9 +18,9 @@ router.route('/product/:id')
   .get((...args) => controller.findByIdIncludeCompany(...args));
 
 router.route('/company/:companyid/product/:id')
-  .put(checkRole.checkRoles(companyGroup), upload.single('pdf'), (...args) => controller.update(...args))
+  .put(checkRole(companyGroup), upload.single('pdf'), (...args) => controller.update(...args))
   .get((...args) => controller.findById(...args))
-  .delete(checkRole.checkRoles(companyGroup), (...args) => controller.remove(...args));
+  .delete(checkRole(companyGroup), (...args) => controller.remove(...args));
 
 router.route('/search')
   .get((...args) => controller.search(...args));

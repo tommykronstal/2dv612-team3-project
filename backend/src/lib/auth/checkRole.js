@@ -4,34 +4,23 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = 'keyboardcat'; // todo should be in a .env or config file or read from process
 let decoded;
 
-class CheckRole {
+module.exports = function checkRole(roles){
+    { return function(req, res, next) {
+        const token = req.headers.authorization;
+        try {
+            decoded = jwt.verify(token, jwtSecret);
+        }catch(e) {
+            return next(e);
+        }
 
-    checkRoles(roles){
-        { return function(req, res, next) {
-            const token = req.headers.authorization;
-            try {
-                decoded = jwt.verify(token, jwtSecret);
-            }catch(e) {
-                return next(e);
+        for(let role of roles) {
+            if (decoded.role === role) {
+                return next();
             }
-
-            for(let role of roles) {
-                if (decoded.role === role) {
-                    return next();
-                }
-            }
-            returnForbidden(next);
-        }}
-    }
-}
-
-function returnForbidden(next) {
-    return next({
-        message: 'Forbidden. There was no valid role found for the given request.',
-        statusCode: 403
-    });
-}
-
-
-
-module.exports = new CheckRole();
+        }
+        return next({
+            message: 'Forbidden. There was no valid role found for the given request.',
+            statusCode: 403
+        });
+    }}
+};
