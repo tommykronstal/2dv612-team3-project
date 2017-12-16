@@ -15,11 +15,12 @@ const threadSchema = new Schema({
     }
   },
 
+  
   posts: {
     type: [Post],
 
   },
-
+  
   date: {type: Date, default: Date.now }
 
 });

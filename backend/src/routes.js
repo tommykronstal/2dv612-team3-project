@@ -7,7 +7,7 @@ const product = require('./model/product/router');
 const category = require('./model/category/router');
 const material = require('./model/material/router');
 const materialRating = require('./model/materialRating/router');
-const forumThread = require('./model/thread/router');
+//const forumThread = require('./model/thread/router');
 
 const auth = require('./lib/auth/Auth');
 const checkRole = require('./lib/auth/checkRole');
