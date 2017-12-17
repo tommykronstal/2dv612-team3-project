@@ -46,6 +46,8 @@ class threadController extends Controller {
                     date: Date.now
                 })
             }
+            else
+                return next ({message: 'Could not find category.', statusCode: 400});
 
             return res.status(201).json(thread);
         } catch (e) {
