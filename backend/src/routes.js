@@ -23,7 +23,7 @@ router.route('*').all(function (req, res, next) {
 
 router.use('/api/user', user);
 router.use('/api/company', company);
-router.use('/api/category',  category);
+router.use('/api/category', category);
 router.use('/api/product/material', material);
 router.use('/api/product/material',  materialRating);
 router.use('/api/', product);

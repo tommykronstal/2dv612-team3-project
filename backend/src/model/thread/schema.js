@@ -2,11 +2,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const threadSchema = new Schema({
+  categoryid: {type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
   title: {type: String, unique: true, required: true },
   question: { type: String, required: true },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
   date: {type: Date, default: Date.now, required: true }
 });
+
 
 module.exports = mongoose.model('Thread', threadSchema)
 
@@ -14,7 +16,7 @@ module.exports = mongoose.model('Thread', threadSchema)
 
 /************************************************
  * Old schema. Unfortunately made the app crash *
- * **********************************************/
+ ************************************************/
 
  /*
 const mongoose = require('mongoose')
