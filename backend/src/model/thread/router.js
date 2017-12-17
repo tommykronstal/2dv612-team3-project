@@ -9,10 +9,11 @@ router.route('/')
 
 router.route('/:categoryid')
   .get((...args) => controller.findForCategory(...args))
-  .post((...args) => controller.createForCategory(...args));
+  .post((...args) => controller.createThread(...args));
 
+  
 router.route('/:userid')
   .get((...args) => controller.findForUser(...args));
 
-  
+
 module.exports = router;
