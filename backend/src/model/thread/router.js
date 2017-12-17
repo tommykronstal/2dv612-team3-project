@@ -11,4 +11,7 @@ router.route('/:categoryid')
   .get((...args) => controller.findForCategory(...args))
   .post((...args) => controller.createForCategory(...args));
 
+router.route('/:userid')
+  .get((...args) => controller.findForUser(...args));
+
 module.exports = router;

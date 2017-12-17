@@ -4,7 +4,7 @@ const threadFacade = require('./facade');
 class threadController extends Controller {
 
     async findAll(req, res, next) {
-        
+
     }
 
 
@@ -17,6 +17,10 @@ class threadController extends Controller {
 
     }
 
+    
+    async findForUser(req, res, next) {
+
+    }
 }
 
 module.exports = new threadController(threadFacade);
