@@ -35,6 +35,10 @@ class threadController extends Controller {
 
         try {
             let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
+
+            if(!userDoc)
+                return next ({message: 'User not authorized!', statusCode: 400});
+
             let category = await categoryFacade.findById(categoryid);
 
             if(category) {
