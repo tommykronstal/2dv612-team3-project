@@ -1,6 +1,12 @@
 const Controller = require('../../lib/controller');
 const threadFacade = require('./facade');
 const categoryFacade = require("../category/facade");
+const userFacade = require("../user/facade");
+const jwt = require('jsonwebtoken');
+
+const minTitleLength = 10;
+const maxTitleLength = 140;
+
 
 class threadController extends Controller {
 
@@ -17,8 +23,35 @@ class threadController extends Controller {
     }
 
 
-    async createForCategory(req, res, next) {
+    async createThread(req, res, next) {
+        //Some error handling
+        if(req.body.title < minTitleLength)
+            return next ({message: 'Title cannot be shorter than 10 ' + minTitleLength, statusCode: 400});
+        if(req.body.title > maxTitleLength)
+            return next ({message: 'Title cannot be longer than ' + maxTitleLength, statusCode: 400});
 
+        const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
+        const categoryid = req.param("categoryid");
+
+        try {
+            let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
+            let category = await categoryFacade.findById(categoryid);
+
+            if(category) {
+                let thread = await threadFacade.create({
+                    categoryid: categoryid,
+                    title: req.body.title,
+                    question: req.body.question,
+                    posts: req.body.posts,
+                    date: Date.now
+                })
+            }
+
+            return res.status(201).json(thread);
+        } catch (e) {
+            console.log(e);
+            return next({message: 'Could not create thread.', statusCode: 400});
+        }
     }
 
 
