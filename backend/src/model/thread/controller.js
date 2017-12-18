@@ -51,6 +51,7 @@ class ThreadController extends Controller {
     }
   
 
+    
     async getAllThreads (req, res, next) {
         try {
             let threads = await threadFacade.find();   
