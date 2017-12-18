@@ -35,14 +35,21 @@ class ThreadController extends Controller {
 
 
     async updateThread(req, res, next) {
-        let threadDoc = await threadFacade.findOne({title: req.body.title, category: req.body.category});
-        let threadPost = await req.body.posts[0];
+        
 
         try {
-            threadDoc.posts.push(threadPost);
-            await threadDoc.save();
+            let threadDoc = await threadFacade.findOne({title: req.body.title, category: req.body.category});
+            let threadPost = await req.body.posts[0];
+            
+            if(threadDoc) {
+                threadDoc.posts.push(threadPost);
+                await threadDoc.save();
 
-            return res.status(200).json(threadDoc);
+                return res.status(200).json(threadDoc);
+            }
+            else {
+                return next({message: 'Could not find thread.', statusCode: 400});
+            }
         }
         catch (e) {
             console.log(e);
