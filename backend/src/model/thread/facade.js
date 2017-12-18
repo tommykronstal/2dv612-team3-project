@@ -1,6 +1,6 @@
 const Facade = require('../../lib/facade');
 const threadSchema = require('./schema');
 
-class threadFacade extends Facade {}
+class ThreadFacade extends Facade {}
 
-module.exports = new threadFacade(threadSchema);
+module.exports = new ThreadFacade(threadSchema);
