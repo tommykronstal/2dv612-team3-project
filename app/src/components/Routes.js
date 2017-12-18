@@ -84,6 +84,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
       <Route exact path={`${match.url}/forum`} component={ListThreads} />
+      <Route exact path={`${match.url}/forum/:postId`} component={Thread} />
       <Route component={NotFound} />
     </Switch>
     <TransitionGroup>
