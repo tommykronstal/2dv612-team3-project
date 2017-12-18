@@ -36,3 +36,13 @@ export const FETCH_SEARCH_RESULTS = 'FETCH_SEARCH_RESULTS'
 
 export const FETCH_FORUM_THREADS = 'FETCH_FORUM_THREADS'
 export const SET_FORUM_THREADS = 'SET_FORUM_THREADS'
+export const FETCH_FORUM_THREAD = 'FETCH_FORUM_THREAD'
+
+// Setting current displaying thread
+export const SET_THREAD = 'SET_THREAD'
+
+// When user wants to store answer
+export const SAVE_ANSWER = 'SAVE_ANSWER'
+
+// Add answer to thred
+export const ADD_ANSWER = 'ADD_ANSWER'
