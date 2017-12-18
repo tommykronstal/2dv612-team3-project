@@ -40,7 +40,7 @@ class ThreadController extends Controller {
 
         try {
             threadDoc.posts.push(threadPost);
-            threadDoc.save();
+            await threadDoc.save();
 
             return res.status(200).json(threadDoc);
         }
