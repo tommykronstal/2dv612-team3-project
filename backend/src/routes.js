@@ -7,6 +7,7 @@ const product = require('./model/product/router');
 const category = require('./model/category/router');
 const material = require('./model/material/router');
 const materialRating = require('./model/materialRating/router');
+const thread = require('./model/thread/router');
 
 const authorize = require('./lib/auth/Auth');
 
@@ -26,5 +27,6 @@ router.use('/api/category',  category);
 router.use('/api/product/material', material);
 router.use('/api/product/material',  materialRating);
 router.use('/api/', product);
+router.use('/api/forum', thread);
 
 module.exports = router;

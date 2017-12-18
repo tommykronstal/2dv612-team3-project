@@ -1,6 +1,23 @@
 const Controller = require('../../lib/controller');
-const ThreadFacade = require('./facade');
+const threadFacade = require('./facade');
 
-class threadController extends Controller {}
+class ThreadController extends Controller {
+  async getAllThreads (req, res, next) {
+    try {
+      let threads = await threadFacade.find();
+      if (threads) {
+        let doc = {
+          title: threads.title,
+          date: threads.date,
+          category: threads.category,
+          user: threads.creater
+        }
+        return res.status(200).json(doc);
+      }
+    } catch (e) {
+      return next({message: 'Could not find threads.', statusCode: 400})
+    }
+  }
+}
 
-module.exports = new threadController(ThreadFacade);
+module.exports = new ThreadController(threadFacade);
