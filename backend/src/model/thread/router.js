@@ -12,6 +12,6 @@ router.route('/:id')
 
 
 router.route('/thread/:id')
-.put((...args) => controller.updateThread(...args));
+    .put((...args) => controller.updateThread(...args));
 
 module.exports = router;
