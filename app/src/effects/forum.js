@@ -7,8 +7,10 @@ import {
   ADD_ANSWER,
   SAVE_ANSWER,
 } from '../actions/types'
+import types from '../userTypes'
 import {put, takeEvery, call, select} from 'redux-saga/effects'
 import {get, post} from '../lib/http'
+import { getPayloadFromJwtToken } from '../lib/jwt';
 
 export function* watchForumActions() {
   yield takeEvery(FETCH_FORUM_THREADS, fetchForumThreads)
@@ -89,6 +91,7 @@ export function* saveAnswer({answerDetails: {answer, postId}}) {
     token: state.auth.jwt,
   }))
 
+  const {role} = getPayloadFromJwtToken(token)
   /**
    * INCLUDE THIS LATER WHEN YOU HAVE MORE INFORMATION ABOUT ROUTE
    */
@@ -105,6 +108,7 @@ export function* saveAnswer({answerDetails: {answer, postId}}) {
   yield put({
     type: ADD_ANSWER,
     answer: {
+      ...(role === types.COMPANY_REP && {isRepresntative: true}),
       name: 'Kalle',
       answer
     }
