@@ -35,7 +35,6 @@ class ThreadController extends Controller {
 
 
     async updateThread(req, res, next) {
-        
 
         try {
             let threadDoc = await threadFacade.findOne({title: req.body.title, category: req.body.category});
