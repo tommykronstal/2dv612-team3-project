@@ -14,7 +14,7 @@ class ThreadController extends Controller {
             let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
 
             if(thread) {
-                threadFacade.updateThread(thread._id, req.body.posts[0]);
+                threadFacade.updateThread({threadid: thread._id, post: req.body.posts[0]});
             }
             else {
                 thread = await threadFacade.create({
@@ -34,10 +34,11 @@ class ThreadController extends Controller {
   
 
 
-    async updateThread(threadid, post) {
+    async updateThread(req, res, next) {
 
         try {
-            let threadDoc = await threadFacade.findOne({_id: threadid});
+            let threadDoc = await threadFacade.findById(req.param("postid"));
+            let post = await req.param("post");
             
             if(threadDoc) {
                 threadDoc.posts.push(post);
