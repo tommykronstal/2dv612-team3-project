@@ -16,6 +16,8 @@ class ThreadController extends Controller {
             if(thread) {
                 thread.posts.push(req.body.posts);
                 thread.save();
+                
+                return res.status(200).json(thread);
             }
             else {
                 thread = await threadFacade.create({
@@ -24,9 +26,9 @@ class ThreadController extends Controller {
                     creator: userDoc._id,
                     category: req.body.category
                 });
-            }
 
-            return res.status(201).json(thread);
+                return res.status(201).json(thread);
+            }            
         } catch (e) {
             console.log(e);
             return next({message: 'Could not create thread.', statusCode: 400});
