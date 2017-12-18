@@ -36,16 +36,8 @@ class ThreadController extends Controller {
   
     async getAllThreads (req, res, next) {
         try {
-            let threads = await threadFacade.find();
-            if (threads) {
-                let doc = {
-                    title: threads.title,
-                    date: threads.date,
-                    category: threads.category,
-                    user: threads.creater
-                }        
-                return res.status(200).json(doc);
-            }
+            let threads = await threadFacade.find();   
+            return res.status(200).json(threads);
         } catch (e) {
             console.log(e);
             return next({message: 'Could not find threads.', statusCode: 400})
