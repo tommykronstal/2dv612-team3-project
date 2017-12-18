@@ -9,6 +9,10 @@ describe('Forum reducer test', () => {
     expect(reducer(state, action)).toEqual(state)
   })
 
+  it('Should return defaultstate when called with nothing', () => {
+    expect(reducer()).toEqual(initialState)
+  })
+
   it('Should return defaultstate when no action or state is provided', () => {
     expect(reducer()).toEqual(initialState)
   })
@@ -18,6 +22,7 @@ describe('Forum reducer test', () => {
       {title: 'Fake Thread Title 1'},
       {title: 'Fake Thread Title 2'},
     ]
+
     const result = reducer(initialState, {type: SET_FORUM_THREADS, threads})
     expect(result.threads).toEqual(threads)
   })
@@ -33,10 +38,7 @@ describe('Forum reducer test', () => {
     const answer = {name: 'Superman', answer: 'Answer two'}
     const result = reducer(
       {thread: {answers: [{name: 'Kalle', answer: 'Answer one'}]}},
-      {
-        type: ADD_ANSWER,
-        answer,
-      },
+      {type: ADD_ANSWER, answer},
     )
 
     expect(result.thread.answers.length).toEqual(2)
