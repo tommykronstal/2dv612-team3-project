@@ -14,8 +14,7 @@ class ThreadController extends Controller {
             let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
 
             if(thread) {
-                thread.posts.push(req.body.posts);
-                thread.save();
+                threadFacade.updateThread(req, res, next);
             }
             else {
                 thread = await threadFacade.create({
@@ -24,23 +23,42 @@ class ThreadController extends Controller {
                     creator: userDoc._id,
                     category: req.body.category
                 });
-            }
 
-            return res.status(201).json(thread);
+                return res.status(201).json(thread);
+            }            
         } catch (e) {
             console.log(e);
             return next({message: 'Could not create thread.', statusCode: 400});
         }
     }
   
+
+
+    async updateThread(req, res, next) {
+        let threadDoc = await threadFacade.findOne({title: req.body.title, category: req.body.category});
+        let threadPost = await req.body.posts[0];
+
+        try {
+            threadDoc.posts.push(threadPost);
+            await threadDoc.save();
+
+            return res.status(200).json(threadDoc);
+        }
+        catch (e) {
+            console.log(e);
+            return next({message: 'Could not update thread.', statusCode: 400});
+        }
+    }
   
+
+    
     async getAllThreads (req, res, next) {
         try {
             let threads = await threadFacade.find();   
             return res.status(200).json(threads);
         } catch (e) {
             console.log(e);
-            return next({message: 'Could not find threads.', statusCode: 400})
+            return next({message: 'Could not find threads.', statusCode: 400});
         }
     }
 }
