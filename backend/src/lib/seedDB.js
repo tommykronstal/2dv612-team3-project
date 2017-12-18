@@ -24,21 +24,26 @@ exports.admin = function (adminAccount) {
     .catch(e => console.log(e))
 }
 
-exports.users = function (number) {
-  userFacade.find({}).then(docs => {
-    if (docs.length < 10) {
-      let i
-      for (i = 0; i < number; i++) {
-        const user = {
-          firstName: `FNuser${i}`,
-          lastName: `LNuser`,
-          email: `user${i}@user.com`,
-          role: 'USER',
-          password: 'password'
+const createUsers = function (number) {
+  return new Promise(function (resolve, reject) {
+    userFacade.find({}).then(docs => {
+      const userPromises = []
+      if (docs.length < 10) {
+        for (let i = 0; i < number; i++) {
+          const user = {
+            firstName: `FNuser${i}`,
+            lastName: `LNuser`,
+            email: `user${i}@user.com`,
+            role: 'USER',
+            password: 'password'
+          }
+          userPromises.push(userFacade.create(user))
         }
-        userFacade.create(user)
       }
-    }
+      return Promise.all(userPromises)
+    })
+      .then(docs => resolve(docs))
+      .catch(e => reject(e))
   })
 }
 
@@ -63,6 +68,8 @@ const seed = async function (seedSettings) {
   await createProducts(seedSettings, companyDocs)
   // Creates one material for each product
   await createMaterial()
+  
+    await createUsers(100)
 
   await createPosts(seedConfig.posts)
 
@@ -75,6 +82,7 @@ const seed = async function (seedSettings) {
   // Already done from index
   // await createUsers(100)
   //
+  // Creates users
   // Not done yet...
   // await createRatings()
   //
@@ -131,28 +139,34 @@ const createCategories = async function (seedSettings) {
 }
 
 const createMaterial = () => {
-  const materialNames = ['Manual', 'Quickstart', 'Safety Brochure']
-  const materialPromises = []
-  let products = []
-  productFacade.find().then((docs) => {
-    products = docs
-    for (var i = 0; i < docs.length; i++) {
-      const material = {
-        name: materialNames[Math.floor((Math.random() * 3))],
-        originalname: 'components.pdf',
-        filename: 'e506a9172af9259843342dc44c58f763',
-        path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
-        size: 33600,
-        mimetype: 'application/pdf'
+  return new Promise(function (resolve, reject) {
+    const materialNames = ['Manual', 'Quickstart', 'Safety Brochure']
+    const materialPromises = []
+    let products = []
+    productFacade.find().then((docs) => {
+      products = docs
+      for (var i = 0; i < docs.length; i++) {
+        const material = {
+          name: materialNames[Math.floor((Math.random() * 3))],
+          originalname: 'components.pdf',
+          filename: 'e506a9172af9259843342dc44c58f763',
+          path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
+          size: 33600,
+          mimetype: 'application/pdf'
+        }
+        materialPromises.push(materialFacde.create(material))
       }
-      materialPromises.push(materialFacde.create(material))
-    }
-    return Promise.all(materialPromises)
-  }).then((matDocs) => {
-    for (let i = 0; i < products.length; i++) {
-      products[i].materials.push(matDocs[i])
-      products[i].save()
-    }
+      return Promise.all(materialPromises)
+    }).then((matDocs) => {
+      const prodPromises = []
+      for (let i = 0; i < products.length; i++) {
+        products[i].materials.push(matDocs[i])
+        prodPromises.push(products[i].save())
+      }
+      return Promise.all(prodPromises)
+    }).then((docs) => {
+      resolve(docs)
+    }).catch(e => reject(e))
   })
 }
 
