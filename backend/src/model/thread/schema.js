@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 // const User = mongoose.model('User').schema
 
 const threadSchema = new Schema({
-  question: {
+  title: {
       type: String,
       trim: true,
       unique: true,

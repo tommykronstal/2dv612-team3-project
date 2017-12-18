@@ -25,8 +25,7 @@ class materialRatingContoller extends Controller {
 
 
       const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
-
-      const materialid = req.param("materialid")
+      const materialid = req.param("materialid");
 
       try {
         let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
