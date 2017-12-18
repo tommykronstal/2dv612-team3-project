@@ -37,7 +37,7 @@ class ThreadController extends Controller {
     async updateThread(req, res, next) {
 
         try {
-            let threadDoc = await threadFacade.findById(req.param("postid"));
+            let threadDoc = await threadFacade.findById(req.param("threadid"));
             let post = await req.param("post");
             
             if(threadDoc) {
