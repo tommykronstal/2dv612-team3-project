@@ -79,35 +79,23 @@ export function* fetchForumThread({postId}) {
 
 export function* saveAnswer({answerDetails: {answer, postId}}) {
 
-
-  /**
-   *
-   * 1. Store the answer
-   * 2. Update the answers presented for the question
-   *
-   */
-
   const {token} = yield select(state => ({
     token: state.auth.jwt,
   }))
-
   const {role} = getPayloadFromJwtToken(token)
-  /**
-   * INCLUDE THIS LATER WHEN YOU HAVE MORE INFORMATION ABOUT ROUTE
-   */
+
+
   // const response = yield call(post, '', {
   //   headers: {
   //     Authorization: token,
   //   },
   // })
 
-
-  /**
-   * This is simply to add the answer to the current active thread answers
-   */
+  // Adding to answer to currenty showing thread
   yield put({
     type: ADD_ANSWER,
     answer: {
+      // Adding representative flag if correct role was found in token
       ...(role === types.COMPANY_REP && {isRepresntative: true}),
       name: 'Kalle',
       answer
