@@ -6,7 +6,7 @@ router.route('/')
     .get((...args) => controller.getAllThreads(...args));
 
 router.route('/:id')
-    .put((...args) => controller.update(...args))
+    .post((...args) => controller.createThread(...args))
     .get((...args) => controller.findById(...args))
     .delete((...args) => controller.remove(...args));
 
