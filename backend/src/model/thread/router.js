@@ -2,18 +2,8 @@ const controller = require('./controller');
 const Router = require('express').Router;
 const router = new Router();
 
-
 router.route('/')
-.get((...args) => controller.findAll(...args));
-
-
-router.route('/:categoryid')
-  .get((...args) => controller.findForCategory(...args))
-  .post((...args) => controller.createThread(...args));
-
-  
-router.route('/:userid')
-  .get((...args) => controller.findForUser(...args));
-
+  .get((...args) => controller.find(...args))
+  .post((...args) => controller.create(...args));
 
 module.exports = router;

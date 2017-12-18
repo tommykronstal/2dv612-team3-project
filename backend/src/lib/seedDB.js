@@ -3,7 +3,10 @@ const companyFacade = require('../model/company/facade')
 const categoryFacade = require('../model/category/facade')
 const productFacade = require('../model/product/facade')
 const materialFacde = require('../model/material/facade')
+const threadFacade = require('../model/thread/facade')
+const postFacade = require('../model/post/facade')
 let carModels = require('./seed/MOCK_DATA.json')
+const seedConfig = require('../config')
 
 exports.admin = function (adminAccount) {
   userFacade
@@ -48,10 +51,13 @@ exports.companies = async function (companies) {
   const companyDocs = await companyFacade.find({})
   if (companyDocs.length === 0) {
     seed(companies)
+  } else {
+    console.log('db already seeded')
   }
 }
 
 const seed = async function (seedSettings) {
+  console.log('seeding database..');
   // Creates the companies from seedSeetings
   const companyDocs = await createCompanies(seedSettings)
   // Create on rep for each company
@@ -62,8 +68,21 @@ const seed = async function (seedSettings) {
   await createProducts(seedSettings, companyDocs)
   // Creates one material for each product
   await createMaterial()
+  
+    await createUsers(100)
+
+  await createPosts(seedConfig.posts)
+
+  await createThreads(seedConfig.threads)
+
+  console.log('database seed complete')
+
+
+
+  // Already done from index
+  // await createUsers(100)
+  //
   // Creates users
-  await createUsers(100)
   // Not done yet...
   // await createRatings()
   //
@@ -200,4 +219,40 @@ const createProductsForCompany = company => {
           .catch(e => reject(e))
       })
   })
+}
+
+const createThreads = async (threads) => {
+  const userDocs = await userFacade.find({})
+  const categories = await categoryFacade.find({})
+  const posts = await postFacade.find({})
+
+  for (let t = 0; t < categories.length * 10; t++) { // duplicate the threads by 10
+
+    for (let i = 0; i < threads.length; i++) {
+      let randPosts = [];
+      for (let y = 0; y < t; y++) randPosts.push(posts[Math.floor(Math.random() * posts.length)])
+
+      threadFacade.create({
+        question: `${threads[i].question} thread ${t} . ${i}`, //since questions are unique
+        creator: userDocs[Math.floor(Math.random() * userDocs.length - 1) + 1],
+        category: categories[Math.floor(Math.random() * categories.length)],
+        posts: randPosts
+      })
+    }
+  }
+}
+
+const createPosts = async (posts) => {
+  const userDocs = await userFacade.find({})
+
+  for (let p = 0; p < posts.length * 10; p++) { // duplicate the posts by 10
+    for (let i = 0; i < posts.length; i++) {
+      postFacade.create({
+        text: posts[i].text,
+        user: userDocs[Math.floor(Math.random() * userDocs.length - 1) + 1], //to skip the admin user who is 0 in array
+      })
+    }
+  }
+
+
 }
