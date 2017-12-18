@@ -33,7 +33,7 @@ class TextAreaForm extends Component {
             this.setState(() => ({value:  ''}))
             this.props.onClickAction(this.state.value)}}
         >
-          Save Answer
+          {this.props.buttonValue}
         </StyledButton>
       </div>
     )

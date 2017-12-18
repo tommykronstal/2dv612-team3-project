@@ -58,6 +58,7 @@ class Thread extends Component {
             </div>
 
             <TextAreaForm
+              buttonValue='Save Answer'
               placeholderValue="Type thread post here."
               onClickAction={this.onSaveAnswer.bind(this)}
             />
