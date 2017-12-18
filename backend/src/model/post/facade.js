@@ -3,4 +3,4 @@ const postSchema = require('./schema');
 
 class PostFacade extends Facade {}
 
-module.exports = new PostFacade('Post', postSchema);
+module.exports = new PostFacade(postSchema);
