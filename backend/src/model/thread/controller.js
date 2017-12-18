@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 class ThreadController extends Controller {
   
     async createThread(req, res, next) {
+        console.log(req.body)
         let threadDoc = await req.body;
         const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
         
