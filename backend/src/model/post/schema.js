@@ -9,7 +9,7 @@ const postSchema = new Schema({
   isRepresentative: { type: Boolean, default: false }
 });
 
-postSchema.pre('save', function(next) {
+postSchema.pre('save', async function(next) {
   await userFacade.findOne({_id: this.user._id}).then(userDoc => {
     if (userDoc.role === 'COMPANY_REP') {
       this.isRepresentative = true
