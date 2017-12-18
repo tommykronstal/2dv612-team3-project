@@ -1,6 +1,6 @@
 import { SET_FORUM_THREADS, SET_THREAD, ADD_ANSWER } from '../actions/types'
 
-const initialState = {
+export const initialState = {
   threads: [],
   thread: {}
 }
