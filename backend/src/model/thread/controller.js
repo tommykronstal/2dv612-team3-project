@@ -81,15 +81,16 @@ class ThreadController extends Controller {
 
   async findForUser (req, res, next) {
     try {
-      const userId = jwt.verify(req.headers.authorization, 'keyboardcat').userId
+      const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
+      let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
       let response = {created: [], posted: []}
 
-      let threads = await threadFacade.find({creator: userId})
+      let threads = await threadFacade.find({creator: userDoc._id}, '_id title creator category')
       response.created = threads
 
-      let posts = await postFacade.find({user: userId})
+      let posts = await postFacade.find({user: userDoc._id})
       for (let i = 0; i < posts.length; i++) {
-        let thread = await threadFacade.findOne({posts: posts[i]._id})
+        let thread = await threadFacade.findOne({posts: posts[i]._id}, '_id title creator category')
         if (thread) {
           response.posted.push(thread)
         }

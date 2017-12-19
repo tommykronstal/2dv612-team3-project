@@ -7,6 +7,9 @@ router.route('/thread')
     // .get((...args) => controller.getAllThreads(...args))
     .post((...args) => controller.createThread(...args))
 
+router.route('/thread/user')
+    .get((...args) => controller.findForUser(...args))
+
 router.route('/thread/:id')
     .put((...args) => controller.update(...args))
     .get((...args) => controller.findById(...args))
