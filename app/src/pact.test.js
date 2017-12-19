@@ -48,6 +48,12 @@ describe('set up pact', () => {
   })
 
   describe('returns a forum thread', () => {
+    
+    const headers = {
+      'Accept': 'application/json',
+      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+  };
+
     const expected = 
     {
       "_id": "5a37b83d127003001cc27fec",
@@ -63,7 +69,7 @@ describe('set up pact', () => {
         withRequest: {
           method: 'GET',
           path: '/api/forum/thread/5a37b83d127003001cc27fec',
-          headers: { 'Accept': 'application/json' }
+          headers: headers
         },
         willRespondWith: {
           status: 200,
@@ -73,13 +79,14 @@ describe('set up pact', () => {
       })
     )
     
-    it('returns thread', async () => {
-      const result = await get(PACT_HOST + '/api', {headers: { 'Accept': 'application/json' }})
+    it('returns a forum thread', async () => {
+      const result = await get(PACT_HOST + '/api/forum/thread/5a37b83d127003001cc27fec', {headers: headers})
     
       expect(result).toEqual({...expected, status: 200})
     })
 
     it('successfully verifies', () => provider.verify())
   })
+
 
 })
