@@ -85,12 +85,12 @@ class ThreadController extends Controller {
       let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
       let response = {created: [], posted: []}
 
-      let threads = await threadFacade.find({creator: userDoc._id}, '_id title creator category')
+      let threads = await threadFacade.find({creator: userDoc._id}, '_id title creator category date')
       response.created = threads
 
       let posts = await postFacade.find({user: userDoc._id})
       for (let i = 0; i < posts.length; i++) {
-        let thread = await threadFacade.findOne({posts: posts[i]._id}, '_id title creator category')
+        let thread = await threadFacade.findOne({posts: posts[i]._id}, '_id title creator category date')
         if (thread) {
           response.posted.push(thread)
         }
