@@ -34,7 +34,7 @@ class ThreadController extends Controller {
 
     /**
      * Updates an existing thread by adding a post to the thread posts
-     * @param {threadid: the id of the thread, post: the post that is to be added } req 
+     * @param { threadid: the id of the thread, post: the post that is to be added } req 
      * @param {*} res 
      * @param {*} next 
      */
