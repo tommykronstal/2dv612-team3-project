@@ -12,7 +12,4 @@ router.route('/thread/:id')
     .delete((...args) => controller.remove(...args));
 
 
-router.route('/thread/:id')
-    .put((...args) => controller.updateThread(...args));
-
 module.exports = router;
