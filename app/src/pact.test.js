@@ -63,7 +63,7 @@ describe('set up pact', () => {
         uponReceiving: 'returns a forum thread',
         withRequest: {
           method: 'GET',
-          path: '/api/forum/5a37b83d127003001cc27fec',
+          path: '/api/forum/thread/5a37b83d127003001cc27fec',
           headers: { 'Accept': 'application/json' }
         },
         willRespondWith: {
