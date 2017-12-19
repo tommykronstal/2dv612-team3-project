@@ -38,7 +38,7 @@ class ThreadController extends Controller {
      * @param {*} res 
      * @param {*} next 
      */
-    async updateThread(req, res, next) {
+    async createAnswer(req, res, next) {
 
         try {
             let threadDoc = await threadFacade.findById(req.param("threadid"));
