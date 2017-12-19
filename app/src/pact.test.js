@@ -47,4 +47,40 @@ describe('set up pact', () => {
     it('successfully verifies', () => provider.verify())
   })
 
+  describe('returns a forum thread', () => {
+    const expected = 
+      {
+        "_id" : ObjectId("5a37b83d127003001cc27fec"),
+        "question" : "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
+        "creator" : ObjectId("5a37b82c127003001cc27e5f"),
+        "category" : ObjectId("5a37b82c127003001cc27df5"),
+        "date" : ISODate("2017-12-18T12:44:45.028Z"),
+        "posts" : [ ],
+        "__v" : 0
+      }
+
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'returns a forum thread',
+        withRequest: {
+          method: 'GET',
+          path: '/api/forum/5a37b83d127003001cc27fec',
+          headers: { 'Accept': 'application/json' }
+        },
+        willRespondWith: {
+          status: 200,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: expected
+        }
+      })
+    )
+    
+    it('returns thread', async () => {
+      const result = await get(PACT_HOST + '/api', {headers: { 'Accept': 'application/json' }})
+    
+      expect(result).toEqual({...expected, status: 200})
+    })
+
+    it('successfully verifies', () => provider.verify())
+  })
+
 })
