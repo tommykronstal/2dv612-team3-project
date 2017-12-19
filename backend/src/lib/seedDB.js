@@ -233,7 +233,7 @@ const createThreads = async (threads) => {
       for (let y = 0; y < t; y++) randPosts.push(posts[Math.floor(Math.random() * posts.length)])
 
       threadFacade.create({
-        question: `${threads[i].question} thread ${t} . ${i}`, //since questions are unique
+        title: `${threads[i].question} thread ${t} . ${i}`, //since questions are unique
         creator: userDocs[Math.floor(Math.random() * userDocs.length - 1) + 1],
         category: categories[Math.floor(Math.random() * categories.length)],
         posts: randPosts
