@@ -1,16 +1,18 @@
-const controller = require('./controller');
-const Router = require('express').Router;
-const router = new Router();
+const controller = require('./controller')
+const Router = require('express').Router
+const router = new Router()
 
 router.route('/thread')
-    .get((...args) => controller.getAllThreads(...args))
+    .get((...args) => controller.find(...args))
+    // .get((...args) => controller.getAllThreads(...args))
     .post((...args) => controller.createThread(...args))
 
-router.route('/thread/:id')    
+router.route('/thread/:id')
     .put((...args) => controller.update(...args))
-    .post((...args) => controller.createAnswer(...args))
     .get((...args) => controller.findById(...args))
-    .delete((...args) => controller.remove(...args));
+    .delete((...args) => controller.remove(...args))
 
+router.route('/thread/:id/post')
+    .post((...args) => controller.createAnswer(...args))
 
-module.exports = router;
+module.exports = router
