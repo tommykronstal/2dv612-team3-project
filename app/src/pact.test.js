@@ -46,7 +46,7 @@ describe('set up pact', () => {
 
     it('successfully verifies', () => provider.verify())
   })
-
+/*
   describe('returns a forum thread', () => {
     
     const headers = {
@@ -87,6 +87,6 @@ describe('set up pact', () => {
 
     it('successfully verifies', () => provider.verify())
   })
-
+*/
 
 })
