@@ -49,15 +49,14 @@ describe('set up pact', () => {
 
   describe('returns a forum thread', () => {
     const expected = 
-      {
-        "_id" : "5a37b83d127003001cc27fec",
-        "question" : "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
-        "creator" : "5a37b82c127003001cc27e5f",
-        "category" : "5a37b82c127003001cc27df5",
-        "date" : "2017-12-18T12:44:45.028Z",
-        "posts" : [ ],
-        "__v" : 0
-      }
+    {
+      "_id": "5a37b83d127003001cc27fec",
+      "question": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
+      "creator": "5a37b82c127003001cc27e5f",
+      "category": "5a37b82c127003001cc27df5",
+      "date": "2017-12-18T12:44:45.028Z",
+      "posts": []
+  }
 
     beforeAll(() => provider.addInteraction({
         uponReceiving: 'returns a forum thread',
