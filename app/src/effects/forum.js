@@ -17,23 +17,7 @@ export function* fetchForumThreads() {
     token: state.auth.jwt
   }))
 
-  // const threads = yield call(get, '/api/forum/thread', {headers: {Authorization: token}})
-  const threads = [
-    {
-      _id: 'rgiit904kpoegkeop',
-      title: 'Question about an iphone?',
-      user: {
-        firstName: 'john'
-      }
-    },
-    {
-      _id: 'dir392ir9032i0g',
-      title: 'Question about something else',
-      user: {
-        firstName: 'paul'
-      }
-    }
-  ]
+  const threads = yield call(get, '/api/forum/thread', {headers: {Authorization: token}})
 
   yield put({type: SET_FORUM_THREADS, threads})
   yield put({type: TOGGLE_LOADING})
