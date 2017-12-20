@@ -82,7 +82,7 @@ class ThreadController extends Controller {
   async getThreadWithPosts(req, res, next) {
     try {
       let thread = await threadFacade.findById(req.params.id, {__v: 0})
-      let resThread = {_id: thread._id, title: thread.titel, date: thread.date};
+      let resThread = {_id: thread._id, title: thread.title, date: thread.date, category: thread.category};
 
       let threadUser = await userFacade.findById(thread.creator, 'email firstName lastName')
       resThread.user = threadUser
