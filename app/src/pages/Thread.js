@@ -2,18 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchThread, saveAnswer} from '../actions/forum'
 import Loading from '../components/common/Loading'
-import Header from '../components/common/Header'
 import Headline from '../components/common/Headline'
 import Content from '../components/common/Content'
-import Text from '../components/common/Text'
-import styled from 'styled-components'
 import Answer from '../components/Answer'
 import TextAreaForm from '../components/TextAreaForm'
 import InformationHeader from '../components/common/InformationHeader'
-
-const StyledText = styled(Text)`
-  color: rgb(145, 145, 145) !important;
-`
 
 class Thread extends Component {
   componentDidMount() {
@@ -37,7 +30,7 @@ class Thread extends Component {
             <InformationHeader
               showUnderline
               fadedTextStyle={'italic'}
-              mainText={`${thread.creator} asked -`}
+              mainText={`${thread.firstName} asked -`}
               fadedText={thread.title}
             />
             <div
@@ -46,9 +39,7 @@ class Thread extends Component {
               }}
             >
               {thread.posts.length ? (
-                thread.posts.map((answer, i) => (
-                  <Answer {...answer} key={i} />
-                ))
+                thread.posts.map((answer, i) => <Answer {...answer} key={i} />)
               ) : (
                 <Headline>
                   There are currently no answers for this post, be the first
@@ -58,7 +49,7 @@ class Thread extends Component {
             </div>
 
             <TextAreaForm
-              buttonValue='Save Answer'
+              buttonValue="Save Answer"
               placeholderValue="Type thread post here."
               onClickAction={this.onSaveAnswer.bind(this)}
             />
@@ -76,5 +67,5 @@ export default connect(
   dispatch => ({
     getThread: postId => dispatch(fetchThread(postId)),
     saveAnswer: answerDetails => dispatch(saveAnswer(answerDetails)),
-  }),
+  })
 )(Thread)
