@@ -79,6 +79,32 @@ class ThreadController extends Controller {
     }
   }
 
+  async getThreadWithPosts(req, res, next) {
+    try {
+      let thread = await threadFacade.findById(req.params.id, {__v: 0})
+      let resThread = {_id: thread._id, title: thread.titel, date: thread.date};
+
+      let threadUser = await userFacade.findById(thread.creator, 'email firstName lastName')
+      resThread.user = threadUser
+
+      let posts = []
+      for(let i = 0; i < thread.posts.length; i++) {
+        if(thread.posts[i] !== null) {
+          let post = await postFacade.findById(thread.posts[i], {__v: 0, _id:0})
+          let postUser = await userFacade.findById(post.user, 'email firstName lastName')
+          post.user = postUser;
+          posts.push(post);
+        }
+      }
+      resThread.posts = posts;
+      return res.status(200).json(resThread);
+    }
+    catch(e) {
+      console.log(e)
+      return next({message: 'Could not find thread.', statusCode: 400})
+    }
+  }
+
   async findForUser (req, res, next) {
     try {
       const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')

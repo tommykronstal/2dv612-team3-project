@@ -12,7 +12,7 @@ router.route('/thread/user')
 
 router.route('/thread/:id')
     .put((...args) => controller.update(...args))
-    .get((...args) => controller.findById(...args))
+    .get((...args) => controller.getThreadWithPosts(...args))
     .delete((...args) => controller.remove(...args))
 
 router.route('/thread/:id/post')
