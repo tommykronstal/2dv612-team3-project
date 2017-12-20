@@ -13,6 +13,9 @@ const Welcome = props => (
 )
 
 export default connect(
-  ({auth}) => ({ email: auth.email }), 
+  ({auth}) => ({ 
+    email: auth.email,
+    firstName: auth.firstName
+   }), 
   () => ({})
 )(Welcome)

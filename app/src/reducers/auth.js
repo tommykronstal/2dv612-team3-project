@@ -8,6 +8,7 @@ const defaultState = {
   isAuthenticated: !!token,
   jwt: token,
   email: data.email,
+  firstName: data.firstName,
   role: data.role,
   userId: data.userId,
   companyId: data.companyId
@@ -21,6 +22,7 @@ export default (state = defaultState, action) => {
       isAuthenticated: true,
       jwt: action.token,
       email: action.payload.email,
+      firstName: action.payload.firstName,
       role: action.payload.role,
       userId: action.payload.userId,
       companyId: action.payload.companyId
@@ -30,6 +32,7 @@ export default (state = defaultState, action) => {
       isAuthenticated: false,
       jwt: null,
       email: null,
+      firstName: null,
       role: null,
       userId: null,
       companyId: null

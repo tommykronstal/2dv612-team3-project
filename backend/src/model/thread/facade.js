@@ -10,6 +10,14 @@ class ThreadFacade extends Facade {
       .populate('creator')
       .exec();
   }
+
+  findOne(...args) {
+    return threadSchema
+      .findOne(...args)
+      .populate('category')
+      .populate('creator')
+      .exec();
+  }
 }
 
 module.exports = new ThreadFacade(threadSchema);

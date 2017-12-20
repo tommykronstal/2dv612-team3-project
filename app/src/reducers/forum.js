@@ -1,8 +1,15 @@
-import {SET_FORUM_THREADS, SET_THREAD, ADD_ANSWER} from '../actions/types'
+import {
+  SET_FORUM_THREADS,
+  SET_THREAD,
+  ADD_ANSWER,
+  SET_USER_FORUM_THREADS,
+} from '../actions/types'
 
 export const initialState = {
-  threads: [],
   thread: {},
+  threads: [],
+  createdThreads: [],
+  postedThreads: [],
 }
 
 export default function forum(state = initialState, action = {}) {
@@ -26,6 +33,18 @@ export default function forum(state = initialState, action = {}) {
           ...state.thread,
           posts: [...state.thread.posts, action.answer],
         },
+      }
+
+    case SET_FORUM_THREADS:
+      return {
+        ...state,
+        threads: action.threads,
+      }
+    case SET_USER_FORUM_THREADS:
+      return {
+        ...state,
+        createdThreads: action.created,
+        postedThreads: action.posted,
       }
     default:
       return state

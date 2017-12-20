@@ -3,7 +3,9 @@ import {
   FETCH_FORUM_THREAD,
   SET_THREAD,
   ADD_ANSWER,
-	SAVE_ANSWER,
+  SAVE_ANSWER,
+  FETCH_FORUM_THREADS,
+	FETCH_USER_FORUM_THREADS
 } from './types'
 
 export const fetchForumThreads = () => ({type: FETCH_FORUM_THREADS})
@@ -27,3 +29,7 @@ export const saveAnswer = answerDetails => ({
 	type: SAVE_ANSWER,
 	answerDetails
 })
+
+export const fetchUserForumThreads = () => ({type: FETCH_USER_FORUM_THREADS})
+
+export const fetchForumThreads = () => ({type: FETCH_FORUM_THREADS})
