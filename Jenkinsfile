@@ -51,14 +51,14 @@ node('master') {
             pullImage("${frontImage}")
             pullImage("${backImage}")
             parallel frontendTest: {
-                sh 'docker-compose -f docker-compose-test.yml up app'
+                sh 'docker-compose -f docker-compose-test.yml up --build app'
             }, backendTest: {
-                sh 'docker-compose -f docker-compose-test.yml up backend'
+                sh 'docker-compose -f docker-compose-test.yml up --build backend'
             },
             failFast: true
                 
             cleanOldBuild("docker-compose-pact.yml")
-            sh 'docker-compose -f docker-compose-pact.yml up --abort-on-container-exit'
+            sh 'docker-compose -f docker-compose-pact.yml up --build --abort-on-container-exit'
             sh 'mv app/src/test-report.xml backend/src/test-report-front.xml'
             junit "**/backend/src/test-report*.xml"
         }
