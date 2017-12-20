@@ -25,6 +25,7 @@ import SearchResults from '../pages/SearchResults'
 import ProductSearch from '../containers/ProductSearch'
 import ListThreads from '../pages/ListThreads'
 import AddThread from '../pages/AddThread'
+import UserMainPage from '../pages/UserMainPage'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -109,7 +110,7 @@ const UserRoutes = ({ match, location, ...props }) => (
     <TransitionGroup>
       <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
         <Switch>
-          <Route exact path={match.url} component={Welcome} />
+          <Route exact path={match.url} component={UserMainPage} />
           <Route exact path={`${match.url}/products`} component={ListAllProducts} />
           <Route exact path={`${match.url}/products/:productId`} component={Product} />
           <Route exact path={`${match.url}/search`} component={SearchResults} />
