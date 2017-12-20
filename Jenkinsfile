@@ -48,8 +48,6 @@ node('master') {
         }
             
         stage ('Unit tests') {
-            pullImage("${frontImage}")
-            pullImage("${backImage}")
             parallel frontendTest: {
                 sh 'docker-compose -f docker-compose-test.yml up --build app'
             }, backendTest: {
