@@ -67,12 +67,8 @@ describe('set up pact', () => {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           body: Matchers.eachLike(
             {
-              "_id": "5a37b83d127003001cc27fec",
               "title": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
-              "creator": "5a37b82c127003001cc27e5f",
-              "category": "5a37b82c127003001cc27df5",
-              "date": "2017-12-18T12:44:45.028Z",
-              "posts": []
+              "date": "2017-12-18T12:44:45.028Z"
             }
           )
         }
@@ -84,12 +80,8 @@ describe('set up pact', () => {
     
       const expected = [
         {
-          "_id": "5a37b83d127003001cc27fec",
           "title": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
-          "creator": "5a37b82c127003001cc27e5f",
-          "category": "5a37b82c127003001cc27df5",
-          "date": "2017-12-18T12:44:45.028Z",
-          "posts": []
+          "date": "2017-12-18T12:44:45.028Z"
         }
       ]
 
@@ -100,6 +92,5 @@ describe('set up pact', () => {
 
     it('successfully verifies', () => provider.verify())
   })
-
 
 })
