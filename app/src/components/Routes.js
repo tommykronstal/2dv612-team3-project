@@ -84,7 +84,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
       <Route exact path={`${match.url}/forum`} component={ListThreads} />
-      <Route exact path={`${match.url}/forum/:postId`} component={Thread} />
+      <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
       <Route exact path={`${match.url}/forum/create`} component={AddThread} />
       <Route component={NotFound} />
     </Switch>
@@ -117,7 +117,7 @@ const UserRoutes = ({ match, location, ...props }) => (
           <Route exact path={`${match.url}/search`} component={SearchResults} />
           <Route exact path={`${match.url}/forum`} component={ListThreads} />
           <Route exact path={`${match.url}/forum/create`} component={AddThread} />
-          <Route exact path={`${match.url}/forum/:postId`} component={Thread} />
+          <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>
