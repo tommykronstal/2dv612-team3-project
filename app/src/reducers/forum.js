@@ -34,12 +34,6 @@ export default function forum(state = initialState, action = {}) {
           posts: [...state.thread.posts, action.answer],
         },
       }
-
-    case SET_FORUM_THREADS:
-      return {
-        ...state,
-        threads: action.threads,
-      }
     case SET_USER_FORUM_THREADS:
       return {
         ...state,
