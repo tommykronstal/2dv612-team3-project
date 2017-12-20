@@ -10,7 +10,7 @@ import {
 import types from '../userTypes'
 import {put, takeEvery, call, select} from 'redux-saga/effects'
 import {get, post} from '../lib/http'
-import { getPayloadFromJwtToken } from '../lib/jwt';
+import {getPayloadFromJwtToken} from '../lib/jwt'
 
 export function* watchForumActions() {
   yield takeEvery(FETCH_FORUM_THREADS, fetchForumThreads)
@@ -25,7 +25,9 @@ export function* fetchForumThreads() {
     token: state.auth.jwt,
   }))
 
-  const threads = yield call(get, '/api/forum/thread', {headers: {Authorization: token}})
+  const threads = yield call(get, '/api/forum/thread', {
+    headers: {Authorization: token},
+  })
 
   yield put({type: SET_FORUM_THREADS, threads})
   yield put({type: TOGGLE_LOADING})
@@ -36,63 +38,54 @@ export function* fetchForumThread({postId}) {
     token: state.auth.jwt,
   }))
 
-    const {creator, posts, category, title} = yield call(get, `/api/forum/thread/${postId}`, {
-    headers: {
-      Authorization: token,
+  const {user: {firstName}, title, posts, ...rest} = yield call(
+    get,
+    `/api/forum/thread/${postId}`,
+    {
+      headers: {
+        Authorization: token,
+      },
     },
-  })
+  )
+
+  console.log(rest)
 
   yield put({
     type: SET_THREAD,
     thread: {
-      creator, posts, category, title
-    }
+      firstName,
+      title,
+      posts,
+    },
   })
-
-
-  // yield put({
-  //   type: SET_THREAD,
-  //   thread: {
-  //     author: 'Steve Harrington',
-  //     question: 'How do I kill the demogorg?',
-  //     answers: [
-  //       {
-  //         name: 'Lucas',
-  //         answer: 'Mad Max can help you.',
-  //       },
-  //       {
-  //         name: 'Hopper',
-  //         isRepresntative: true,
-  //         answer: 'There will be no more tv or eggos, sorry el.',
-  //       },
-  //     ],
-  //   },
-  // })
 }
 
 export function* saveAnswer({answerDetails: {answer, postId}}) {
-
   const {token} = yield select(state => ({
     token: state.auth.jwt,
   }))
-  const {role} = getPayloadFromJwtToken(token)
+  const {role, firstName} = getPayloadFromJwtToken(token)
 
+  yield call(post, `/api/forum/thread/${postId}/post`, {
+    headers: {
+      Authorization: token,
+    },
 
-  // const response = yield call(post, '', {
-  //   headers: {
-  //     Authorization: token,
-  //   },
-  // })
+    body: JSON.stringify({text: answer}),
+  })
 
   // Adding to answer to currenty showing thread
   yield put({
     type: ADD_ANSWER,
     answer: {
-      // Adding representative flag if correct role was found in token
-      ...(role === types.COMPANY_REP && {isRepresntative: true}),
-      name: 'Kalle',
-      answer
-    }
-  })
 
+      // Adding representative flag if correct role was found in token
+      ...(role === types.COMPANY_REP && {isRepresentative: true}),
+      user: {
+        firstName,
+      },
+      date: new Date(),
+      text: answer,
+    },
+  })
 }

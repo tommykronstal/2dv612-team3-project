@@ -2,8 +2,9 @@ import React from 'react'
 import MaterialIcon from 'material-icons-react'
 import Text from './common/Text'
 import Headline from './common/Headline'
+import {format} from 'date-fns'
 
-export default ({isRepresntative = false, ...props}) => {
+export default ({isRepresentative, text, user: {firstName}, date}) => {
   return (
     <div
       style={{
@@ -25,14 +26,27 @@ export default ({isRepresntative = false, ...props}) => {
           marginBottom: 8,
         }}
       >
-        <div className="answer-user-details">
-          <Headline style={{fontSize: 18}}>{props.name}</Headline>
+        <div
+          style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+          className="answer-user-details"
+        >
+          <Headline style={{fontSize: 14}}>{firstName} - </Headline>
+          <Headline
+            style={{
+              fontSize: 14,
+              fontWeight: 400,
+              color: 'rgb(140, 140, 140)',
+              marginLeft: 8,
+            }}
+          >
+            {format(new Date(date), 'MM/DD hh:mm')}
+          </Headline>
         </div>
         <div
           style={{marginLeft: 4, display: 'flex', alignItems: 'center'}}
           className="is-rep-container"
         >
-          {isRepresntative && (
+          {isRepresentative && (
             <MaterialIcon
               icon="check_circle"
               color="rgb(110,160,220)"
@@ -42,7 +56,7 @@ export default ({isRepresntative = false, ...props}) => {
         </div>
       </div>
       <div className="user-answer-container">
-        <Text>{props.answer}</Text>
+        <Text>{text}</Text>
       </div>
     </div>
   )
