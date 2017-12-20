@@ -1,4 +1,4 @@
-import Pact from 'pact'
+import Pact, {Matchers} from 'pact'
 import path from 'path'
 import {get} from './lib/http'
 
@@ -46,7 +46,8 @@ describe('set up pact', () => {
 
     it('successfully verifies', () => provider.verify())
   })
-/*
+
+  // Forum
   describe('returns a forum thread', () => {
     
     const headers = {
@@ -54,39 +55,51 @@ describe('set up pact', () => {
       'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
   };
 
-    const expected = 
-    {
-      "_id": "5a37b83d127003001cc27fec",
-      "question": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
-      "creator": "5a37b82c127003001cc27e5f",
-      "category": "5a37b82c127003001cc27df5",
-      "date": "2017-12-18T12:44:45.028Z",
-      "posts": []
-  }
-
     beforeAll(() => provider.addInteraction({
         uponReceiving: 'returns a forum thread',
         withRequest: {
           method: 'GET',
-          path: '/api/forum/thread/5a37b83d127003001cc27fec',
+          path: '/api/forum/thread',
           headers: headers
         },
         willRespondWith: {
           status: 200,
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: expected
+          body: Matchers.eachLike(
+            {
+              "_id": "5a37b83d127003001cc27fec",
+              "title": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
+              "creator": "5a37b82c127003001cc27e5f",
+              "category": "5a37b82c127003001cc27df5",
+              "date": "2017-12-18T12:44:45.028Z",
+              "posts": []
+            }
+          )
         }
       })
     )
     
     it('returns a forum thread', async () => {
-      const result = await get(PACT_HOST + '/api/forum/thread/5a37b83d127003001cc27fec', {headers: headers})
+      const result = await get(PACT_HOST + '/api/forum/thread', {headers: headers})
     
-      expect(result).toEqual({...expected, status: 200})
+      const expected = [
+        {
+          "_id": "5a37b83d127003001cc27fec",
+          "title": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
+          "creator": "5a37b82c127003001cc27e5f",
+          "category": "5a37b82c127003001cc27df5",
+          "date": "2017-12-18T12:44:45.028Z",
+          "posts": []
+        }
+      ]
+
+      expected.status = 200
+
+      expect(result).toEqual(expected)
     })
 
     it('successfully verifies', () => provider.verify())
   })
-*/
+
 
 })
