@@ -1,5 +1,5 @@
 let validateError = require('../lib/validateError');
-let Auth = require('../lib/auth/Auth');
+let authorize = require('../lib/auth/Auth');
 
 let _req = {
     _startTime: Date,
@@ -36,14 +36,14 @@ describe('test validateError', () => {
 
 describe('test Auth', () => {
     it('should return 401 for missing token', () => {
-        Auth.authorize(_req, _res, function(err) {
+        authorize(_req, _res, function(err) {
             expect(err.statusCode).toBe(401);
             expect(err.message).toBe("There was no token in the header");
         });
     });
     it('should return no error for valid token', () => {
         _req.headers.authorization = "eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiIiLCJlbWFpbCI6ImhlakBoZWouY29tIiwicm9sZSI6IlVTRVIiLCJ1c2VySWQiOiI1YTFmMDVhODM5MmRmZTI3ZjhkNzNmNmEifQ.w6qbIy00V6u6nyqhdXb2G5sk2F86k9AVmEZQF7bDcnQ";
-        let auth = Auth.authorize(_req, _res, function(err) {
+        let auth = authorize(_req, _res, function(err) {
             expect(err).toBe(null);
         });
     });

@@ -3,7 +3,10 @@ const companyFacade = require('../model/company/facade')
 const categoryFacade = require('../model/category/facade')
 const productFacade = require('../model/product/facade')
 const materialFacde = require('../model/material/facade')
+const threadFacade = require('../model/thread/facade')
+const postFacade = require('../model/post/facade')
 let carModels = require('./seed/MOCK_DATA.json')
+const seedConfig = require('../config')
 
 exports.admin = function (adminAccount) {
   userFacade
@@ -21,21 +24,26 @@ exports.admin = function (adminAccount) {
     .catch(e => console.log(e))
 }
 
-exports.users = function (number) {
-  userFacade.find({}).then(docs => {
-    if (docs.length < 10) {
-      let i
-      for (i = 0; i < number; i++) {
-        const user = {
-          firstName: `FNuser${i}`,
-          lastName: `LNuser`,
-          email: `user${i}@user.com`,
-          role: 'USER',
-          password: 'password'
+const createUsers = function (number) {
+  return new Promise(function (resolve, reject) {
+    userFacade.find({}).then(docs => {
+      const userPromises = []
+      if (docs.length < 10) {
+        for (let i = 0; i < number; i++) {
+          const user = {
+            firstName: `FNuser${i}`,
+            lastName: `LNuser`,
+            email: `user${i}@user.com`,
+            role: 'USER',
+            password: 'password'
+          }
+          userPromises.push(userFacade.create(user))
         }
-        userFacade.create(user)
       }
-    }
+      return Promise.all(userPromises)
+    })
+      .then(docs => resolve(docs))
+      .catch(e => reject(e))
   })
 }
 
@@ -43,10 +51,13 @@ exports.companies = async function (companies) {
   const companyDocs = await companyFacade.find({})
   if (companyDocs.length === 0) {
     seed(companies)
+  } else {
+    console.log('db already seeded')
   }
 }
 
 const seed = async function (seedSettings) {
+  console.log('seeding database..');
   // Creates the companies from seedSeetings
   const companyDocs = await createCompanies(seedSettings)
   // Create on rep for each company
@@ -57,10 +68,21 @@ const seed = async function (seedSettings) {
   await createProducts(seedSettings, companyDocs)
   // Creates one material for each product
   await createMaterial()
+  
+    await createUsers(100)
+
+  await createPosts(seedConfig.posts)
+
+  await createThreads(seedConfig.threads)
+
+  console.log('database seed complete')
+
+
 
   // Already done from index
   // await createUsers(100)
   //
+  // Creates users
   // Not done yet...
   // await createRatings()
   //
@@ -117,28 +139,34 @@ const createCategories = async function (seedSettings) {
 }
 
 const createMaterial = () => {
-  const materialNames = ['Manual', 'Quickstart', 'Safety Brochure']
-  const materialPromises = []
-  let products = []
-  productFacade.find().then((docs) => {
-    products = docs
-    for (var i = 0; i < docs.length; i++) {
-      const material = {
-        name: materialNames[Math.floor((Math.random() * 3))],
-        originalname: 'components.pdf',
-        filename: 'e506a9172af9259843342dc44c58f763',
-        path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
-        size: 33600,
-        mimetype: 'application/pdf'
+  return new Promise(function (resolve, reject) {
+    const materialNames = ['Manual', 'Quickstart', 'Safety Brochure']
+    const materialPromises = []
+    let products = []
+    productFacade.find().then((docs) => {
+      products = docs
+      for (var i = 0; i < docs.length; i++) {
+        const material = {
+          name: materialNames[Math.floor((Math.random() * 3))],
+          originalname: 'components.pdf',
+          filename: 'e506a9172af9259843342dc44c58f763',
+          path: 'src/lib/seed/e506a9172af9259843342dc44c58f763',
+          size: 33600,
+          mimetype: 'application/pdf'
+        }
+        materialPromises.push(materialFacde.create(material))
       }
-      materialPromises.push(materialFacde.create(material))
-    }
-    return Promise.all(materialPromises)
-  }).then((matDocs) => {
-    for (let i = 0; i < products.length; i++) {
-      products[i].materials.push(matDocs[i])
-      products[i].save()
-    }
+      return Promise.all(materialPromises)
+    }).then((matDocs) => {
+      const prodPromises = []
+      for (let i = 0; i < products.length; i++) {
+        products[i].materials.push(matDocs[i])
+        prodPromises.push(products[i].save())
+      }
+      return Promise.all(prodPromises)
+    }).then((docs) => {
+      resolve(docs)
+    }).catch(e => reject(e))
   })
 }
 
@@ -191,4 +219,40 @@ const createProductsForCompany = company => {
           .catch(e => reject(e))
       })
   })
+}
+
+const createThreads = async (threads) => {
+  const userDocs = await userFacade.find({})
+  const categories = await categoryFacade.find({})
+  const posts = await postFacade.find({})
+
+  for (let t = 0; t < categories.length * 10; t++) { // duplicate the threads by 10
+
+    for (let i = 0; i < threads.length; i++) {
+      let randPosts = [];
+      for (let y = 0; y < t; y++) randPosts.push(posts[Math.floor(Math.random() * posts.length)])
+
+      threadFacade.create({
+        title: `${threads[i].question} thread ${t} . ${i}`, //since questions are unique
+        creator: userDocs[Math.floor(Math.random() * userDocs.length - 1) + 1],
+        category: categories[Math.floor(Math.random() * categories.length)],
+        posts: randPosts
+      })
+    }
+  }
+}
+
+const createPosts = async (posts) => {
+  const userDocs = await userFacade.find({})
+
+  for (let p = 0; p < posts.length * 10; p++) { // duplicate the posts by 10
+    for (let i = 0; i < posts.length; i++) {
+      postFacade.create({
+        text: posts[i].text,
+        user: userDocs[Math.floor(Math.random() * userDocs.length - 1) + 1], //to skip the admin user who is 0 in array
+      })
+    }
+  }
+
+
 }

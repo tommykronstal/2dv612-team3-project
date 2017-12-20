@@ -26,14 +26,14 @@ class AddThread extends Component {
   }
 
   storeThread = e => {
-    const {name} = this.props.form
-    if (!name || this.props.isLoading) return
+    const {question, title} = this.props.form
+    if (!title || this.props.isLoading) return
 
-    this.props.tryRegisterProduct(this.props.companyId)
+    this.props.tryRegisterThread()
   }
 
   render() {
-    const {categories, form: {name, category, question, title}, isLoading} = this.props
+    const {categories, form: {category, question, title}, isLoading} = this.props
 
      return (
       <FormSection onSubmit={e => this.storeThread(e)}>
@@ -79,7 +79,6 @@ const mapStateToProps = ({
 }) => ({
   categories,
   form: form[ADD_THREAD] || {},
-  companyId: auth.companyId,
   isLoading
 })
 
@@ -88,11 +87,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateField(ADD_THREAD, target.name, target.value)),
 
   fetchCategories: updateConfig => dispatch(fetchCategories(updateConfig)),
-  tryRegisterProduct: companyId =>
+  tryRegisterThread: () =>
     dispatch(
       submitForm(
         ADD_THREAD,
-        `/api/thread/`,
+        `/api/forum/thread`,
         () => setStatus('Thread Created.'),
         true,
       ),

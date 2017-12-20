@@ -75,7 +75,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/product`} >Add Product</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/products`} >List Products</NavigationLink>
-      <NavigationLink exact={false} to={`${match.url}/forum`}>Forum</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/forum`}>Forum</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <Switch>
@@ -85,6 +85,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
       <Route exact path={`${match.url}/forum`} component={ListThreads} />
       <Route exact path={`${match.url}/forum/:postId`} component={Thread} />
+      <Route exact path={`${match.url}/forum/create`} component={AddThread} />
       <Route component={NotFound} />
     </Switch>
     <TransitionGroup>
@@ -104,8 +105,7 @@ const UserRoutes = ({ match, location, ...props }) => (
       <ProductSearch router={props} />
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
-      <NavigationLink exact={false} to={`${match.url}/forum`}>Forum</NavigationLink>
-      <NavigationLink exact={false} to={`${match.url}/forum/create`}>Create Thread</NavigationLink>
+      <NavigationLink exact={true} to={`${match.url}/forum`}>Forum</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
     <TransitionGroup>

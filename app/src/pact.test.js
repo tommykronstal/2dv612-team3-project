@@ -1,4 +1,4 @@
-import Pact from 'pact'
+import Pact, {Matchers} from 'pact'
 import path from 'path'
 import {get} from './lib/http'
 
@@ -42,6 +42,52 @@ describe('set up pact', () => {
       const result = await get(PACT_HOST + '/api', {headers: { 'Accept': 'application/json' }})
     
       expect(result).toEqual({...expected, status: 200})
+    })
+
+    it('successfully verifies', () => provider.verify())
+  })
+
+  // Forum
+  describe('returns a forum thread', () => {
+    
+    const headers = {
+      'Accept': 'application/json',
+      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+  };
+
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'returns a forum thread',
+        withRequest: {
+          method: 'GET',
+          path: '/api/forum/thread',
+          headers: headers
+        },
+        willRespondWith: {
+          status: 200,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: Matchers.eachLike(
+            {
+              "title": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
+              "date": "2017-12-18T12:44:45.028Z"
+            }
+          )
+        }
+      })
+    )
+    
+    it('returns a forum thread', async () => {
+      const result = await get(PACT_HOST + '/api/forum/thread', {headers: headers})
+    
+      const expected = [
+        {
+          "title": "How to configure the flux capasitor in a Samsung 420? thread 0 . 0",
+          "date": "2017-12-18T12:44:45.028Z"
+        }
+      ]
+
+      expected.status = 200
+
+      expect(result).toEqual(expected)
     })
 
     it('successfully verifies', () => provider.verify())

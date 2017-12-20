@@ -14,10 +14,10 @@ class ProductController extends Controller {
       let doc = await companyFacade.findById(req.param('companyid'));
       if (doc)
         {return res.status(200).json(doc.products);}
-    } catch (e) {
-      console.log("Found an error");
-      return next({message: 'Could not find company.', statusCode: 400})
-    }
+      } catch (e) {
+        console.log("Found an error");
+        return next({message: 'Could not find company.', statusCode: 400})
+      }
   }
 
   async create (req, res, next) {

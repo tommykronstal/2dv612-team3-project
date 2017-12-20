@@ -18,14 +18,16 @@ class ListThreads extends Component {
       <Section>
         <Title>Forum</Title>
         <Headline>Ask Question</Headline>
-        Add logic for adding a question?
+        <Link to={`${this.props.match.url}/create`}>
+          Create new thread
+        </Link>
         <Headline>Asked Questions</Headline>
         <List>
           {this.props.threads.map(thread => (
             <Item displayBorder key={thread._id}>
               <Link to={`${this.props.match.url}/${thread._id}`}>
                 {thread.title}
-              </Link> <em style={{color: 'rgb(140,140,140)'}}>- asked by {thread.user.firstName}</em>  
+              </Link> <em style={{color: 'rgb(140,140,140)'}}>- asked by {thread.creator.firstName}</em>  
             </Item>
           ))}
         </List>
