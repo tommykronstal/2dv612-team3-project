@@ -8,6 +8,11 @@
     }
   },
   "dependencies": {
+    "babel-eslint": "^8.0.2",
+    "date-fns": "^1.29.0",
+    "eslint": "^4.12.0",
+    "eslint-config-beanloop": "^0.1.0",
+    "eslint-plugin-react": "^7.5.1",
     "if-env": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "material-icons-react": "^1.0.0",
@@ -21,11 +26,7 @@
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "styled-components": "^2.2.3",
-    "babel-eslint": "^8.0.2",
-    "eslint": "^4.12.0",
-    "eslint-config-beanloop": "^0.1.0",
-    "eslint-plugin-react": "^7.5.1"
+    "styled-components": "^2.2.3"
   },
   "devDependencies": {
     "@storybook/addon-backgrounds": "^3.0.0",
