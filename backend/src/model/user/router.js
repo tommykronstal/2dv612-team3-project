@@ -3,6 +3,7 @@ const Router = require('express').Router;
 const router = new Router();
 const checkRole = require('../../lib/auth/checkRole');
 const admin = require("../../lib/roles").admin;
+const user = require("../../lib/roles").user;
 
 router.route('/')
   .get(checkRole(admin), (...args) => controller.find(...args))
@@ -10,7 +11,7 @@ router.route('/')
 
 router.route('/:id')
   .put(checkRole(admin),(...args) => controller.update(...args))
-  .get(checkRole(admin),(...args) => controller.findById(...args))
+  .get(checkRole(admin, user),(...args) => controller.findById(...args))
   .delete(checkRole(admin),(...args) => controller.remove(...args));
 
 router.route('/login')

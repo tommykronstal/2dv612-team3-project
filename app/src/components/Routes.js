@@ -25,6 +25,7 @@ import SearchResults from '../pages/SearchResults'
 import ProductSearch from '../containers/ProductSearch'
 import ListThreads from '../pages/ListThreads'
 import AddThread from '../pages/AddThread'
+import Thread from '../pages/Thread'
 import UserMainPage from '../pages/UserMainPage'
 
 const AdminRoutes = ({ match, location }) => (
@@ -84,6 +85,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
       <Route exact path={`${match.url}/forum`} component={ListThreads} />
+      <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
       <Route exact path={`${match.url}/forum/create`} component={AddThread} />
       <Route component={NotFound} />
     </Switch>
@@ -116,6 +118,7 @@ const UserRoutes = ({ match, location, ...props }) => (
           <Route exact path={`${match.url}/search`} component={SearchResults} />
           <Route exact path={`${match.url}/forum`} component={ListThreads} />
           <Route exact path={`${match.url}/forum/create`} component={AddThread} />
+          <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>

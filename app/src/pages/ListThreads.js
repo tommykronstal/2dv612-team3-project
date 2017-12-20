@@ -25,7 +25,7 @@ class ListThreads extends Component {
         <List>
           {this.props.threads.map(thread => (
             <Item displayBorder key={thread._id}>
-              <Link to={`${this.props.match.url}/${thread._id}`}>
+              <Link to={`${this.props.match.url}/thread/${thread._id}`}>
                 {thread.title}
               </Link> <em style={{color: 'rgb(140,140,140)'}}>- asked by {thread.creator.firstName}</em>  
             </Item>
