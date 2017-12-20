@@ -26,7 +26,7 @@ class AddThread extends Component {
   }
 
   storeThread = e => {
-    const {question, title} = this.props.form
+    const {title} = this.props.form
     if (!title || this.props.isLoading) return
 
     this.props.tryRegisterThread()
