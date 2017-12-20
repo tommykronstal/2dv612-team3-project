@@ -6,7 +6,6 @@ export const initialState = {
 }
 
 export default function forum(state = initialState, action = {}) {
-  console.log(state)
   switch (action.type) {
     case SET_FORUM_THREADS:
       return {
