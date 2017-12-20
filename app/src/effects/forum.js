@@ -38,7 +38,7 @@ export function* fetchForumThread({postId}) {
     token: state.auth.jwt,
   }))
 
-  const {user: {firstName}, title, posts, ...rest} = yield call(
+  const {user: {firstName}, title, posts} = yield call(
     get,
     `/api/forum/thread/${postId}`,
     {
@@ -47,8 +47,6 @@ export function* fetchForumThread({postId}) {
       },
     },
   )
-
-  console.log(rest)
 
   yield put({
     type: SET_THREAD,
