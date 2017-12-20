@@ -52,7 +52,7 @@ describe('set up pact', () => {
     
     const headers = {
       'Accept': 'application/json',
-      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIxIiwiZW1haWwiOiJ1c2VyMUB1c2VyLmNvbSIsInJvbGUiOiJVU0VSIiwidXNlcklkIjoiNWEzMjY1ZTM3YTdkNTUwMDFkOGEyZTZlIn0.ikrvRAg6kTZItYXzxC0CyBSrGXryxTp95QUvQI9nYGI'
   };
 
     beforeAll(() => provider.addInteraction({
