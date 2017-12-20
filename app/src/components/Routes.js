@@ -24,6 +24,7 @@ import Product from '../pages/Product'
 import SearchResults from '../pages/SearchResults'
 import ProductSearch from '../containers/ProductSearch'
 import ListThreads from '../pages/ListThreads'
+import AddThread from '../pages/AddThread'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -82,6 +83,7 @@ const CompanyUserRoutes = ({ match, location }) => (
       <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
       <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
       <Route exact path={`${match.url}/forum`} component={ListThreads} />
+      <Route exact path={`${match.url}/forum/create`} component={AddThread} />
       <Route component={NotFound} />
     </Switch>
     <TransitionGroup>
@@ -112,6 +114,7 @@ const UserRoutes = ({ match, location, ...props }) => (
           <Route exact path={`${match.url}/products/:productId`} component={Product} />
           <Route exact path={`${match.url}/search`} component={SearchResults} />
           <Route exact path={`${match.url}/forum`} component={ListThreads} />
+          <Route exact path={`${match.url}/forum/create`} component={AddThread} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>
