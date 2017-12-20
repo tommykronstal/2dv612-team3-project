@@ -32,33 +32,42 @@ export function* fetchForumThreads() {
 }
 
 export function* fetchForumThread({postId}) {
-  // const {token} = yield select(state => ({
-  //   token: state.auth.jwt,
-  // }))
-  // const thread = yield call(get, '', {
-  //   headers: {
-  //     Authorization: token,
-  //   },
-  // })
+  const {token} = yield select(state => ({
+    token: state.auth.jwt,
+  }))
+
+    const {creator, posts, category, title} = yield call(get, `/api/forum/thread/${postId}`, {
+    headers: {
+      Authorization: token,
+    },
+  })
 
   yield put({
     type: SET_THREAD,
     thread: {
-      author: 'Steve Harrington',
-      question: 'How do I kill the demogorg?',
-      answers: [
-        {
-          name: 'Lucas',
-          answer: 'Mad Max can help you.',
-        },
-        {
-          name: 'Hopper',
-          isRepresntative: true,
-          answer: 'There will be no more tv or eggos, sorry el.',
-        },
-      ],
-    },
+      creator, posts, category, title
+    }
   })
+
+
+  // yield put({
+  //   type: SET_THREAD,
+  //   thread: {
+  //     author: 'Steve Harrington',
+  //     question: 'How do I kill the demogorg?',
+  //     answers: [
+  //       {
+  //         name: 'Lucas',
+  //         answer: 'Mad Max can help you.',
+  //       },
+  //       {
+  //         name: 'Hopper',
+  //         isRepresntative: true,
+  //         answer: 'There will be no more tv or eggos, sorry el.',
+  //       },
+  //     ],
+  //   },
+  // })
 }
 
 export function* saveAnswer({answerDetails: {answer, postId}}) {

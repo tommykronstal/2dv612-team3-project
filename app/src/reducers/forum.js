@@ -6,6 +6,7 @@ export const initialState = {
 }
 
 export default function forum(state = initialState, action = {}) {
+  console.log(state)
   switch (action.type) {
     case SET_FORUM_THREADS:
       return {
@@ -24,7 +25,7 @@ export default function forum(state = initialState, action = {}) {
         ...state,
         thread: {
           ...state.thread,
-          answers: [...state.thread.answers, action.answer],
+          posts: [...state.thread.posts, action.answer],
         },
       }
     default:

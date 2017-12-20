@@ -37,16 +37,16 @@ class Thread extends Component {
             <InformationHeader
               showUnderline
               fadedTextStyle={'italic'}
-              mainText={`${thread.author} asked -`}
-              fadedText={thread.question}
+              mainText={`${thread.creator} asked -`}
+              fadedText={thread.title}
             />
             <div
               style={{
                 minHeight: 512,
               }}
             >
-              {thread.answers.length ? (
-                thread.answers.map((answer, i) => (
+              {thread.posts.length ? (
+                thread.posts.map((answer, i) => (
                   <Answer {...answer} key={i} />
                 ))
               ) : (
