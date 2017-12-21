@@ -16,6 +16,7 @@
 * Jenkins build server: [http://194.47.174.37:8080](http://194.47.174.37:8080)
 
 # Users on live/prod
+  * admin@admin.nu    admin
   * rep@rockshox.nu		rockshox
   * admin@company.nu	admin
   * rep@company.nu		admin
