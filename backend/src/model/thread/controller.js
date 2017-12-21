@@ -12,14 +12,24 @@ class ThreadController extends Controller {
     try {
       let thread = await threadFacade.findOne({title: req.body.title, category: req.body.category})
       let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
+      
 
       if (!thread) {
         thread = await threadFacade.create({
           title: req.body.title,
-          posts: req.body.posts,
           creator: userDoc._id,
           category: req.body.category
         })
+
+        if(req.body.question) {
+          let post = await postFacade.create({
+            user: userDoc._id,
+            text: req.body.question
+          });
+
+          thread.posts.push(post);
+          await thread.save();
+        }
 
         return res.status(201).json(thread)
       } else { return next({message: 'Thread already exists.', statusCode: 400}) }
