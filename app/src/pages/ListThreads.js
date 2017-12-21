@@ -6,10 +6,19 @@ import Headline from '../components/common/Headline'
 import Link from '../components/common/Link'
 import List from '../components/common/List'
 import Item from '../components/common/ListItem'
-import { fetchForumThreads } from '../actions/forum'
+import Dropdown from '../components/common/Dropdown'
+import { fetchCategories } from '../actions/categories'
+import { fetchForumThreads, setForumCategoryFilter } from '../actions/forum'
 
 class ListThreads extends Component {
   componentDidMount() {
+    const {categories} = this.props
+
+    // Only fetching categories if they are not previously fetched
+    if (!categories.length) {
+      this.props.fetchCategories()
+    }
+
     this.props.fetchForumThreads()
   }
 
@@ -22,6 +31,16 @@ class ListThreads extends Component {
           Create new thread
         </Link>
         <Headline>Asked Questions</Headline>
+        <Dropdown
+              label='Select a filter'
+              name='categoryFilter'
+              onClick={(event) => this.props.setFilter(event.target.value)}
+              options={[
+                {key: 'NO_FILTER', value: 'No Filter'},
+                ...this.props.categories.map(({ _id, categoryName}) => ({ key: _id, value: categoryName })),                
+              ]}
+              value={this.props.categoryFilter}
+            />
         <List>
           {this.props.threads.map(thread => (
             <Item displayBorder key={thread._id}>
@@ -37,10 +56,14 @@ class ListThreads extends Component {
 }
 
 export default connect(
-  ({forum}) => ({
-    threads: forum.threads
+  ({forum, categories}) => ({
+    categories: categories.categories || [],
+    threads: forum.threads,
+    categoryFilter: forum.categoryFilter
   }),
   dispatch => ({
+    fetchCategories: updateConfig => dispatch(fetchCategories(updateConfig)),
+    setFilter: id => dispatch(setForumCategoryFilter(id)),
     fetchForumThreads: _ => dispatch(fetchForumThreads()),
   }),
 )(ListThreads)
