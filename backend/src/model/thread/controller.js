@@ -31,7 +31,7 @@ class ThreadController extends Controller {
           await thread.save();
         }
 
-      return res.status(201).json(thread)
+        return res.status(201).json(thread)
       } else { return next({message: 'Thread already exists.', statusCode: 400}) }
     } catch (e) {
       console.log(e)
