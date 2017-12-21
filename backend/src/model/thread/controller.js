@@ -21,7 +21,7 @@ class ThreadController extends Controller {
           category: req.body.category
         })
 
-        if(req.body.question) {
+        if(req.body.question.length > 0) {
           let post = await postFacade.create({
             user: userDoc._id,
             text: req.body.question
