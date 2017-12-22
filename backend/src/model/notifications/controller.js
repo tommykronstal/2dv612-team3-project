@@ -10,7 +10,7 @@ class notificationsContoller extends Controller {
 
         } catch (e) {
             console.log(e);
-            return next({message: 'Could not find user.', statusCode: 400});
+            return next({message: 'Could not find notification user.', statusCode: 400});
         }
     }
 
@@ -20,7 +20,7 @@ class notificationsContoller extends Controller {
 
         } catch (e) {
             console.log(e);
-            return next({message: 'Could not find user.', statusCode: 400});
+            return next({message: 'Could not remove notification for user.', statusCode: 400});
         }
     }
 }
