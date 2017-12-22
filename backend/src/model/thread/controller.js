@@ -51,7 +51,8 @@ class ThreadController extends Controller {
          */
         let companies = new Array;
         for(let i = 0; i < products.length; i++) {
-          companies.push(companyFacade.findOne({companyName: products[i].companyName}));
+          let company = await companyFacade.findOne({companyName: products[i].companyName});
+          companies.push(company);
         }
         console.log('Companies: ' + companies);
 
