@@ -132,7 +132,7 @@ class ThreadController extends Controller {
         const thread = await threadFacade.findOne({posts: posts[i]._id}, '_id title creator category date')
         if(thread) {
           const id = thread._id.toString()
-          if (thread && !response.posted.find(matchThreads(id)) && !response.created.find(matchThreads(id))) {
+          if (!response.posted.find(matchThreads(id)) && !response.created.find(matchThreads(id))) {
             response.posted.push(thread)
           }
         }
