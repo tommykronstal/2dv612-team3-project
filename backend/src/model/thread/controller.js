@@ -35,12 +35,7 @@ class ThreadController extends Controller {
         /*
          * Create a notification for company rep that has a product in the category
          */
-        
 
-        notificationsFacade.create({
-          threadid: thread._id,
-          threadtitle: thread.title
-        })
 
         return res.status(201).json(thread)
       } else { return next({message: 'Thread already exists.', statusCode: 400}) }
