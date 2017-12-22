@@ -87,7 +87,7 @@ node('prod') {
         sh 'docker volume rm 2dv612pipeline_static-files --force'
         pullImage("${frontImage}")
         pullImage("${backImage}")
-        sh 'docker-compose -f docker-compose-prod.yml up -d'
+        sh 'docker-compose -f docker-compose-prod.yml up -d --build'
         //restoreUploads()
         //slackSend channel: '#jenkins', color: 'good', message: "Successfully built a new version of ${env.JOB_NAME} build nr ${env.BUILD_NUMBER}", teamDomain: '2dv612ht17', token: "${env.SLACK_TOKEN}"
     }
