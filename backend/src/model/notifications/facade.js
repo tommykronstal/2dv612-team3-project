@@ -1,6 +1,6 @@
 const Facade = require('../../lib/facade');
 const notificationsSchema = require('./schema');
 
-class NotificationsSchema extends Facade {}
+class NotificationsFacade extends Facade {}
 
-module.exports = new PostFacade(notificationsSchema);
+module.exports = new NotificationsFacade(notificationsSchema);
