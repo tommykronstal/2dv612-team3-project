@@ -8,7 +8,7 @@ const category = require('./model/category/router');
 const material = require('./model/material/router');
 const materialRating = require('./model/materialRating/router');
 const thread = require('./model/thread/router');
-//const notifications = require('./model/notifications/router');
+const notifications = require('./model/notifications/router');
 
 const authorize = require('./lib/auth/Auth');
 
@@ -29,6 +29,6 @@ router.use('/api/product/material', material);
 router.use('/api/product/material',  materialRating);
 router.use('/api/', product);
 router.use('/api/forum', thread);
-//router.use('/api/notifications', notifications);
+router.use('/api/notifications', notifications);
 
 module.exports = router;
