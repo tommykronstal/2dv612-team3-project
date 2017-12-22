@@ -15,6 +15,21 @@
   * Staging server backend: [http://194.47.174.56:4000](http://194.47.174.56:4000)
 * Jenkins build server: [http://194.47.174.37:8080](http://194.47.174.37:8080)
 
+# Users on live/prod
+  ### System admin
+  * admin@admin.nu    admin
+
+  ### Company admin
+  * admin@company.nu	admin
+  * admin@rockshox.nu rockshox
+  
+  ### Company rep
+  * rep@rockshox.nu		rockshox
+  * rep@company.nu		admin
+
+  ### Users
+  * user1@user.com		user
+
 # run locally
 
 * make sure you have run npm install from backend dir to install dependencies locally

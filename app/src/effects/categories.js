@@ -6,7 +6,7 @@ export function* watchCategoriesActions() {
   yield takeEvery(FETCH_CATEGORIES, fetchCategories)
 }
 
-export function* fetchCategories({updateConfig: {form, field}}) {
+export function* fetchCategories() {
 
   yield put({type: TOGGLE_LOADING})
 
