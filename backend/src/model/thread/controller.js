@@ -11,7 +11,7 @@ class ThreadController extends Controller {
     const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
 
     try {
-      let thread = await threadFacade.findOne({title: req.body.title, category: req.body.category})
+      let thread = await threadFacade.findOne({ title: req.body.title, category: req.body.category })
       let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
 
 
@@ -33,7 +33,7 @@ class ThreadController extends Controller {
         }
 
         /*
-         * Create a notification for company rep that has a product in the category
+         * Create a notification for company rep that has a product in the category here
          */
 
 
