@@ -12,6 +12,8 @@ services:
      - "80:80"
     volumes:
      - static-files:/var/www/src
+    volumes_from:
+     - backend:ro
     links:
      - backend
 
@@ -39,7 +41,8 @@ services:
       - NODE_ENV=production
     command: npm start
     volumes:
-    - static-files:/usr/src/app/src/filesystem/uploads
+    - uploads:/var/www/uploads/uploads
+    - uploads:/usr/src/app/src/filesystem/uploads
 
   mongo:
     image: mongo:3.4
@@ -50,3 +53,4 @@ services:
 
 volumes:
   static-files:
+  uploads:
