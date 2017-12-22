@@ -43,7 +43,7 @@ class ThreadController extends Controller {
          * First get all products that belong to category
          */ 
         console.log('Thread category: ' + thread.category);
-        let products = await categoryFacade.findById(thread.category);
+        let products = await categoryFacade.findById(thread.category).products;
         console.log('Products: ' + products);
 
         /*
