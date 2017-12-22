@@ -13,7 +13,7 @@ export const RegisterConsumer = ({
   updateField,
   tryRegister,
   loading: {isLoading},
-  form: {email, firstname, lastname, password},
+  form: {email, firstName, lastName, password},
   auth: {isAuthenticated},
 }) =>
   isAuthenticated ? (
@@ -31,15 +31,15 @@ export const RegisterConsumer = ({
       <Input
         type='text'
         label='Firstname'
-        name='firstname'
-        value={firstname}
+        name='firstName'
+        value={firstName}
         onChange={updateField}
       />
       <Input
         type='text'
         label='Lastname'
-        name='lastname'
-        value={lastname}
+        name='lastName'
+        value={lastName}
         onChange={updateField}
       />
       <Input
@@ -59,7 +59,7 @@ export const mapStateToProps = ({auth, loading, form}) => ({
   auth,
   loading,
   form: form[REGISTER_CONSUMER] || {},
-}) 
+})
 
 export const mapDispatchToProps = dispatch => ({
   tryRegister: () =>
@@ -73,6 +73,6 @@ export const mapDispatchToProps = dispatch => ({
     ),
   updateField: ({target: {value, name}}) =>
     dispatch(updateField(REGISTER_CONSUMER, name, value)),
-}) 
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterConsumer)
