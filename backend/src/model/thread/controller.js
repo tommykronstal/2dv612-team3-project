@@ -2,6 +2,9 @@ const Controller = require('../../lib/controller')
 const threadFacade = require('./facade')
 const userFacade = require('../user/facade')
 const postFacade = require('../post/facade')
+const categoryFacade = require('../category/facade')
+const productFacade = require('../product/facade')
+const companyFacade = require('../company/facade')
 const notificationsFacade = require('../notifications/facade')
 const jwt = require('jsonwebtoken')
 
@@ -35,6 +38,36 @@ class ThreadController extends Controller {
         /*
          * Create a notification for every company rep that has a product in the category here
          */
+
+        /*
+         * First get all products that belong to category
+         */ 
+        console.log('Thread category: ' + thread.category);
+        let products = await categoryFacade.findById(thread.category);
+        console.log('Products: ' + products);
+
+        /*
+         * Then get all companies from products
+         */
+        let companies = new Array;
+        for(let i = 0; i < products.length; i++) {
+          companies.push(companyFacade.findOne({companyName: products[i].companyName}));
+        }
+        console.log('Companies: ' + companies);
+
+        /*
+         * And lastly loop through all companies and all reps for 
+         * those companies and create notifications for them
+         */
+        for(let i = 0; i < companies.length; i++) {
+          for(let j = 0; j< companies[i].reps.length; j++) {
+            notificationsFacade.create({
+              threadid: thread._id,
+              threadtitle: thread.title,
+              userid: companies[i].reps[j]._id
+            })
+          }
+        }
 
 
         return res.status(201).json(thread)
