@@ -61,7 +61,7 @@ class ThreadController extends Controller {
          */
         for(let i = 0; i < companies.length; i++) {
           for(let j = 0; j< companies[i].reps.length; j++) {
-            notificationsFacade.create({
+            await notificationsFacade.create({
               threadid: thread._id,
               threadtitle: thread.title,
               userid: companies[i].reps[j]._id
