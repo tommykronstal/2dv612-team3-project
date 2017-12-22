@@ -33,7 +33,7 @@ class ThreadController extends Controller {
         }
 
         /*
-         * Create a notification for company rep that has a product in the category here
+         * Create a notification for every company rep that has a product in the category here
          */
 
 
