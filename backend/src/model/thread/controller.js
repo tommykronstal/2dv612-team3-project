@@ -2,6 +2,7 @@ const Controller = require('../../lib/controller')
 const threadFacade = require('./facade')
 const userFacade = require('../user/facade')
 const postFacade = require('../post/facade')
+const notificationsFacade = require('../notifications/facade')
 const jwt = require('jsonwebtoken')
 
 class ThreadController extends Controller {
@@ -30,6 +31,11 @@ class ThreadController extends Controller {
           thread.posts.push(post);
           await thread.save();
         }
+
+        /*
+         * Create a notification for company rep that has a product in the category
+         */
+
 
         return res.status(201).json(thread)
       } else { return next({message: 'Thread already exists.', statusCode: 400}) }
