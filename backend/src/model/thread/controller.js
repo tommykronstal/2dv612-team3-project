@@ -12,7 +12,7 @@ class ThreadController extends Controller {
     try {
       let thread = await threadFacade.findOne({title: req.body.title, category: req.body.category})
       let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
-      
+
 
       if (!thread) {
         thread = await threadFacade.create({
@@ -130,9 +130,11 @@ class ThreadController extends Controller {
 
       for (let i = 0; i < posts.length; i++) {
         const thread = await threadFacade.findOne({posts: posts[i]._id}, '_id title creator category date')
-        const id = thread._id.toString()
-        if (thread && !response.posted.find(matchThreads(id)) && !response.created.find(matchThreads(id))) {
-          response.posted.push(thread)
+        if(thread) {
+          const id = thread._id.toString()
+          if (!response.posted.find(matchThreads(id)) && !response.created.find(matchThreads(id))) {
+            response.posted.push(thread)
+          }
         }
       }
       return res.status(200).json(response)
