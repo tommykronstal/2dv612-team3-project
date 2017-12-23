@@ -35,47 +35,21 @@ class ThreadController extends Controller {
           await thread.save();
         }
 
-        /*
-         * Create a notification for every company rep that has a product in the category here
-         */
+        const companies = await companyFacade.findByCategoryId(threadDoc.category);
 
-        /*
-         * First get all products that belong to category
-         */ 
-        console.log('Thread category: ' + thread.category);
-        let products = await categoryFacade.findById(thread.category).products;
-        console.log('Products: ' + products);
+        companies
+          .filter(c => c.products.length > 0)
+          .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
+            threadId: thread._id,
+            threadTitle: thread.title,
+            userId: rep
+          })));
 
-        /*
-         * Then get all companies from products
-         */
-        let companies = new Array;
-        for(let i = 0; i < products.length; i++) {
-          let company = await companyFacade.findOne({companyName: products[i].companyName});
-          companies.push(company);
-        }
-        console.log('Companies: ' + companies);
-
-        /*
-         * And lastly loop through all companies and all reps for 
-         * those companies and create notifications for them
-         */
-        for(let i = 0; i < companies.length; i++) {
-          for(let j = 0; j< companies[i].reps.length; j++) {
-            await notificationsFacade.create({
-              threadid: thread._id,
-              threadtitle: thread.title,
-              userid: companies[i].reps[j]._id
-            })
-          }
-        }
-
-
-        return res.status(201).json(thread)
-      } else { return next({message: 'Thread already exists.', statusCode: 400}) }
+        return res.status(201).json(thread);
+      } else { return next({ message: 'Thread already exists.', statusCode: 400 }); }
     } catch (e) {
-      console.log(e)
-      return next({message: 'Could not create thread.', statusCode: 400})
+      console.log(e);
+      return next({ message: 'Could not create thread.', statusCode: 400 });
     }
   }
 
@@ -95,9 +69,11 @@ class ThreadController extends Controller {
         let post = await postFacade.create({
           user: userDoc._id,
           text: req.body.text
-      })
-      threadDoc.posts.push(post)
-      await threadDoc.save()
+        })
+        threadDoc.posts.push(post)
+        await threadDoc.save()
+
+
 
         return res.status(200).json(threadDoc)
       } else {
