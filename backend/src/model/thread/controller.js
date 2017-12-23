@@ -35,6 +35,7 @@ class ThreadController extends Controller {
           await thread.save();
         }
 
+        // Add notifications for all company representatives that has a product for that category
         const companies = await companyFacade.findByCategoryId(threadDoc.category);
 
         companies
