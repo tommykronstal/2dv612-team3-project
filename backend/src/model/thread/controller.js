@@ -2,6 +2,9 @@ const Controller = require('../../lib/controller')
 const threadFacade = require('./facade')
 const userFacade = require('../user/facade')
 const postFacade = require('../post/facade')
+const categoryFacade = require('../category/facade')
+const productFacade = require('../product/facade')
+const companyFacade = require('../company/facade')
 const notificationsFacade = require('../notifications/facade')
 const jwt = require('jsonwebtoken')
 
@@ -32,16 +35,22 @@ class ThreadController extends Controller {
           await thread.save();
         }
 
-        /*
-         * Create a notification for every company rep that has a product in the category here
-         */
+        // Add notifications for all company representatives that has a product for that category
+        const companies = await companyFacade.findByCategoryId(threadDoc.category);
 
+        companies
+          .filter(c => c.products.length > 0)
+          .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
+            threadId: thread._id,
+            threadTitle: thread.title,
+            userId: rep
+          })));
 
-        return res.status(201).json(thread)
-      } else { return next({message: 'Thread already exists.', statusCode: 400}) }
+        return res.status(201).json(thread);
+      } else { return next({ message: 'Thread already exists.', statusCode: 400 }); }
     } catch (e) {
-      console.log(e)
-      return next({message: 'Could not create thread.', statusCode: 400})
+      console.log(e);
+      return next({ message: 'Could not create thread.', statusCode: 400 });
     }
   }
 
@@ -61,9 +70,11 @@ class ThreadController extends Controller {
         let post = await postFacade.create({
           user: userDoc._id,
           text: req.body.text
-      })
-      threadDoc.posts.push(post)
-      await threadDoc.save()
+        })
+        threadDoc.posts.push(post)
+        await threadDoc.save()
+
+
 
         return res.status(200).json(threadDoc)
       } else {
