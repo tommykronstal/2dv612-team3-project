@@ -35,12 +35,18 @@ class notificationsContoller extends Controller {
      */
     async removeForUser(req, res, next) {
         try {
-            let notification = await notificationsFacade.findById(req.body.threadid);
+            const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
+            let notification = await notificationsFacade.findById(req.body.notificationid);
 
             if(notification) {
-                await notificationsFacade.remove(notification);
+                let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
 
-                return res.status(201).json({message: 'Notification removed', statusCode: 201});
+                if(userDoc._id.toString() === notification.userId.toString()) {
+                    await notificationsFacade.remove(notification);
+
+                    return res.status(201).json({message: 'Notification removed', statusCode: 201});
+                } else
+                    return next({message: 'User not authorized to remove notification.', statusCode: 400});
             } else {
                 return next({message: 'Could not find notification,', statusCode: 400});
             }
