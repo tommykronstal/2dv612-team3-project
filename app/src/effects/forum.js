@@ -21,8 +21,9 @@ export function* watchForumActions() {
   yield takeEvery(FETCH_USER_FORUM_THREADS, fetchUserForumThreads)
 }
 
-export function* fetchForumThreads() {
+export function* fetchForumThreads({filter}) {
   yield put({type: TOGGLE_LOADING})
+
 
   const {token} = yield select(state => ({
     token: state.auth.jwt,
