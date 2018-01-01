@@ -204,7 +204,7 @@ class ThreadController extends Controller {
       return res.status(201).json(result)
     } catch (error) {
       console.error(error)
-      return next({message: 'Search couldn\'t find any products', statusCode: 400})
+      return next({message: 'Search couldn\'t find any threads', statusCode: 400})
     }
   }
 }
