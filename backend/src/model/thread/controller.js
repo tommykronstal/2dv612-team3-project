@@ -7,6 +7,7 @@ const productFacade = require('../product/facade')
 const companyFacade = require('../company/facade')
 const notificationsFacade = require('../notifications/facade')
 const jwt = require('jsonwebtoken')
+const Fuse = require('fuse.js')
 
 class ThreadController extends Controller {
   async createThread (req, res, next) {
@@ -158,6 +159,52 @@ class ThreadController extends Controller {
     } catch (e) {
       console.log(e)
       return next({message: 'Could not get threads for user.', statusCode: 400})
+    }
+  }
+
+  async search (req, res, next) {
+    try {
+      const allThreads = await threadFacade.findForSearch()
+      const searchList = allThreads.reduce((result, thread) => {
+        thread.searchKey = thread.title
+        result.push(thread)
+        thread.posts.forEach(post => result.push({
+            _id: post._id,
+            date: post.date,
+            text: post.text,
+            searchKey: post.text + ' ' + thread.title,
+            threadTitle: thread.title,
+            threadId: thread._id
+        }))
+
+        return result
+      }, [])
+
+      const options = {
+        shouldSort: true,
+        findAllMatches: true,
+        threshold: 0.6,
+        location: 0,
+        tokenize: true,
+        matchAllTokens: true,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: ['searchKey'],
+        includeScore: true,
+        includeMatches: false
+      }
+
+      const fuse = new Fuse(searchList, options)
+
+      const searchParam = req.param('q')
+
+      const result = fuse.search(searchParam)
+
+      return res.status(201).json(result)
+    } catch (error) {
+      console.error(error)
+      return next({message: 'Search couldn\'t find any products', statusCode: 400})
     }
   }
 }
