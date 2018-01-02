@@ -27,6 +27,8 @@ import ListThreads from '../pages/ListThreads'
 import AddThread from '../pages/AddThread'
 import Thread from '../pages/Thread'
 import UserMainPage from '../pages/UserMainPage'
+import ForumSearch from '../containers/ForumSearch'
+import ForumSearchResult from './ForumSearchResult'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -104,6 +106,7 @@ const UserRoutes = ({ match, location, ...props }) => (
   <NavigationContainer>
     <NavigationBar>
       <ProductSearch router={props} />
+      <ForumSearch router={props} />
       <NavigationLink exact={true} to={match.url}>Start</NavigationLink>
       <NavigationLink exact={false} to={`${match.url}/products`}>All Products</NavigationLink>
       <NavigationLink exact={true} to={`${match.url}/forum`}>Forum</NavigationLink>
@@ -119,6 +122,7 @@ const UserRoutes = ({ match, location, ...props }) => (
           <Route exact path={`${match.url}/forum`} component={ListThreads} />
           <Route exact path={`${match.url}/forum/create`} component={AddThread} />
           <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
+          <Route exact path={`${match.url}/forum/search`} component={ForumSearchResult}/>
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>
