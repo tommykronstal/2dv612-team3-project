@@ -1,6 +1,7 @@
 import Pact, {Matchers} from 'pact'
 import path from 'path'
 import {get} from './lib/http'
+import {post} from './lib/http'
 
 
 describe('set up pact', () => {
@@ -93,4 +94,300 @@ describe('set up pact', () => {
     it('successfully verifies', () => provider.verify())
   })
 
+   // LOGIN TESTS
+
+   describe('admin can login in', () => {
+    const expected = {
+      error: false,
+      token: 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4ubnUiLCJyb2xlIjoiQURNSU4ifQ.jcQEXVDj3HZADGaLRRCAIRpLr7anqmWY-J6Ms9yUdgE'
+    }
+    beforeAll(() => provider.addInteraction({
+      uponReceiving: 'login request with admin login',
+      withRequest: {
+        method: 'POST',
+        path: '/api/user/login',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: { 'email': 'admin@admin.nu', 'password': 'admin' }
+      },
+      willRespondWith: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: {
+          error: false,
+          token: Matchers.somethingLike('eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4ubnUiLCJyb2xlIjoiQURNSU4ifQ.jcQEXVDj3HZADGaLRRCAIRpLr7anqmWY-J6Ms9yUdgE')
+        }
+      }
+    })
+    )
+
+    it('returns a matching token', async () => {
+      const result = await post(PACT_HOST + '/api/user/login', {headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({email: 'admin@admin.nu', password: 'admin'})})
+
+      expect(result).toEqual({...expected, status: 200})
+    })
+
+    it('successfully verifies', () => provider.verify())
+  })
+  
+  describe('company rep can login in', () => {
+    const expected = { error: false, token: "eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAwIiwiZW1haWwiOiJyZXAwQHNhbXN1bmcuY29tIiwicm9sZSI6IkNPTVBBTllfUkVQIiwiY29tcGFueUlkIjoiNWEyN2VmYjA1ZGY1ODkzODdjZTY3ZTlhIn0.9yhfCalyanbjmZKwsBfHiCxvhHn5qIv2SuDNvM7D69s" }
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'login request with company rep login',
+        withRequest: {
+          method: 'POST',
+          path: '/api/user/login',
+          headers: { 'Content-Type': 'application/json' },
+          body: { 'email': 'rep@samsung.com', 'password': 'password' }
+        },
+        willRespondWith: {
+          status: 200,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: {
+            error: false,
+            token: Matchers.somethingLike('eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAiLCJlbWFpbCI6InJlcEBzYW1zdW5nLmNvbSIsInJvbGUiOiJDT01QQU5ZX1JFUCIsImNvbXBhbnlJZCI6IjVhNGI1MWJlZWJlYThiMDAyOTRhYzkzYSJ9.amXegC52E3M1F3A4P90FOtFYJBNEz_Ot9gyvqr3YCho')
+          }
+        }
+      })
+    )
+
+    it('returns a matching token', async () => {
+      const result = await post(PACT_HOST + '/api/user/login', {headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({email: 'rep0@samsung.com', password: "password"})})
+
+      expect(result).toEqual({...expected, status: 200})
+    })
+
+  })
+
+  describe('user can login in', () => {
+    const expected = { error: false, token: "eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8" }
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'login request with regular user login',
+        withRequest: {
+          method: 'POST',
+          path: '/api/user/login',
+          headers: { 'Content-Type': 'application/json' },
+          body: { 'email': 'user29@user.com', 'password': 'password' }
+        },
+        willRespondWith: {
+          status: 200,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: {
+            error: false,
+            token: Matchers.somethingLike('eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8')
+          }
+        }
+      })
+    )
+
+    it('returns a matching token', async () => {
+      const result = await post(PACT_HOST + '/api/user/login', {headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({email: 'user29@user.com', password: "password"})})
+
+      expect(result).toEqual({...expected, status: 200})
+    })
+  })
+
+
+// TEST 2 START
+  describe('returns all products', () => {
+    const headers = {
+      'Accept': 'application/json',
+      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+    }
+
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'a request for getting products',
+        withRequest: {
+          method: 'GET',
+          path: '/api/product',
+          headers
+        },
+        willRespondWith: {
+          status: 200,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: Matchers.eachLike({
+            "_id": "5a280388169758001ce1fd6b",
+            "name": "Samsung Mobile Phone 0",
+            "category": "5a280387169758001ce1fd5f",
+            "rating": [],
+            "materials": ["5a280388169758001ce1fd69"]
+          })
+        }
+      })
+    )
+
+    it('returns a list of events', async () => {
+      const result = await get(PACT_HOST + '/api/product', {headers})
+
+      const expected = [
+        {
+          "_id": "5a280388169758001ce1fd6b",
+          "name": "Samsung Mobile Phone 0",
+          "category": "5a280387169758001ce1fd5f",
+          "rating": [],
+          "materials": ["5a280388169758001ce1fd69"]
+        }
+      ]
+
+      expected.status = 200 // fix for ugly mapping of response status
+
+      expect(result).toEqual(expected)
+    })
+    it('successfully verifies', () => provider.verify())
+  })
+// TEST 2 END
+
+  describe('returns an error if no token in header on auth route', () => {
+    const expected = {message: 'There was no token in the header', error: true }
+    beforeAll(() => provider.addInteraction({
+        uponReceiving: 'a request without auth header on authed route',
+        withRequest: {
+          method: 'GET',
+          path: '/api/user/products',
+          headers: { 'Accept': 'application/json' }
+        },
+        willRespondWith: {
+          status: 401,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: expected
+        }
+      })
+    )
+
+    it('returns an error', async () => {
+      const result = await get(PACT_HOST + '/api/user/products', {headers: { 'Accept': 'application/json' }})
+
+      expect(result).toEqual({...expected, status: 401})
+
+    })
+  })
+    /*
+    // Testing Rating
+    describe('Create a rating', () => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+        };
+        
+        beforeAll(() => provider.addInteraction({
+                uponReceiving: 'a request for creating a rating',
+                withRequest: {
+                    method: 'POST',
+                    path: '/api/product/material/5a2838e4407de3001da76d72/rating',
+                    headers,
+                    body: { 'rating': 4 }
+                },
+                willRespondWith: {
+                    status: 201,
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                    body: {
+                        "_id": "5a2838e4407de3001da76d72",
+                        "name": "manual",
+                        "originalname": "components.pdf",
+                        "filename": "e506a9172af9259843342dc44c58f763",
+                        "path": "src/lib/seed/e506a9172af9259843342dc44c58f763",
+                        "size": 33600,
+                        "mimetype": "application/pdf",
+                        "__v": 2,
+                        "avgRating": 4,
+                        "rating": [
+                            {
+                                "_id": "5a283ba1e892b9001e44fd6e",
+                                "userid": "5a2838d7407de3001da76d00",
+                                "materialid": "5a2838e4407de3001da76d72",
+                                "rating": 4
+                            },
+                            {
+                                "_id": "5a2846614bd89f001ee98d36",
+                                "userid": "5a2838d7407de3001da76d1e",
+                                "materialid": "5a2838e4407de3001da76d72",
+                                "rating": 4
+                            }
+                        ]
+                    }
+                }
+            })
+        );
+
+        const expected = {
+            "_id": "5a2838e4407de3001da76d72",
+            "name": "manual",
+            "originalname": "components.pdf",
+            "filename": "e506a9172af9259843342dc44c58f763",
+            "path": "src/lib/seed/e506a9172af9259843342dc44c58f763",
+            "size": 33600,
+            "mimetype": "application/pdf",
+            "__v": 2,
+            "avgRating": 4,
+            "rating": [
+                {
+                    "_id": "5a283ba1e892b9001e44fd6e",
+                    "userid": "5a2838d7407de3001da76d00",
+                    "materialid": "5a2838e4407de3001da76d72",
+                    "rating": 4
+                },
+                {
+                    "_id": "5a2846614bd89f001ee98d36",
+                    "userid": "5a2838d7407de3001da76d1e",
+                    "materialid": "5a2838e4407de3001da76d72",
+                    "rating": 4
+                }
+            ]
+        };
+
+        it('returns a matching rating', async () => {
+            const result = await post(PACT_HOST + '/api/product/material/5a2838e4407de3001da76d72/rating',
+                {headers: headers, body: JSON.stringify({rating: 4})});
+
+            expect(result).toEqual({...expected, status: 201})
+        })
+    })
+    
+  describe('Return a rating', () => {
+      const headers = {
+          'Accept': 'application/json',
+          'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
+      };
+
+      beforeAll(() => provider.addInteraction({
+              uponReceiving: 'a request for getting a rating',
+              withRequest: {
+                  method: 'GET',
+                  path: '/api/product/material/5a2838e4407de3001da76d72/rating',
+                  headers
+              },
+              willRespondWith: {
+                  status: 200,
+                  headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                  body: Matchers.eachLike(
+                      {
+                          "_id": "5a283ba1e892b9001e44fd6e",
+                          "userid": "5a2838d7407de3001da76d00",
+                          "materialid": "5a2838e4407de3001da76d72",
+                          "rating": 4
+                      }
+                  )
+              }
+      })
+      );
+      
+      it('returns a list of ratings', async () => {
+          const result = await get(PACT_HOST + '/api/product/material/5a2838e4407de3001da76d72/rating', {headers});
+
+          const expected =[
+              {
+                  "_id": "5a283ba1e892b9001e44fd6e",
+                  "userid": "5a2838d7407de3001da76d00",
+                  "materialid": "5a2838e4407de3001da76d72",
+                  "rating": 4
+              }];
+
+          expected.status = 200; // fix for ugly mapping of response status
+
+          expect(result).toEqual(expected)
+      });
+      it('successfully verifies', () => provider.verify())
+  })
+  */
 })
