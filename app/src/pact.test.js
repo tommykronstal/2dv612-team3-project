@@ -146,7 +146,7 @@ describe('set up pact', () => {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           body: {
             error: false,
-            token: Matchers.somethingLike('eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAwIiwiZW1haWwiOiJyZXAwQHNhbXN1bmcuY29tIiwicm9sZSI6IkNPTVBBTllfUkVQIiwiY29tcGFueUlkIjoiNWEyN2VmYjA1ZGY1ODkzODdjZTY3ZTlhIn0.9yhfCalyanbjmZKwsBfHiCxvhHn5qIv2SuDNvM7D69s')
+            token: Matchers.somethingLike('eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAiLCJlbWFpbCI6InJlcEBzYW1zdW5nLmNvbSIsInJvbGUiOiJDT01QQU5ZX1JFUCIsImNvbXBhbnlJZCI6IjVhNGI1MWJlZWJlYThiMDAyOTRhYzkzYSJ9.amXegC52E3M1F3A4P90FOtFYJBNEz_Ot9gyvqr3YCho')
           }
         }
       })
