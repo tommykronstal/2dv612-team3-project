@@ -130,7 +130,7 @@ describe('set up pact', () => {
 
     it('successfully verifies', () => provider.verify())
   })
-  /*
+  
   describe('company rep can login in', () => {
     const expected = { error: false, token: "eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAwIiwiZW1haWwiOiJyZXAwQHNhbXN1bmcuY29tIiwicm9sZSI6IkNPTVBBTllfUkVQIiwiY29tcGFueUlkIjoiNWEyN2VmYjA1ZGY1ODkzODdjZTY3ZTlhIn0.9yhfCalyanbjmZKwsBfHiCxvhHn5qIv2SuDNvM7D69s" }
     beforeAll(() => provider.addInteraction({
@@ -139,7 +139,7 @@ describe('set up pact', () => {
           method: 'POST',
           path: '/api/user/login',
           headers: { 'Content-Type': 'application/json' },
-          body: { 'email': 'rep0@samsung.com', 'password': 'password' }
+          body: { 'email': 'rep@samsung.com', 'password': 'password' }
         },
         willRespondWith: {
           status: 200,
@@ -262,14 +262,14 @@ describe('set up pact', () => {
 
     })
   })
-
+    /*
     // Testing Rating
     describe('Create a rating', () => {
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTnVzZXIyOSIsImVtYWlsIjoidXNlcjI5QHVzZXIuY29tIiwicm9sZSI6IlVTRVIifQ.w2_IERnUUMbnSeGHSjNv0CMIEC-YSA4UMksRXdv5g-8'
         };
-
+        
         beforeAll(() => provider.addInteraction({
                 uponReceiving: 'a request for creating a rating',
                 withRequest: {
@@ -343,7 +343,7 @@ describe('set up pact', () => {
             expect(result).toEqual({...expected, status: 201})
         })
     })
-
+    
   describe('Return a rating', () => {
       const headers = {
           'Accept': 'application/json',
@@ -371,7 +371,7 @@ describe('set up pact', () => {
               }
       })
       );
-
+      
       it('returns a list of ratings', async () => {
           const result = await get(PACT_HOST + '/api/product/material/5a2838e4407de3001da76d72/rating', {headers});
 
