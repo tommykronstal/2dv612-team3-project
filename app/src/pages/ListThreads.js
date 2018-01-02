@@ -9,24 +9,21 @@ import Item from '../components/common/ListItem'
 import Dropdown from '../components/common/Dropdown'
 import Input from '../components/common/Input'
 import {fetchCategories} from '../actions/categories'
-import {fetchForumThreads, setForumCategoryFilter} from '../actions/forum'
+import {fetchForumThreads, setForumCategoryFilter, searchForum} from '../actions/forum'
 
 class ListThreads extends Component {
   state = {searchFilter: ''}
 
   componentDidMount() {
     const {categories} = this.props
+
     // Only fetching categories if they are not previously fetched
     if (!categories.length) {
       this.props.fetchCategories()
     }
 
-    console.log('this.state.searchFilter', this.state.searchFilter)
-
-    this.props.fetchForumThreads(this.state.searchFilter)
+    this.props.fetchForumThreads()
   }
-
-  onSearch = () => {}
 
   render() {
     return (
@@ -55,16 +52,6 @@ class ListThreads extends Component {
             ]}
             value={this.props.categoryFilter}
           />
-
-          <Input
-            value={this.state.searchFilter}
-            label={'Search in forum'}
-            onChange={e =>
-              this.setState({searchFilter: e.target.value}, () =>
-                this.props.fetchForumThreads(this.state.searchFilter),
-              )
-            }
-          />
         </div>
         <List>
           {this.props.threads.map(thread => (
@@ -92,6 +79,6 @@ export default connect(
   dispatch => ({
     fetchCategories: updateConfig => dispatch(fetchCategories(updateConfig)),
     setFilter: id => dispatch(setForumCategoryFilter(id)),
-    fetchForumThreads: filter => dispatch(fetchForumThreads(filter)),
+    fetchForumThreads: () => dispatch(fetchForumThreads()),
   }),
 )(ListThreads)
