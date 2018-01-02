@@ -7,9 +7,8 @@ import Link from '../components/common/Link'
 import List from '../components/common/List'
 import Item from '../components/common/ListItem'
 import Dropdown from '../components/common/Dropdown'
-import Input from '../components/common/Input'
 import {fetchCategories} from '../actions/categories'
-import {fetchForumThreads, setForumCategoryFilter, searchForum} from '../actions/forum'
+import {fetchForumThreads, setForumCategoryFilter} from '../actions/forum'
 
 class ListThreads extends Component {
   state = {searchFilter: ''}
