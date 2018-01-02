@@ -10,6 +10,9 @@ router.route('/thread')
 router.route('/thread/user')
     .get((...args) => controller.findForUser(...args))
 
+router.route('/search')
+    .get((...args) => controller.search(...args));
+
 router.route('/thread/:id')
     .put((...args) => controller.update(...args))
     .get((...args) => controller.getThreadWithPosts(...args))
