@@ -5,6 +5,7 @@ const productFacade = require('../model/product/facade')
 const materialFacde = require('../model/material/facade')
 const threadFacade = require('../model/thread/facade')
 const postFacade = require('../model/post/facade')
+const notificationsFacade = require('../model/notifications/facade')
 let carModels = require('./seed/MOCK_DATA.json')
 const seedConfig = require('../config')
 
@@ -69,25 +70,13 @@ const seed = async function (seedSettings) {
   // Creates one material for each product
   await createMaterial()
   
-    await createUsers(100)
+  await createUsers(100)
 
   await createPosts(seedConfig.posts)
 
   await createThreads(seedConfig.threads)
 
   console.log('database seed complete')
-
-
-
-  // Already done from index
-  // await createUsers(100)
-  //
-  // Creates users
-  // Not done yet...
-  // await createRatings()
-  //
-  // Not done yet...
-  // await create thread()
 }
 
 const createCompanies = async function (seedSettings) {
@@ -232,12 +221,24 @@ const createThreads = async (threads) => {
       let randPosts = [];
       for (let y = 0; y < t; y++) randPosts.push(posts[Math.floor(Math.random() * posts.length)])
 
-      threadFacade.create({
+      const thread = await threadFacade.create({
         title: `${threads[i].question} thread ${t} . ${i}`, //since questions are unique
         creator: userDocs[Math.floor(Math.random() * userDocs.length - 1) + 1],
         category: categories[Math.floor(Math.random() * categories.length)],
         posts: randPosts
       })
+
+
+      // Add notifications for all company representatives that has a product for that category
+      const companies = await companyFacade.findByCategoryId(thread.category);
+
+      companies
+        .filter(c => c.products.length > 0)
+        .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
+          threadId: thread._id,
+          threadTitle: thread.title,
+          userId: rep
+        })));
     }
   }
 }
@@ -253,6 +254,4 @@ const createPosts = async (posts) => {
       })
     }
   }
-
-
 }
