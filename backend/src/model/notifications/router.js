@@ -6,7 +6,7 @@ const router = new Router();
  * Used for testing, remove when everything is done and works
  */
 router.route('/')
-  .get((...args) => controller.find(...args));
+  .get((...args) => controller.findForUser(...args));
 
 
 router.route('/:id')
