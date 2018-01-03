@@ -13,9 +13,14 @@ class notificationsContoller extends Controller {
      */
     async findForUser(req, res, next) {
         try {
-            let userDoc = await userFacade.findById(req.body.userid);
+
+            const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
+            let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
 
             if(userDoc) {
+                const notifications = await notificationsFacade.find({userId: userDoc._id});
+
+                return res.json(notifications);
                 //To do
             } else {
                 return next({message: 'Could not find user.', statusCode: 400});
@@ -36,7 +41,7 @@ class notificationsContoller extends Controller {
     async removeForUser(req, res, next) {
         try {
             const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
-            let notification = await notificationsFacade.findById(req.body.notificationid);
+            let notification = await notificationsFacade.findById(req.params.id);
 
             if(notification) {
                 let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
