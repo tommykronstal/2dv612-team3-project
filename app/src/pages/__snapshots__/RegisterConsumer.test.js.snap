@@ -38,7 +38,7 @@ exports[`RegisterConsumer component renders correctly, initial 1`] = `
       >
         <input
           className="sc-bwzfXH cdlyNt"
-          name="firstname"
+          name="firstName"
           onChange={[Function]}
           type="text"
           value=""
@@ -55,7 +55,7 @@ exports[`RegisterConsumer component renders correctly, initial 1`] = `
       >
         <input
           className="sc-bwzfXH cdlyNt"
-          name="lastname"
+          name="lastName"
           onChange={[Function]}
           type="text"
           value=""
@@ -134,14 +134,14 @@ exports[`RegisterConsumer component renders correctly, with data 1`] = `
       >
         <input
           className="sc-bwzfXH cdlyNt"
-          name="firstname"
+          name="firstName"
           onChange={[Function]}
           type="text"
-          value=""
+          value="Kalle"
         />
         <label
-          className="sc-htpNat dJdhXc"
-          value=""
+          className="sc-htpNat iOTirm"
+          value="Kalle"
         >
           Firstname
         </label>
@@ -151,14 +151,14 @@ exports[`RegisterConsumer component renders correctly, with data 1`] = `
       >
         <input
           className="sc-bwzfXH cdlyNt"
-          name="lastname"
+          name="lastName"
           onChange={[Function]}
           type="text"
-          value=""
+          value="Kula"
         />
         <label
-          className="sc-htpNat dJdhXc"
-          value=""
+          className="sc-htpNat iOTirm"
+          value="Kula"
         >
           Lastname
         </label>
