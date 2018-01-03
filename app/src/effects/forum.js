@@ -8,6 +8,8 @@ import {
   SET_USER_FORUM_THREADS,
   TOGGLE_LOADING,
   FETCH_USER_FORUM_THREADS,
+  SEARCH_FORUM_THREADS,
+  SET_FORUM_SEARCH_RESULTS,  
 } from '../actions/types'
 import types from '../userTypes'
 import {put, takeEvery, call, select} from 'redux-saga/effects'
@@ -19,6 +21,7 @@ export function* watchForumActions() {
   yield takeEvery(FETCH_FORUM_THREAD, fetchForumThread)
   yield takeEvery(SAVE_ANSWER, saveAnswer)
   yield takeEvery(FETCH_USER_FORUM_THREADS, fetchUserForumThreads)
+  yield takeEvery(SEARCH_FORUM_THREADS, searchForumThreads)
 }
 
 export function* fetchForumThreads() {
@@ -103,4 +106,22 @@ export function* fetchUserForumThreads() {
 
   yield put({type: SET_USER_FORUM_THREADS, ...threads})
   yield put({type: TOGGLE_LOADING})
+}
+
+export function* searchForumThreads() {
+  const {token, searchQuery} = yield select(state => ({
+    token: state.auth.jwt,
+    searchQuery: state.forum.forumSearchQuery,
+  }))
+
+  const response = yield call(get, `/api/forum/search?q=${searchQuery}`, {
+    headers: {
+      Authorization: token,
+    },
+  })
+
+  yield put({
+    type: SET_FORUM_SEARCH_RESULTS,
+    results: response
+  })
 }
