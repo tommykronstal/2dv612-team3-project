@@ -13,6 +13,9 @@ module.exports = function checkRole(roles){
             return next(e);
         }
 
+        res.locals.email = decoded.email;
+        res.locals.role = decoded.role;
+
         for(let role of roles) {
             if (decoded.role === role) {
                 return next();

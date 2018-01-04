@@ -36,7 +36,6 @@ class CompanyController extends Controller {
   }
 
   async registerCompanyRep(req, res, next) {
-
     const decodedToken = jwt.verify(req.headers.authorization, jwtSecret);
     const  {
       firstName, lastName, email, password
