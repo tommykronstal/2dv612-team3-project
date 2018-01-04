@@ -10,6 +10,7 @@ class MaterialController extends Controller {
     const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
     const material = req.params.id;
 
+    // Why is this an async/await promise chain ?
     await annotationFacade.find({email: useremail, materialid: material}).then(doc => {
         if (!doc.length) {
             annotationFacade.create({email: useremail, materialid: material, annotation: annotation}).then(doc => {
@@ -39,7 +40,7 @@ class MaterialController extends Controller {
         } else {
             res.status(200).json({error: false, annotation: "", name: doc[0].name, originalname: doc[0].originalname, filename: doc[0].originalname, path: doc[0].path, size: doc[0].size, mimetype: doc[0].mimetype, avgRating: doc[0].avgRating, rating: doc[0].rating});
         }
-      }).catch((e) => { res.status(500).json({error: true, message: "Could not get material"}); console.log(e) });;
+      }).catch((e) => { res.status(500).json({error: true, message: "Could not get material"}); console.log(e) });
   }
 }
 

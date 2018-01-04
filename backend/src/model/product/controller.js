@@ -3,7 +3,6 @@ const productFacade = require('./facade')
 const companyFacade = require('../company/facade')
 const materialFacade = require('../material/facade')
 const annotationFacade = require('../annotation/facade')
-const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const Fuse = require('fuse.js')
 
@@ -75,8 +74,6 @@ class ProductController extends Controller {
   }
 
   async findByIdIncludeCompany (req, res, next) {
-    const useremail = await jwt.verify(req.headers.authorization, 'keyboardcat').email
-
     try {
       let doc = await productFacade.findById(req.param('id'))
 
