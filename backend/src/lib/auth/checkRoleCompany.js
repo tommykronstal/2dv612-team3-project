@@ -14,6 +14,10 @@ module.exports = async function apiCompany(req, res, next){
 
     try {
         decoded = jwt.verify(token, jwtSecret);
+
+        res.locals.email = decoded.email;
+        res.locals.role = decoded.role;
+
         //If user is ADMIN continue
         if (decoded.role === 'ADMIN'){
             return next();

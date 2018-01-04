@@ -1,6 +1,3 @@
-const jwt = require('jsonwebtoken');
-const jwtSecret = 'keyboardcat'; // TODO move elsewhere
-
 const Controller = require('../../lib/controller');
 const companyFacade = require('./facade');
 const userFacade = require('../user/facade');
@@ -36,11 +33,10 @@ class CompanyController extends Controller {
   }
 
   async registerCompanyRep(req, res, next) {
-    const decodedToken = jwt.verify(req.headers.authorization, jwtSecret);
     const  {
       firstName, lastName, email, password
     } = req.body;
-    if (!email || !password) return next({message: 'missing username or password', statusCode: 400}); //todo is this check necessary everywhere?
+    if (!email || !password) return next({message: 'missing username or password', statusCode: 400});
     const role = 'COMPANY_REP';
 
     try {
@@ -48,10 +44,11 @@ class CompanyController extends Controller {
       const repDoc = await  userFacade.create({
         firstName, lastName, email, password, role
       });
-      const companyAdminDoc = await companyFacade.userSchema().findOne( { email: decodedToken.email }); // find the logged in users doc
-      if (!companyAdminDoc) return next({ error: true, message: `Could not find company admin user ${decodedToken.email}`, statusCode: 400 });
+
+      const companyAdminDoc = await companyFacade.userSchema().findOne( { email: res.locals.email }); // find the logged in users doc
+      if (!companyAdminDoc) return next({ error: true, message: `Could not find company admin user ${res.locals.email}`, statusCode: 400 });
       const companyDoc = await companyFacade.findOne({ admin: companyAdminDoc }); // need to update the existing company doc with new rep
-      if (!companyDoc) return next({message: `Could not find company for admin ${decodedToken.email}`, statusCode: 400 });
+      if (!companyDoc) return next({message: `Could not find company for admin ${res.locals.email}`, statusCode: 400 });
       companyDoc.reps.push(repDoc); // save the new rep to array of reps on company
       companyDoc.save(); // if saved isn't called the object id ref on previous line wont persist
       return res.status(201).json({ error: false, message: `company rep ${repDoc.email} created` });

@@ -82,9 +82,8 @@ class ProductController extends Controller {
 
       if (doc) {
         let product = await JSON.parse(JSON.stringify(doc))
-
         for (let i = 0; i < product.materials.length; i++) {
-          let annotDoc = await annotationFacade.findOne({'email': useremail, 'materialid': product.materials[i]._id})
+          let annotDoc = await annotationFacade.findOne({'email': res.locals.email, 'materialid': product.materials[i]._id})
           if (annotDoc) {
             product.materials[i].annotation = annotDoc.annotation
           }
