@@ -2,24 +2,17 @@ const Controller = require('../../lib/controller')
 const threadFacade = require('./facade')
 const userFacade = require('../user/facade')
 const postFacade = require('../post/facade')
-const categoryFacade = require('../category/facade')
-const productFacade = require('../product/facade')
-const companyFacade = require('../company/facade')
-const notificationsFacade = require('../notifications/facade')
-const jwt = require('jsonwebtoken')
 const Fuse = require('fuse.js')
 
 class ThreadController extends Controller {
   async createThread(req, res, next) {
-    let threadDoc = await req.body
-    const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
 
     try {
       let thread = await threadFacade.findOne({
         title: req.body.title,
         category: req.body.category
       })
-      let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
+      let userDoc = res.locals.user;
 
 
       if (!thread) {
@@ -58,9 +51,8 @@ class ThreadController extends Controller {
    */
   async createAnswer(req, res, next) {
     try {
-      const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
       let threadDoc = await threadFacade.findById(req.param('id'))
-      let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
+      let userDoc = res.locals.user;
 
       if (threadDoc) {
         let post = await postFacade.create({
@@ -134,8 +126,7 @@ class ThreadController extends Controller {
 
   async findForUser(req, res, next) {
     try {
-      const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
-      let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
+      let userDoc = res.locals.user
       let response = { created: [], posted: [] }
 
       let threads = await threadFacade.find({ creator: userDoc._id }, '_id title creator category date')

@@ -1,13 +1,12 @@
 const Controller = require('../../lib/controller');
 const materialFacade = require('./facade');
-const jwt = require('jsonwebtoken');
 const annotationFacade = require('../annotation/facade');
 
 class MaterialController extends Controller {
 
   async addAnnotation(req, res, next) {
     const annotation = req.body.annotation;
-    const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+    const useremail = res.locals.email;
     const material = req.params.id;
 
     // TODO: Why is this an async/await promise chain ? Clean this up
@@ -26,7 +25,7 @@ class MaterialController extends Controller {
   }
 
   async getMaterial(req, res, next) {
-      const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
+      const useremail = res.locals.email;
       const material = req.params.id;
       let annotation;
 

@@ -23,6 +23,9 @@ module.exports = async function authorize(req, res, next) {
 
         const user = await userFacade.findOne(mongoGetUserQuery);
         if (!user) return next({ error: true, message: 'Invalid token', statusCode: 401});
+        res.locals.email = decoded.email;
+        res.locals.role = decoded.role;
+        res.locals.user = user;
 
         return next();
     } catch(e) {

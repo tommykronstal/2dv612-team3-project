@@ -2,7 +2,6 @@ const Controller = require('../../lib/controller')
 const materialRatingFacade = require('./facade')
 const materialFacade = require('../material/facade')
 const userFacade = require('../user/facade')
-const jwt = require('jsonwebtoken')
 
 const ratingMin = 1
 const ratingMax = 5
@@ -20,11 +19,10 @@ class materialRatingContoller extends Controller {
     if (req.body.rating > ratingMax) { return next({message: 'Rating cannot be higher than ' + ratingMax, statusCode: 400}) }
     if (req.body.rating < ratingMin) { return next({message: 'Rating cannot be lower than ' + ratingMin, statusCode: 400}) }
 
-    const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
     const materialid = req.param('materialid')
 
     try {
-      let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
+      let userDoc = res.locals.user
       let matDoc = await materialFacade.findById(materialid)
       let rating = await materialRatingFacade.findOne({userid: userDoc._id, materialid })
 

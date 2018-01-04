@@ -16,8 +16,7 @@ class notificationsContoller extends Controller {
     async findForUser(req, res, next) {
         try {
 
-            const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
-            let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
+            let userDoc = res.locals.user;
 
             if(userDoc) {
                 const notifications = await notificationsFacade.find({userId: userDoc._id});
@@ -42,11 +41,10 @@ class notificationsContoller extends Controller {
      */
     async removeForUser(req, res, next) {
         try {
-            const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat');
             let notification = await notificationsFacade.findById(req.params.id);
 
             if(notification) {
-                let userDoc = await userFacade.findOneLogin({ email: decodedToken.email });
+                let userDoc = res.locals.user;
 
                 if(userDoc._id.toString() === notification.userId.toString()) {
                     await notificationsFacade.remove(notification);
