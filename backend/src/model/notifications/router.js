@@ -8,9 +8,7 @@ const router = new Router();
 router.route('/')
   .get((...args) => controller.findForUser(...args));
 
-
-router.route('/:id')
-  .get((...args) => controller.findForUser(...args))
-  .post((...args) => controller.removeForUser(...args));
+router.route('/:id')  
+  .delete((...args) => controller.removeForUser(...args));
 
 module.exports = router;

@@ -6,5 +6,6 @@ import categories from './categories'
 import navigation from './navigation'
 import products from './products'
 import forum from './forum'
+import notifications from './notifications'
 
-export {loading, status, auth, form, categories, navigation, products, forum}
+export {loading, status, auth, form, categories, navigation, products, forum, notifications}

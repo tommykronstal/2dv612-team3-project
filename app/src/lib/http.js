@@ -19,3 +19,4 @@ const setMethod = method => async (url, {headers = {}, isJsonPayload = true, ...
 export const get = setMethod('get')
 export const post = setMethod('post')
 export const put = setMethod('put')
+export const deleteReq = setMethod('delete')

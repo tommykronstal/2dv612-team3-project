@@ -29,6 +29,7 @@ import Thread from '../pages/Thread'
 import UserMainPage from '../pages/UserMainPage'
 import ForumSearch from '../containers/ForumSearch'
 import ForumSearchResult from './ForumSearchResult'
+import RepMainPage from '../pages/RepMainPage'
 
 const AdminRoutes = ({ match, location }) => (
   <NavigationContainer>
@@ -81,20 +82,16 @@ const CompanyUserRoutes = ({ match, location }) => (
       <NavigationLink exact={true} to={`${match.url}/forum`}>Forum</NavigationLink>
       <NavigationLink exact={true} to='/logout'>Logout</NavigationLink>
     </NavigationBar>
-    <Switch>
-      <Route exact path={match.url} component={Welcome} />
-      <Route exact path={`${match.url}/product`} component={AddProduct}/>
-      <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
-      <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
-      <Route exact path={`${match.url}/forum`} component={ListThreads} />
-      <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
-      <Route exact path={`${match.url}/forum/create`} component={AddThread} />
-      <Route component={NotFound} />
-    </Switch>
     <TransitionGroup>
       <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 500, exit: 500 }}>
         <Switch>
-          <Route exact path={match.url} component={Welcome} />
+          <Route exact path={match.url} component={RepMainPage} />
+          <Route exact path={`${match.url}/product`} component={AddProduct}/>
+          <Route exact path={`${match.url}/products`} component={ListCompanyProducts} />
+          <Route exact path={`${match.url}/product/:productId`} component={UpdateProduct} />
+          <Route exact path={`${match.url}/forum`} component={ListThreads} />
+          <Route exact path={`${match.url}/forum/thread/:postId`} component={Thread} />
+          <Route exact path={`${match.url}/forum/create`} component={AddThread} />
           <Route component={NotFound} />
         </Switch>
       </CSSTransition>
