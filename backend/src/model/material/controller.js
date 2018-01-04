@@ -10,7 +10,7 @@ class MaterialController extends Controller {
     const useremail = jwt.verify(req.headers.authorization, 'keyboardcat').email;
     const material = req.params.id;
 
-    // Why is this an async/await promise chain ?
+    // TODO: Why is this an async/await promise chain ? Clean this up
     await annotationFacade.find({email: useremail, materialid: material}).then(doc => {
         if (!doc.length) {
             annotationFacade.create({email: useremail, materialid: material, annotation: annotation}).then(doc => {
