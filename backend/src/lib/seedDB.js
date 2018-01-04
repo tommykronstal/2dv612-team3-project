@@ -228,17 +228,6 @@ const createThreads = async (threads) => {
         posts: randPosts
       })
 
-
-      // Add notifications for all company representatives that has a product for that category
-      const companies = await companyFacade.findByCategoryId(thread.category);
-
-      companies
-        .filter(c => c.products.length > 0)
-        .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
-          threadId: thread._id,
-          threadTitle: thread.title,
-          userId: rep
-        })));
     }
   }
 }

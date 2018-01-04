@@ -2,14 +2,16 @@ const Controller = require('../../lib/controller');
 const notificationsFacade = require('./facade');
 const userFacade = require('../user/facade');
 const jwt = require('jsonwebtoken');
+const ObjectId = require('mongoose').Types.ObjectId;
+
 
 class notificationsContoller extends Controller {
 
     /**
      * Finds all notifications for a user using userid
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
+     * @param {*} req
+     * @param {*} res
+     * @param {*} next
      */
     async findForUser(req, res, next) {
         try {
@@ -34,8 +36,8 @@ class notificationsContoller extends Controller {
 
     /**
      * Used for removing a notification after a user has seen it and clicked on it
-     * @param {*} req 
-     * @param {*} res 
+     * @param {*} req
+     * @param {*} res
      * @param {*} next 
      */
     async removeForUser(req, res, next) {

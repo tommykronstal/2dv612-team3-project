@@ -10,12 +10,15 @@ const jwt = require('jsonwebtoken')
 const Fuse = require('fuse.js')
 
 class ThreadController extends Controller {
-  async createThread (req, res, next) {
+  async createThread(req, res, next) {
     let threadDoc = await req.body
     const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
 
     try {
-      let thread = await threadFacade.findOne({ title: req.body.title, category: req.body.category })
+      let thread = await threadFacade.findOne({
+        title: req.body.title,
+        category: req.body.category
+      })
       let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
 
 
@@ -26,7 +29,7 @@ class ThreadController extends Controller {
           category: req.body.category
         })
 
-        if(req.body.question.length > 0) {
+        if (req.body.question.length > 0) {
           let post = await postFacade.create({
             user: userDoc._id,
             text: req.body.question
@@ -36,32 +39,24 @@ class ThreadController extends Controller {
           await thread.save();
         }
 
-        // Add notifications for all company representatives that has a product for that category
-        const companies = await companyFacade.findByCategoryId(threadDoc.category);
-
-        companies
-          .filter(c => c.products.length > 0)
-          .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
-            threadId: thread._id,
-            threadTitle: thread.title,
-            userId: rep
-          })));
-
         return res.status(201).json(thread);
-      } else { return next({ message: 'Thread already exists.', statusCode: 400 }); }
+
+      } else {
+        return next({ message: 'Thread already exists.', statusCode: 400 });
+      }
     } catch (e) {
       console.log(e);
       return next({ message: 'Could not create thread.', statusCode: 400 });
     }
   }
 
-    /**
-     * Updates an existing thread by adding a post to the thread posts
-     * @param { threadid: the id of the thread, post: the post that is to be added } req
-     * @param {*} res
-     * @param {*} next
-     */
-  async createAnswer (req, res, next) {
+  /**
+   * Updates an existing thread by adding a post to the thread posts
+   * @param { threadid: the id of the thread, post: the post that is to be added } req
+   * @param {*} res
+   * @param {*} next
+   */
+  async createAnswer(req, res, next) {
     try {
       const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
       let threadDoc = await threadFacade.findById(req.param('id'))
@@ -76,18 +71,17 @@ class ThreadController extends Controller {
         await threadDoc.save()
 
 
-
         return res.status(200).json(threadDoc)
       } else {
-        return next({message: 'Could not find thread.', statusCode: 400})
+        return next({ message: 'Could not find thread.', statusCode: 400 })
       }
     } catch (e) {
       console.log(e)
-      return next({message: 'Could not update thread.', statusCode: 400})
+      return next({ message: 'Could not update thread.', statusCode: 400 })
     }
   }
 
-  async getAllThreads (req, res, next) {
+  async getAllThreads(req, res, next) {
     try {
       let threads = await threadFacade.find()
 
@@ -103,22 +97,27 @@ class ThreadController extends Controller {
       return res.status(200).json(mappedThreads)
     } catch (e) {
       console.log(e)
-      return next({message: 'Could not find threads.', statusCode: 400})
+      return next({ message: 'Could not find threads.', statusCode: 400 })
     }
   }
 
   async getThreadWithPosts(req, res, next) {
     try {
-      let thread = await threadFacade.findById(req.params.id, {__v: 0})
-      let resThread = {_id: thread._id, title: thread.title, date: thread.date, category: thread.category};
+      let thread = await threadFacade.findById(req.params.id, { __v: 0 })
+      let resThread = {
+        _id: thread._id,
+        title: thread.title,
+        date: thread.date,
+        category: thread.category
+      };
 
       let threadUser = await userFacade.findById(thread.creator, 'email firstName lastName')
       resThread.user = threadUser
 
       let posts = []
-      for(let i = 0; i < thread.posts.length; i++) {
-        if(thread.posts[i] !== null) {
-          let post = await postFacade.findById(thread.posts[i], {__v: 0, _id:0})
+      for (let i = 0; i < thread.posts.length; i++) {
+        if (thread.posts[i] !== null) {
+          let post = await postFacade.findById(thread.posts[i], { __v: 0, _id: 0 })
           let postUser = await userFacade.findById(post.user, 'email firstName lastName')
           post.user = postUser;
           posts.push(post);
@@ -127,28 +126,28 @@ class ThreadController extends Controller {
       resThread.posts = posts;
       return res.status(200).json(resThread);
     }
-    catch(e) {
+    catch (e) {
       console.log(e)
-      return next({message: 'Could not find thread.', statusCode: 400})
+      return next({ message: 'Could not find thread.', statusCode: 400 })
     }
   }
 
-  async findForUser (req, res, next) {
+  async findForUser(req, res, next) {
     try {
       const decodedToken = jwt.verify(req.headers.authorization, 'keyboardcat')
       let userDoc = await userFacade.findOneLogin({ email: decodedToken.email })
-      let response = {created: [], posted: []}
+      let response = { created: [], posted: [] }
 
-      let threads = await threadFacade.find({creator: userDoc._id}, '_id title creator category date')
+      let threads = await threadFacade.find({ creator: userDoc._id }, '_id title creator category date')
       response.created = threads
 
-      let posts = await postFacade.find({user: userDoc._id})
+      let posts = await postFacade.find({ user: userDoc._id })
 
       const matchThreads = id => t => t._id.toString() === id;
 
       for (let i = 0; i < posts.length; i++) {
-        const thread = await threadFacade.findOne({posts: posts[i]._id}, '_id title creator category date')
-        if(thread) {
+        const thread = await threadFacade.findOne({ posts: posts[i]._id }, '_id title creator category date')
+        if (thread) {
           const id = thread._id.toString()
           if (!response.posted.find(matchThreads(id)) && !response.created.find(matchThreads(id))) {
             response.posted.push(thread)
@@ -158,23 +157,23 @@ class ThreadController extends Controller {
       return res.status(200).json(response)
     } catch (e) {
       console.log(e)
-      return next({message: 'Could not get threads for user.', statusCode: 400})
+      return next({ message: 'Could not get threads for user.', statusCode: 400 })
     }
   }
 
-  async search (req, res, next) {
+  async search(req, res, next) {
     try {
       const allThreads = await threadFacade.findForSearch()
       const searchList = allThreads.reduce((result, thread) => {
         thread.searchKey = thread.title
         result.push(thread)
         thread.posts.forEach(post => result.push({
-            _id: post._id,
-            date: post.date,
-            text: post.text,
-            searchKey: post.text + ' ' + thread.title,
-            threadTitle: thread.title,
-            threadId: thread._id
+          _id: post._id,
+          date: post.date,
+          text: post.text,
+          searchKey: post.text + ' ' + thread.title,
+          threadTitle: thread.title,
+          threadId: thread._id
         }))
 
         return result
@@ -204,7 +203,7 @@ class ThreadController extends Controller {
       return res.status(201).json(result)
     } catch (error) {
       console.error(error)
-      return next({message: 'Search couldn\'t find any threads', statusCode: 400})
+      return next({ message: 'Search couldn\'t find any threads', statusCode: 400 })
     }
   }
 }

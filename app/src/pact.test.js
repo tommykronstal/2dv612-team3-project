@@ -132,7 +132,7 @@ describe('set up pact', () => {
   })
   
   describe('company rep can login in', () => {
-    const expected = { error: false, token: "eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAwIiwiZW1haWwiOiJyZXAwQHNhbXN1bmcuY29tIiwicm9sZSI6IkNPTVBBTllfUkVQIiwiY29tcGFueUlkIjoiNWEyN2VmYjA1ZGY1ODkzODdjZTY3ZTlhIn0.9yhfCalyanbjmZKwsBfHiCxvhHn5qIv2SuDNvM7D69s" }
+    const expected = { error: false, token: "eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdE5hbWUiOiJGTlNhbXN1bmdSZXAiLCJlbWFpbCI6InJlcEBzYW1zdW5nLmNvbSIsInJvbGUiOiJDT01QQU5ZX1JFUCIsImNvbXBhbnlJZCI6IjVhNGI1MWJlZWJlYThiMDAyOTRhYzkzYSJ9.amXegC52E3M1F3A4P90FOtFYJBNEz_Ot9gyvqr3YCho" }
     beforeAll(() => provider.addInteraction({
         uponReceiving: 'login request with company rep login',
         withRequest: {
@@ -153,7 +153,7 @@ describe('set up pact', () => {
     )
 
     it('returns a matching token', async () => {
-      const result = await post(PACT_HOST + '/api/user/login', {headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({email: 'rep0@samsung.com', password: "password"})})
+      const result = await post(PACT_HOST + '/api/user/login', {headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({email: 'rep@samsung.com', password: "password"})})
 
       expect(result).toEqual({...expected, status: 200})
     })

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-// const Post = mongoose.model('Post').schema
-// const Category  = mongoose.model('Category').schema
-// const User = mongoose.model('User').schema
+const notificationsFacade = require('../notifications/facade');
+const companyFacade = require('../company/facade');
+
 
 const threadSchema = new Schema({
   title: {
@@ -32,6 +32,19 @@ const threadSchema = new Schema({
 
   date: {type: Date, default: Date.now }
 
+});
+
+threadSchema.pre('save',  async function (next)  {
+  let companies = await companyFacade.findByCategoryId(this.category);
+  companies
+    .filter(c => c.products.length > 0)
+    .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
+      threadId: this._id,
+      threadTitle: this.title,
+      userId: rep
+    })));
+
+  return next();
 });
 
 module.exports = mongoose.model('Thread', threadSchema)
