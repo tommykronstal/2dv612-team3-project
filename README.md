@@ -20,15 +20,13 @@
   * admin@admin.nu    admin
 
   ### Company admin
-  * admin@company.nu	admin
-  * admin@rockshox.nu rockshox
+  * admin@fox.nu password
   
   ### Company rep
-  * rep@rockshox.nu		rockshox
-  * rep@company.nu		admin
+  * rep@fox.nu		password
 
   ### Users
-  * user1@user.com		user
+  * hillclimber@user.com		password
 
 # run locally
 
