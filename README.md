@@ -27,6 +27,9 @@
 
   ### Users
   * hillclimber@user.com		password
+  
+  ### Ctegories
+  * bikes
 
 # run locally
 
