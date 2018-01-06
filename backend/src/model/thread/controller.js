@@ -12,25 +12,24 @@ class ThreadController extends Controller {
         title: req.body.title,
         category: req.body.category
       })
-      let userDoc = res.locals.user;
 
 
       if (!thread) {
-        thread = await threadFacade.create({
-          title: req.body.title,
-          creator: userDoc._id,
-          category: req.body.category
-        })
+        let post = undefined;
 
         if (req.body.question.length > 0) {
-          let post = await postFacade.create({
-            user: userDoc._id,
+          post = await postFacade.create({
+            user: res.locals.user._id,
             text: req.body.question
           });
-
-          thread.posts.push(post);
-          await thread.save();
         }
+
+        thread = await threadFacade.create({
+          title: req.body.title,
+          creator: res.locals.user._id,
+          category: req.body.category,
+          posts: post
+        })
 
         return res.status(201).json(thread);
 

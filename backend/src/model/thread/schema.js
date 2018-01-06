@@ -35,14 +35,16 @@ const threadSchema = new Schema({
 });
 
 threadSchema.pre('save',  async function (next)  {
-  let companies = await companyFacade.findByCategoryId(this.category);
-  companies
-    .filter(c => c.products.length > 0)
-    .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
-      threadId: this._id,
-      threadTitle: this.title,
-      userId: rep
-    })));
+  if (this.isNew) { // remove to also generate notification on new answers
+    let companies = await companyFacade.findByCategoryId(this.category);
+    companies
+      .filter(c => c.products.length > 0)
+      .forEach(c => c.reps.forEach(async rep => await notificationsFacade.create({
+        threadId: this._id,
+        threadTitle: this.title,
+        userId: rep
+      })));
+  }
 
   return next();
 });
